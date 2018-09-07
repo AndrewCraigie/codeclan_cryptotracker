@@ -7,7 +7,7 @@ const AddCoinView = function (form) {
 };
 
 AddCoinView.prototype.bindEvents = function () {
-  PubSub.subscribe('Cryptotracker:coins-list-data', (event) => {
+  PubSub.subscribe('Coins:coins-list-data', (event) => {
     this.coinsList = event.detail;
     this.render();
   });
