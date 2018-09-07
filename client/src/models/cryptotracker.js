@@ -16,27 +16,18 @@ Cryptotracker.prototype.bindEvents = function () {
   });
 
   PubSub.subscribe('Coins:coins-list-data', (event) => {
-
     this.coinsList = event.detail
     this.getCoinData();
+  });
 
-  })
 };
-
 
 Cryptotracker.prototype.getCoinData = function () {
 
   this.request.get()
   .then( (coins) => {
-
     this.coins = coins;
-
-
-
     this.coinItemDetail();
-
-
-
   })
   .catch(console.error);
 
