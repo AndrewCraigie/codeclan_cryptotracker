@@ -10,7 +10,11 @@ AddCoinView.prototype.bindEvents = function () {
   PubSub.subscribe('Cryptotracker:coins-list-data', (event) => {
     this.coinsList = event.detail;
     this.render();
-  })
+  });
+  this.form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    PubSub.publish("AddCoinView:add-coin-submitted", evt.target)
+  });
 };
 
 AddCoinView.prototype.render = function () {
@@ -30,9 +34,13 @@ AddCoinView.prototype.render = function () {
   const numberLabel = this.createLabel();
   numberLabel.textContent = "Number of coins :";
   this.form.appendChild(numberLabel);
-  
+
   const numberInput = this.createInput();
   this.form.appendChild(numberInput);
+
+  const addButton = this.createButton();
+  this.form.appendChild(addButton);
+
 };
 
 AddCoinView.prototype.createOption = function (coin) {
@@ -51,6 +59,7 @@ AddCoinView.prototype.createSelect = function () {
 
 AddCoinView.prototype.createInput = function () {
   const input = document.createElement('input');
+  input.id ="coin-amount";
   input.type = 'number';
   input.min = 0;
   input.step = 0.01;
@@ -60,6 +69,14 @@ AddCoinView.prototype.createInput = function () {
 AddCoinView.prototype.createLabel = function () {
   const label = document.createElement('label');
   return label;
+};
+
+AddCoinView.prototype.createButton = function () {
+  const button = document.createElement('input');
+  button.type = "submit";
+  button.value = "Add coin";
+  return button;
+
 };
 
 module.exports = AddCoinView;
