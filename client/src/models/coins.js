@@ -10,6 +10,10 @@ const Coins = function(apiUrl){
 };
 
 Coins.prototype.bindEvents = function(){
+  PubSub.subscribe('Cryptotracker:coin-list-ready', (event) => {
+    console.log('Cryptotracker:coin-list-ready');
+    console.log(event.detail);
+  })
 
 };
 

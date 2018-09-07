@@ -61,11 +61,8 @@ Cryptotracker.prototype.getCoinBySymbol = function(symbol){
 };
 
 Cryptotracker.prototype.addCoin = function (data) {
-  const newCoin = {
-    symbol: data['coin-select'].value,
-    quantity: parseInt(data['coin-amount'].value)
-  };
-  this.request.post(newCoin)
+
+  this.request.post(data)
   .then((coins) => {
     PubSub.publish('Cryptotracker:coin-list-ready', coins);
   })

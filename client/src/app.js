@@ -5,7 +5,7 @@ const Coins = require('./models/coins.js');
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const coinListUrl = 'https://api.coinmarketcap.com/v2/ticker/?limit=10';
+  const coinListUrl = 'https://api.coinmarketcap.com/v2/ticker/';
   const url = "http://localhost:3000/api/cryptotracker";
 
   const cryptotracker = new Cryptotracker(url);

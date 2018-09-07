@@ -1,14 +1,25 @@
 const PubSub = require('../helpers/pub_sub.js');
 const element = require('../helpers/element.js');
+const CoinSelector = require('./coin_selector.js');
 
 
 const AddCoinView = function (form) {
 
   this.form = form;
+  this.canSubmit = false;
+  this.submitBtn = null;
+
+  this.currency = 'USD';
+
+  this.selectedCoin = null;
+
   this.coinsList = [];
+  this.coinSelector = null;
   this.childElements = [];
 
   this.childDefinitions = [
+
+
 
     { tag: 'label',
       attribs: {
@@ -16,12 +27,6 @@ const AddCoinView = function (form) {
         class: 'number-label'
       },
       content: 'Coins'
-    },
-
-    { tag: 'select',
-      attribs: {
-        id: 'coin-select'
-      }
     },
 
     { tag: 'label',
@@ -37,15 +42,18 @@ const AddCoinView = function (form) {
         id: 'coin-amount',
         type: 'number',
         min: 0,
-        step: 0.01
+        step: 0.01,
+        required: 'required'
       }
     },
 
     { tag: 'input',
-      attribs: {
-        type: 'submit',
-        value: 'Add Coin'
-      }
+        attribs: {
+          id: 'submitBtn',
+          type: 'submit',
+          value: 'Add Coin',
+          disabled: 'disabled'
+        }
     }
 
   ];
@@ -56,12 +64,28 @@ AddCoinView.prototype.bindEvents = function () {
 
   PubSub.subscribe('Coins:coins-list-data', (event) => {
     this.coinsList = event.detail;
+    this.coinSelector = new CoinSelector(this.form, this.coinsList);
     this.render();
   });
 
+  PubSub.subscribe('CoinSelector:coin-selected', (event) => {
+
+    this.selectedCoin.value = event.detail;
+
+    // Render selected
+  });
+
   this.form.addEventListener("submit", (evt) => {
+
     evt.preventDefault();
-    PubSub.publish("AddCoinView:add-coin-submitted", evt.target)
+
+    const newCoin = {
+      symbol: this.selectedCoin.value,
+      quantity: parseInt(evt.target['coin-amount'].value)
+    };
+
+    PubSub.publish("AddCoinView:add-coin-submitted", newCoin)
+
   });
 
 };
@@ -75,35 +99,22 @@ AddCoinView.prototype.makeElements = function(){
 
 };
 
-AddCoinView.prototype.makeOptions = function(select){
-
-  this.coinsList.forEach((coin) => {
-    const coinOption = this.createOption(coin);
-    select.appendChild(coinOption);
-  });
-
-};
-
-AddCoinView.prototype.createOption = function(coin) {
-
-  return element.make({
-    tag: 'option',
-    attribs: {
-      value: coin.symbol,
-    },
-    content: `${coin.name} (${coin.symbol}) - Price: ${coin.quotes.USD.price.toFixed(2)}`
-  });
-
-};
-
 AddCoinView.prototype.render = function () {
 
   this.makeElements();
 
-  const coinSelect = this.childElements[1];
-  this.makeOptions(coinSelect);
+  this.selectedCoin = element.make({ tag: 'hidden',
+    attribs: {
+      id: 'selectedCoin',
+      value: 'null'
+    }
+  });
+
+  this.childElements.push(this.selectedCoin);
 
   this.childElements.forEach((element) => this.form.appendChild(element));
+
+  this.coinSelector.render();
 
 };
 
