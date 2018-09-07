@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AndrewCraigie/codeclan_cryptotracker#readme",
   "devDependencies": {
+    "mocha": "^5.2.0",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   }
