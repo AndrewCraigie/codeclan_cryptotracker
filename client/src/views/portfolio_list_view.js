@@ -1,4 +1,5 @@
 const PubSub = require('../helpers/pub_sub.js');
+const CoinView = require('./coin_view.js');
 
 const PortfolioiListView = function (container) {
   this.container = container;
@@ -12,9 +13,11 @@ PortfolioiListView.prototype.bindEvents = function () {
   })
 };
 
+
 PortfolioiListView.prototype.render = function () {
   this.coinsData.forEach((coin) => {
-    console.log(coin);
+    const coinView = new CoinView(this.container, coin);
+    coinView.render();
   });
 };
 
