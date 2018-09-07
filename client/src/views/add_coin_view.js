@@ -7,14 +7,17 @@ const AddCoinView = function (form) {
 };
 
 AddCoinView.prototype.bindEvents = function () {
+
   PubSub.subscribe('Coins:coins-list-data', (event) => {
     this.coinsList = event.detail;
     this.render();
   });
+  
   this.form.addEventListener("submit", (evt) => {
     evt.preventDefault();
     PubSub.publish("AddCoinView:add-coin-submitted", evt.target)
   });
+
 };
 
 AddCoinView.prototype.render = function () {
