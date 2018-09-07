@@ -1,0 +1,35 @@
+{
+  "name": "cryptotracker",
+  "version": "1.0.0",
+  "description": "CodeClan Project CryptoTracker",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack -w",
+    "start": "node server/server.js",
+    "server:dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewCraigie/codeclan_cryptotracker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndrewCraigie/codeclan_cryptotracker/issues"
+  },
+  "homepage": "https://github.com/AndrewCraigie/codeclan_cryptotracker#readme",
+  "devDependencies": {
+<<<<<<< HEAD
+    "nodemon": "^1.18.4",
+=======
+    "mocha": "^5.2.0",
+>>>>>>> 36b333ef5be2bf230b967a4b7f266a1c843d30bb
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.1.4"
+  }
+}
