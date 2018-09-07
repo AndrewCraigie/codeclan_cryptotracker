@@ -5,13 +5,10 @@ const Coins = require('./models/coins.js');
 
 document.addEventListener('DOMContentLoaded', () => {
 
-
   const coinListUrl = 'https://api.coinmarketcap.com/v2/ticker/?limit=10';
-
-
   const url = "http://localhost:3000/api/cryptotracker";
+
   const cryptotracker = new Cryptotracker(url);
-  //cryptotracker.getCoinData();
   cryptotracker.bindEvents();
 
   const coins = new Coins(coinListUrl)
@@ -22,9 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const addCoinView = new AddCoinView(addCoinForm);
   addCoinView.bindEvents();
 
-
-
   const portfolioContainer = document.querySelector('div#portfolio-list');
   const portfolioListView = new PortfolioiListView(portfolioContainer);
   portfolioListView.bindEvents();
+
  });
