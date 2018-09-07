@@ -31,18 +31,42 @@ Cryptotracker.prototype.getCoinData = function () {
 
     this.coins = coins;
 
-    console.log(this.coins);
-    console.log(this.coinsList);
 
-    // TODO merge data from coinsList and coins
-    // create a portfolioCoins object list and publsh
-    // to portfolio_list_view
 
-    //PubSub.publish('Cryptotracker:coins-list-data', this.coins);
+    this.coinItemDetail();
+
+
 
   })
   .catch(console.error);
 
+};
+
+Cryptotracker.prototype.coinItemDetail = function(){
+
+  const coinDetails = this.coins.map((portfolioCoin) => {
+
+    const apiCoin = this.getCoinBySymbol(portfolioCoin.symbol)
+    const value = this.calculateValue(portfolioCoin.quantity, apiCoin.quotes.USD.price);
+    return {
+      apiCoin: apiCoin,
+      value: value
+    }
+
+  });
+
+  PubSub.publish('Cryptotracker:coin-list-ready', coinDetails);
+
+};
+
+Cryptotracker.prototype.calculateValue = function(quantity, price){
+  return quantity * price;
+};
+
+Cryptotracker.prototype.getCoinBySymbol = function(symbol){
+  return this.coinsList.find((coin) => {
+    return coin.symbol === symbol;
+  })
 };
 
 Cryptotracker.prototype.addCoin = function (data) {

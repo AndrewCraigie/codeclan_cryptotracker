@@ -2,20 +2,21 @@ const PubSub = require('../helpers/pub_sub.js');
 
 const CoinView = function (container, coin) {
   this.container = container;
-  this.coin = coin;
+  this.coin = coin.apiCoin;
+  this.value = coin.value;
 };
 
 CoinView.prototype.render = function () {
-  console.log(this.coin);
+  console.log(this.coin, this.value);
   const coinDiv = this.createDiv();
 
-  const namePara = this.createParagraph("Bitcoin");
+  const namePara = this.createParagraph(this.coin.name);
   coinDiv.appendChild(namePara);
 
-  const symbolPara = this.createParagraph(this.coin.symbol)
+  const symbolPara = this.createParagraph(this.coin.symbol);
   coinDiv.appendChild(symbolPara);
 
-  const valuePara = this.createParagraph('$ 200')
+  const valuePara = this.createParagraph(`$${this.value.toFixed(0)}`);
   coinDiv.appendChild(valuePara);
   // coinDiv.addEventListener('click', (event) => {
   //
