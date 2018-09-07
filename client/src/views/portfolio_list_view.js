@@ -13,6 +13,9 @@ PortfolioiListView.prototype.bindEvents = function () {
   })
 };
 
+PortfolioiListView.prototype.getPortfolioData = function () {
+
+};
 
 PortfolioiListView.prototype.render = function () {
   this.coinsData.forEach((coin) => {

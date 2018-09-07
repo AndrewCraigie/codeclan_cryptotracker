@@ -9,9 +9,14 @@ CoinView.prototype.render = function () {
   console.log(this.coin);
   const coinDiv = this.createDiv();
 
-  const namePara = this.createParagraph(this.coin.name);
+  const namePara = this.createParagraph("Bitcoin");
   coinDiv.appendChild(namePara);
 
+  const symbolPara = this.createParagraph(this.coin.symbol)
+  coinDiv.appendChild(symbolPara);
+
+  const valuePara = this.createParagraph('$ 200')
+  coinDiv.appendChild(valuePara);
   // coinDiv.addEventListener('click', (event) => {
   //
   // });
