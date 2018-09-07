@@ -1,5 +1,6 @@
 const Cryptotracker = require('./models/cryptotracker.js');
 const AddCoinView = require('./views/add_coin_view.js');
+const PortfolioiListView = require('./views/portfolio_list_view.js');
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -14,4 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cryptotracker.bindEvents();
 
+  const portfolioContainer = document.querySelector('div#portfolio-list');
+  const portfolioListView = new PortfolioiListView(portfolioContainer);
+  portfolioListView.bindEvents();
  });

@@ -33,7 +33,7 @@ Cryptotracker.prototype.addCoin = function (data) {
   };
   this.request.post(newCoin)
   .then((coins) => {
-    console.log(coins);
+    PubSub.publish('Cryptotracker:coin-list-ready', coins);
   })
   .catch()
 };
