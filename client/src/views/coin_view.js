@@ -7,7 +7,7 @@ const CoinView = function (container, coin) {
 };
 
 CoinView.prototype.render = function () {
-  console.log(this.coin, this.value);
+
   const coinDiv = this.createDiv();
 
   const namePara = this.createParagraph(this.coin.name);

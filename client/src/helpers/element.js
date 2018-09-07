@@ -1,10 +1,9 @@
 
-
 const element = {
 
 }
 
-element.prototype.make = function(definition){
+element.make = function(definition){
 
   const element = document.createElement(definition.tag);
   const attribs = definition.attribs;
@@ -12,6 +11,9 @@ element.prototype.make = function(definition){
     if (attribs.hasOwnProperty(attrib)) {
       element.setAttribute(attrib, attribs[attrib])
     }
+  }
+  if (definition.hasOwnProperty('content')) {
+    element.textContent = definition.content
   }
 
   return element;

@@ -1,9 +1,55 @@
 const PubSub = require('../helpers/pub_sub.js');
+const element = require('../helpers/element.js');
 
 
 const AddCoinView = function (form) {
+
   this.form = form;
   this.coinsList = [];
+  this.childElements = [];
+
+  this.childDefinitions = [
+
+    { tag: 'label',
+      attribs: {
+        for: 'coin-select',
+        class: 'number-label'
+      },
+      content: 'Coins'
+    },
+
+    { tag: 'select',
+      attribs: {
+        id: 'coin-select'
+      }
+    },
+
+    { tag: 'label',
+      attribs: {
+        for: 'coin-amount',
+        class: 'number-label'
+      },
+      content: 'Quantity'
+    },
+
+    { tag: 'input',
+      attribs: {
+        id: 'coin-amount',
+        type: 'number',
+        min: 0,
+        step: 0.01
+      }
+    },
+
+    { tag: 'input',
+      attribs: {
+        type: 'submit',
+        value: 'Add Coin'
+      }
+    }
+
+  ];
+
 };
 
 AddCoinView.prototype.bindEvents = function () {
@@ -12,7 +58,7 @@ AddCoinView.prototype.bindEvents = function () {
     this.coinsList = event.detail;
     this.render();
   });
-  
+
   this.form.addEventListener("submit", (evt) => {
     evt.preventDefault();
     PubSub.publish("AddCoinView:add-coin-submitted", evt.target)
@@ -20,66 +66,47 @@ AddCoinView.prototype.bindEvents = function () {
 
 };
 
-AddCoinView.prototype.render = function () {
+AddCoinView.prototype.makeElements = function(){
 
-  const dropDownLabel = this.createLabel();
-  dropDownLabel.textContent = "Select a coin :";
-  this.form.appendChild(dropDownLabel);
+  this.childDefinitions.forEach((child) => {
+    const elem = element.make(child);
+    this.childElements.push(elem);
+  });
 
-  const coinSelect = this.createSelect();
-  this.form.appendChild(coinSelect);
+};
+
+AddCoinView.prototype.makeOptions = function(select){
 
   this.coinsList.forEach((coin) => {
     const coinOption = this.createOption(coin);
-    coinSelect.appendChild(coinOption);
+    select.appendChild(coinOption);
   });
 
-  const numberLabel = this.createLabel();
-  numberLabel.textContent = "Number of coins :";
-  this.form.appendChild(numberLabel);
+};
 
-  const numberInput = this.createInput();
-  this.form.appendChild(numberInput);
+AddCoinView.prototype.createOption = function(coin) {
 
-  const addButton = this.createButton();
-  this.form.appendChild(addButton);
+  return element.make({
+    tag: 'option',
+    attribs: {
+      value: coin.symbol,
+    },
+    content: `${coin.name} (${coin.symbol}) - Price: ${coin.quotes.USD.price.toFixed(2)}`
+  });
 
 };
 
-AddCoinView.prototype.createOption = function (coin) {
-  const option = document.createElement('option');
-  option.value = coin.symbol;
-  const coinPrice = coin.quotes.USD.price;
-  option.textContent = `${coin.name} (${coin.symbol}) - Price: ${coin.quotes.USD.price.toFixed(2)}`;
-  return option;
-};
+AddCoinView.prototype.render = function () {
 
-AddCoinView.prototype.createSelect = function () {
-  const select = document.createElement('select');
-  select.id = "coin-select";
-  return select;
-};
+  this.makeElements();
 
-AddCoinView.prototype.createInput = function () {
-  const input = document.createElement('input');
-  input.id ="coin-amount";
-  input.type = 'number';
-  input.min = 0;
-  input.step = 0.01;
-  return input;
-};
+  const coinSelect = this.childElements[1];
+  this.makeOptions(coinSelect);
 
-AddCoinView.prototype.createLabel = function () {
-  const label = document.createElement('label');
-  return label;
-};
-
-AddCoinView.prototype.createButton = function () {
-  const button = document.createElement('input');
-  button.type = "submit";
-  button.value = "Add coin";
-  return button;
+  this.childElements.forEach((element) => this.form.appendChild(element));
 
 };
+
+
 
 module.exports = AddCoinView;
