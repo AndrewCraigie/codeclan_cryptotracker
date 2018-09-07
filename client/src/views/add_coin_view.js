@@ -19,6 +19,8 @@ AddCoinView.prototype.render = function () {
     const coinOption = this.createOption(coin);
     coinSelect.appendChild(coinOption);
   });
+  const numberInput = this.createInput();
+  this.form.appendChild(numberInput);
 };
 
 AddCoinView.prototype.createOption = function (coin) {
@@ -27,6 +29,14 @@ AddCoinView.prototype.createOption = function (coin) {
   const coinPrice = coin.quotes.USD.price;
   option.textContent = `${coin.name} (${coin.symbol}) - Price: ${coin.quotes.USD.price.toFixed(2)}`;
   return option;
+};
+
+AddCoinView.prototype.createInput = function () {
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.min = 0;
+  input.step = 0.01;
+  return input;
 };
 
 module.exports = AddCoinView;
