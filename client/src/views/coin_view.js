@@ -31,7 +31,7 @@ CoinView.prototype.render = function () {
     attribs: {
       class: 'coin-view-coin-name'
     },
-    content: 'this.coin.name'
+    content: this.coin.name
   });
   coinDiv.appendChild(namePara);
 
@@ -49,7 +49,7 @@ CoinView.prototype.render = function () {
     attribs: {
       class: 'coin-view-coin-price'
     },
-    content: `$${this.value.toFixed(0)}`
+    content: `${this.value.toFixed(0)}`
   });
   coinDiv.appendChild(valuePara);
 
