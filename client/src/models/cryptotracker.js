@@ -64,9 +64,11 @@ Cryptotracker.prototype.addCoin = function (data) {
 
   this.request.post(data)
   .then((coins) => {
-    PubSub.publish('Cryptotracker:coin-list-ready', coins);
+
+    PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
   })
   .catch()
+
 };
 
 module.exports = Cryptotracker;

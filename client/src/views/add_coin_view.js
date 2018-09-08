@@ -19,8 +19,6 @@ const AddCoinView = function (form) {
 
   this.childDefinitions = [
 
-
-
     { tag: 'label',
       attribs: {
         for: 'coin-select',
@@ -63,9 +61,17 @@ const AddCoinView = function (form) {
 AddCoinView.prototype.bindEvents = function () {
 
   PubSub.subscribe('Coins:coins-list-data', (event) => {
+
     this.coinsList = event.detail;
-    this.coinSelector = new CoinSelector(this.form, this.coinsList);
-    this.render();
+
+    if (!this.coinSelector){
+      this.coinSelector = new CoinSelector(this.form, this.coinsList);
+      this.render();
+    } else {
+      this.coinSelector.coinsList = this.coinsList;
+      this.reset();
+    }
+
   });
 
   PubSub.subscribe('CoinSelector:coin-selected', (event) => {
@@ -73,6 +79,7 @@ AddCoinView.prototype.bindEvents = function () {
     this.selectedCoin.value = event.detail;
 
     // Render selected
+
   });
 
   this.form.addEventListener("submit", (evt) => {
@@ -96,6 +103,12 @@ AddCoinView.prototype.makeElements = function(){
     const elem = element.make(child);
     this.childElements.push(elem);
   });
+
+};
+
+AddCoinView.prototype.reset = function(){
+
+  this.form.reset();
 
 };
 
