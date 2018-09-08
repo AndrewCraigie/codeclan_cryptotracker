@@ -19,13 +19,13 @@ const AddCoinView = function (form) {
 
   this.childDefinitions = [
 
-    { tag: 'label',
-      attribs: {
-        for: 'coin-select',
-        class: 'number-label'
-      },
-      content: 'Coins'
-    },
+    // { tag: 'label',
+    //   attribs: {
+    //     for: 'coin-select',
+    //     class: 'number-label'
+    //   },
+    //   content: 'Coins'
+    // },
 
     { tag: 'label',
       attribs: {

@@ -1,4 +1,5 @@
 const PubSub = require('../helpers/pub_sub.js');
+const element = require('../helpers/element.js');
 
 const CoinView = function (container, coin) {
   this.container = container;
@@ -17,33 +18,47 @@ CoinView.prototype.clearElement = function(element){
 
 CoinView.prototype.render = function () {
 
-  const coinDiv = this.createDiv();
+  const coinDiv = element.make({
+    tag: 'div',
+    attribs: {
+      class: 'coin',
+      'data-coin-symbol': `${this.coin.symbol}`,
+    }
+  });
 
-  const namePara = this.createParagraph(this.coin.name);
+  const namePara = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-view-coin-name'
+    },
+    content: 'this.coin.name'
+  });
   coinDiv.appendChild(namePara);
 
-  const symbolPara = this.createParagraph(this.coin.symbol);
+  const symbolPara = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-view-coin-symbol'
+    },
+    content: this.coin.symbol
+  })
   coinDiv.appendChild(symbolPara);
 
-  const valuePara = this.createParagraph(`$${this.value.toFixed(0)}`);
+  const valuePara = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-view-coin-price'
+    },
+    content: `$${this.value.toFixed(0)}`
+  });
   coinDiv.appendChild(valuePara);
-  // coinDiv.addEventListener('click', (event) => {
-  //
-  // });
+
+  coinDiv.addEventListener('click', (event) => {
+    console.log(event.target.dataset['coinSymbol']);
+  });
 
   this.container.appendChild(coinDiv);
 };
 
-CoinView.prototype.createDiv = function () {
-  const div = document.createElement('div');
-  div.classList.add('coin');
-  return div;
-};
-
-CoinView.prototype.createParagraph = function (content) {
-  const paragraph = document.createElement('p');
-  paragraph.textContent = content;
-  return paragraph;
-};
 
 module.exports = CoinView;
