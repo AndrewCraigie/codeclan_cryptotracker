@@ -22,6 +22,8 @@ Cryptotracker.prototype.bindEvents = function () {
 
 };
 
+
+
 Cryptotracker.prototype.getCoinData = function () {
 
   this.request.get()

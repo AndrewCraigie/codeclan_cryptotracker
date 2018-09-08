@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const cryptotracker = new Cryptotracker(url);
   cryptotracker.bindEvents();
 
-  const coins = new Coins(coinListUrl)
-  coins.bindEvents();
+  const coins = new Coins(coinListUrl);
   coins.getCoinData();
+  coins.bindEvents();
+
 
   const addCoinForm = document.querySelector('form#add-coin-form');
   const addCoinView = new AddCoinView(addCoinForm);
