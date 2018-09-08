@@ -7,6 +7,7 @@ const CoinSelector = function(form, coinsList){
   this.coinListDiv = null;
   this.coinItems = [];
   this.top10 = [];
+  this.selectedCoinInput = null;
   this.nameLength = this.longestNameLength();
 }
 
@@ -89,7 +90,7 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
     const coinSymbol = event.target.getAttribute('data-coin-symbol');
     this.setHighlight(event.target);
 
-    PubSub.publish('CoinSelector:coin-selected', coinSymbol);
+    this.selectedCoinInput.value = coinSymbol;
 
   });
 
@@ -102,14 +103,6 @@ CoinSelector.prototype.setHighlight = function(selected){
   this.coinItems.forEach((element) => {
     element.classList.toggle('coins-list-selected-coin', element === selected);
   });
-
-};
-
-CoinSelector.prototype.clearItems = function(){
-
-    while (this.coinListDiv.firstChild){
-      this.coinListDiv.removeChild(this.coinListDiv.firstChild);
-    }
 
 };
 
@@ -216,8 +209,9 @@ CoinSelector.prototype.makeFilterControls = function(){
 
 }
 
-CoinSelector.prototype.render = function(){
+CoinSelector.prototype.render = function(selectedCoinInput){
 
+  this.selectedCoinInput = selectedCoinInput;
   this.form.submitBtn.disabled = true;
 
   if (this.coinListDiv == null){
@@ -234,7 +228,8 @@ CoinSelector.prototype.render = function(){
     this.makeFilterControls();
 
   } else {
-    this.clearItems();
+    //this.clearItems();
+    element.clear(this.coinListDiv);
   }
 
   this.makeCoinItems(this.coinListDiv);

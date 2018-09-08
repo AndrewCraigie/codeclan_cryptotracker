@@ -74,13 +74,6 @@ AddCoinView.prototype.bindEvents = function () {
 
   });
 
-  PubSub.subscribe('CoinSelector:coin-selected', (event) => {
-
-    this.selectedCoin.value = event.detail;
-
-    // Render selected
-
-  });
 
   this.form.addEventListener("submit", (evt) => {
 
@@ -127,7 +120,7 @@ AddCoinView.prototype.render = function () {
 
   this.childElements.forEach((element) => this.form.appendChild(element));
 
-  this.coinSelector.render();
+  this.coinSelector.render(this.selectedCoin);
 
 };
 

@@ -20,4 +20,10 @@ element.make = function(definition){
 
 };
 
+element.clear = function(element){
+  while (element.firstChild){
+    element.removeChild(element.firstChild);
+  }
+}
+
 module.exports = element;

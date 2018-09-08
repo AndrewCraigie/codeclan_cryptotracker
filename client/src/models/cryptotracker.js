@@ -47,6 +47,7 @@ Cryptotracker.prototype.coinItemDetail = function(){
   });
 
   PubSub.publish('Cryptotracker:coin-list-ready', coinDetails);
+  // Point at which both lists should be updated;
 
 };
 
@@ -64,7 +65,6 @@ Cryptotracker.prototype.addCoin = function (data) {
 
   this.request.post(data)
   .then((coins) => {
-
     PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
   })
   .catch()
