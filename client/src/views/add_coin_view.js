@@ -60,7 +60,9 @@ const AddCoinView = function (form) {
 
 AddCoinView.prototype.bindEvents = function () {
 
-  PubSub.subscribe('Coins:coins-list-data', (event) => {
+
+  //PubSub.subscribe('Coins:coins-list-data', (event) => {
+  PubSub.subscribe('Coins:filtered-coins-list-data', (event) => {
 
     this.coinsList = event.detail;
 
@@ -73,6 +75,8 @@ AddCoinView.prototype.bindEvents = function () {
     }
 
   });
+
+
 
 
   this.form.addEventListener("submit", (evt) => {

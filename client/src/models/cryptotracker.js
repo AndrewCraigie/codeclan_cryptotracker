@@ -43,13 +43,13 @@ Cryptotracker.prototype.coinItemDetail = function(){
     const value = this.calculateValue(portfolioCoin.quantity, apiCoin.quotes.USD.price);
     return {
       apiCoin: apiCoin,
+      portfolioQuantity: portfolioCoin.quantity,
       value: value
     }
 
   });
 
   PubSub.publish('Cryptotracker:coin-list-ready', coinDetails);
-  // Point at which both lists should be updated;
 
 };
 

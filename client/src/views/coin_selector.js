@@ -38,12 +38,15 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
 
   const price = coin.quotes.USD.price.toFixed(2);
 
+  console.log(coin);
+
   const coinItem =  element.make({
     tag: 'li',
     attribs: {
       class: 'coins-list-coin-item',
       'data-coin-symbol': `${coin.symbol}`,
-      'data-coin-price': `${price}`
+      'data-coin-price': `${price}`,
+      'data-coin-quantity': `${coin.portfolioQuantity}`
     }
   });
 
