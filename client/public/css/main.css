@@ -7,6 +7,17 @@ h1 {
   color: white;
 }
 
+#theme-select-container {
+  position: absolute;
+  top: 20px;
+  left: 500px;
+  width: 200px;
+}
+
+#theme-select {
+  width: 200px;
+}
+
 #add-coin-container {
   width: 400px;
   height: 360px;
