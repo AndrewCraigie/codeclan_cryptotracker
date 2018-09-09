@@ -6,7 +6,6 @@ const Cryptotracker = function (url) {
   this.request = new Request(this.url);
   this.coins = [];
   this.coinsList = null;
-
 };
 
 Cryptotracker.prototype.bindEvents = function () {
@@ -22,8 +21,7 @@ Cryptotracker.prototype.bindEvents = function () {
 
 };
 
-
-
+//GETS COMPLETE COIN DATA FROM THE DATABASE
 Cryptotracker.prototype.getCoinData = function () {
 
   this.request.get()
@@ -35,6 +33,7 @@ Cryptotracker.prototype.getCoinData = function () {
 
 };
 
+//PUBLISHES THE COIN AND VALUE DETAILS
 Cryptotracker.prototype.coinItemDetail = function(){
 
   const coinDetails = this.coins.map((portfolioCoin) => {
@@ -53,16 +52,19 @@ Cryptotracker.prototype.coinItemDetail = function(){
 
 };
 
+//CALCULATES THE TOTAL VALUE OF COINS
 Cryptotracker.prototype.calculateValue = function(quantity, price){
   return quantity * price;
 };
 
+//RETURNS COIN DATA FROM API BASED ON SYMBOL
 Cryptotracker.prototype.getCoinBySymbol = function(symbol){
   return this.coinsList.find((coin) => {
     return coin.symbol === symbol;
   })
 };
 
+//ADDS COIN TO DATABASE BASED ON EXISTING COIN VALIDATION
 Cryptotracker.prototype.addCoin = function (data) {
 
   const isExistingCoin = this.validateExistingCoin(data);
@@ -72,26 +74,46 @@ Cryptotracker.prototype.addCoin = function (data) {
   else {
     this.postCoin(data);
   }
+  PubSub.publish('Cryptotracker:portfolio-data-requested', this.coins);
 };
 
-
+//VALIDATES IF COIN EXISTS BASED ON SYMBOL
 Cryptotracker.prototype.validateExistingCoin = function (data) {
   return this.coins.some((coin) => {
     return coin.symbol === data.symbol;
   });
-
 };
 
+//UPDATES COIN QUANTITY DATA
 Cryptotracker.prototype.updateCoin = function (data) {
-
+  const coinFound = this.findCoin(data);
+  const updatedCoinQuantity = data.quantity + coinFound.quantity;
+  const updatedCoin = {symbol: data.symbol, quantity: updatedCoinQuantity};
+  this.putCoin(coinFound._id, updatedCoin);
 };
 
+//FINDS COIN BASED ON SYMBOL
+Cryptotracker.prototype.findCoin = function (data) {
+  return this.coins.find((coin) => {
+    return coin.symbol === data.symbol;
+  });
+};
+
+//CREATES A NEW COIN DATA INTO DATABASE
 Cryptotracker.prototype.postCoin = function (data) {
   this.request.post(data)
   .then((coins) => {
-    PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
+    this.coins = coins;
   })
   .catch();
+};
+
+//UPDATES COIN DATA IN THE DATABASE
+Cryptotracker.prototype.putCoin = function (id, payload) {
+  this.request.put(id, payload)
+  .then((coins) => {
+      this.coins = coins;
+    }).catch(console.error);
 };
 
 module.exports = Cryptotracker;

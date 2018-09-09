@@ -49,7 +49,7 @@ CoinView.prototype.render = function () {
     attribs: {
       class: 'coin-view-coin-price'
     },
-    content: `${this.value.toFixed(0)}`
+    content: `${this.value.toFixed(2)}`
   });
   coinDiv.appendChild(valuePara);
 
