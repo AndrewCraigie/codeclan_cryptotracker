@@ -64,6 +64,7 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
 
   if (coin.portfolioId){
     coinItem.setAttribute('data-portfolioId', `${coin.portfolioId}`);
+    coinItem.classList.add('coins-list-coin-in-portfolio');
   }
 
   const nameSpan = element.make({
@@ -132,6 +133,15 @@ CoinSelector.prototype.handleTop10 = function(){
 
 }
 
+CoinSelector.prototype.handleMyCoins = function(){
+
+  for (let i = 0; i < this.coinItems.length; i++){
+    const item = this.coinItems[i];
+    item.classList.toggle('coins-list-hidden', !item.classList.contains('coins-list-coin-in-portfolio'));
+  }
+
+};
+
 CoinSelector.prototype.getTop10 = function(){
 
   const sortedList = this.coinItems.sort((a, b) => {
@@ -142,7 +152,7 @@ CoinSelector.prototype.getTop10 = function(){
     this.coinItems[i].classList.toggle('top-10', i < 10);
   }
 
-}
+};
 
 CoinSelector.prototype.filterList = function(filterValue){
 
@@ -176,6 +186,16 @@ CoinSelector.prototype.makeFilterControls = function(){
   });
   allBtn.addEventListener('click', this.handleAll.bind(this));
   filterControlsDiv.appendChild(allBtn);
+
+  const myCoinsBtn = element.make({
+    tag: 'input',
+    attribs: {
+      type: 'button',
+      value: 'My Coins'
+    }
+  });
+  myCoinsBtn.addEventListener('click', this.handleMyCoins.bind(this));
+  filterControlsDiv.appendChild(myCoinsBtn);
 
   const top10Btn = element.make({
     tag: 'input',

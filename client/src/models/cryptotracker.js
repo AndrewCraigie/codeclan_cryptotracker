@@ -97,13 +97,19 @@ Cryptotracker.prototype.getCoinBySymbol = function(symbol){
 
 Cryptotracker.prototype.addCoin = function (data) {
 
-  this.databaseRequest.post(data)
-  .then((coins) => {
-    console.log(coins);
-    this.coinItemDetail();
-    //PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
-  })
-  .catch()
+  console.log('Cryptotracker.prototype.addCoin');
+  console.log(data);
+
+  // if data.portfolioId == null then new coin
+  // else update coin
+
+  // this.databaseRequest.post(data)
+  // .then((coins) => {
+  //   console.log(coins);
+  //   this.coinItemDetail();
+  //   //PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
+  // })
+  // .catch()
 
 };
 

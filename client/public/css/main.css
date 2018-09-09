@@ -62,6 +62,10 @@ body {
   color: white;
 }
 
+.coins-list-coin-in-portfolio{
+  background-color: #eaffe8;
+}
+
 .coins-list-hidden {
   display: none;
 }
