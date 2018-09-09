@@ -19,7 +19,22 @@ const Cryptotracker = function (databaseUrl, apiUrl) {
 Cryptotracker.prototype.bindEvents = function () {
 
   PubSub.subscribe('AddCoinView:add-coin-submitted', (event) => {
-    this.addCoin(event.detail);
+
+    const coinData = event.detail;
+
+    if(coinData.portfolioId){
+
+      // TODO this.updateCoin();
+
+    } else {
+
+      const coinDataToAdd = {
+        symbol: coinData.symbol,
+        quantity: coinData.quantity
+      }
+      this.addCoin(coinDataToAdd);
+    }
+
   });
 
 };
@@ -36,6 +51,8 @@ Cryptotracker.prototype.getPortolioData = function () {
 };
 
 Cryptotracker.prototype.getApiData = function(){
+
+  this.apiCoins = [];
 
   this.apiRequest.get()
   .then((apiCoins) => {
@@ -97,19 +114,12 @@ Cryptotracker.prototype.getCoinBySymbol = function(symbol){
 
 Cryptotracker.prototype.addCoin = function (data) {
 
-  console.log('Cryptotracker.prototype.addCoin');
-  console.log(data);
-
-  // if data.portfolioId == null then new coin
-  // else update coin
-
-  // this.databaseRequest.post(data)
-  // .then((coins) => {
-  //   console.log(coins);
-  //   this.coinItemDetail();
-  //   //PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
-  // })
-  // .catch()
+  this.databaseRequest.post(data)
+  .then((portFolioCoins) => {
+    this.portfolioCoins = portFolioCoins;
+    this.getApiData();
+  })
+  .catch()
 
 };
 
