@@ -14,48 +14,11 @@ const AddCoinView = function (form) {
   this.selectedCoin = null;
   this.portfolioId = null;
 
+  this.coinNameInput = null;
+
   this.coinsList = [];
   this.coinSelector = null;
   this.childElements = [];
-
-  this.childDefinitions = [
-
-    // { tag: 'label',
-    //   attribs: {
-    //     for: 'coin-select',
-    //     class: 'number-label'
-    //   },
-    //   content: 'Coins'
-    // },
-
-    { tag: 'label',
-      attribs: {
-        for: 'coin-amount',
-        class: 'number-label'
-      },
-      content: 'Quantity'
-    },
-
-    { tag: 'input',
-      attribs: {
-        id: 'coin-amount',
-        type: 'number',
-        min: 0,
-        step: 0.01,
-        required: 'required'
-      }
-    },
-
-    { tag: 'input',
-        attribs: {
-          id: 'submitBtn',
-          type: 'submit',
-          value: 'Add Coin',
-          disabled: 'disabled'
-        }
-    }
-
-  ];
 
 };
 
@@ -85,30 +48,88 @@ AddCoinView.prototype.bindEvents = function () {
       quantity: parseInt(evt.target['coin-amount'].value)
     };
 
-    PubSub.publish("AddCoinView:add-coin-submitted", newCoin)
+    PubSub.publish("AddCoinView:add-coin-submitted", newCoin);
+
+    this.reset();
 
   });
 
 };
 
-AddCoinView.prototype.makeElements = function(){
+AddCoinView.prototype.makeAddGroup = function(){
 
-  this.childDefinitions.forEach((child) => {
-    const elem = element.make(child);
-    this.childElements.push(elem);
+  const addGroup = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'add-form-add-group'
+    }
   });
 
+  const coinLabel = element.make({ tag: 'label',
+    attribs: {
+      id: 'coin-name-label',
+      for: 'coinNameInput',
+      class: 'add-group-label'
+    },
+    content: 'Coin'
+  });
+  addGroup.appendChild(coinLabel);
+
+  this.coinNameInput = element.make({
+    tag: 'input',
+    attribs: {
+      id: 'coinNameInput',
+      type: 'text',
+      disabled: 'disabled'
+    }
+  });
+  addGroup.appendChild(this.coinNameInput);
+
+  const quantityLabel = element.make({ tag: 'label',
+    attribs: {
+      id: 'coin-amount-label',
+      for: 'coin-amount',
+      class: 'add-group-label'
+    },
+    content: 'Quantity'
+  });
+  addGroup.appendChild(quantityLabel);
+
+  const quantityInput = element.make({ tag: 'input',
+    attribs: {
+      id: 'coin-amount',
+      type: 'number',
+      min: 0,
+      step: 0.01,
+      required: 'required'
+    }
+  });
+  addGroup.appendChild(quantityInput);
+
+  this.childElements.push(addGroup);
+
+  this.submitBtn = element.make({ tag: 'input',
+      attribs: {
+        id: 'submitBtn',
+        type: 'submit',
+        value: 'Add Coin'
+      }
+  });
+  this.submitBtn.disabled = true;
+
+  this.childElements.push(this.submitBtn);
+
 };
 
-AddCoinView.prototype.reset = function(){
+AddCoinView.prototype.makeHiddenFields = function(){
 
-  this.form.reset();
-
-};
-
-AddCoinView.prototype.render = function () {
-
-  this.makeElements();
+  this.selectedCoinName = element.make({ tag: 'hidden',
+    attribs: {
+      id: 'selectedCoinName',
+      value: 'null'
+    }
+  });
+  this.childElements.push(this.selectedCoinName);
 
   this.selectedCoin = element.make({ tag: 'hidden',
     attribs: {
@@ -116,7 +137,6 @@ AddCoinView.prototype.render = function () {
       value: 'null'
     }
   });
-
   this.childElements.push(this.selectedCoin);
 
   this.portfolioId = element.make({ tag: 'hidden',
@@ -125,8 +145,23 @@ AddCoinView.prototype.render = function () {
       value: 'null'
     }
   });
-
   this.childElements.push(this.portfolioId);
+
+};
+
+AddCoinView.prototype.reset = function(){
+
+  this.coinNameInput.textContent = '';
+  this.coinSelector.setHighlight();
+  this.form.submitBtn.disabled = true;
+  this.form.reset();
+
+};
+
+AddCoinView.prototype.render = function () {
+
+  this.makeAddGroup();
+  this.makeHiddenFields();
 
   this.childElements.forEach((element) => this.form.appendChild(element));
 

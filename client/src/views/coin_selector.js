@@ -7,6 +7,7 @@ const CoinSelector = function(form, coinsList){
   this.coinListDiv = null;
   this.coinItems = [];
   this.top10 = [];
+
   this.selectedCoinInput = null;
   this.selectedCoinPortfolioInput = null;
 
@@ -38,11 +39,17 @@ CoinSelector.prototype.longestNameLength = function(){
 
 CoinSelector.prototype.handleCoinItemClick = function(event){
 
+  const coinName = event.target.firstChild.textContent;
+
   const coinSymbol = event.target.getAttribute('data-coin-symbol');
   this.selectedCoinInput.value = coinSymbol;
 
   const portfolioId = event.target.getAttribute('data-portfolioId');
   this.selectedCoinPortfolioInput.value = portfolioId;
+
+  this.form.coinNameInput.value = coinName;
+
+  this.form.submitBtn.disabled = false;
 
   this.setHighlight(event.target);
 
@@ -168,12 +175,53 @@ CoinSelector.prototype.filterList = function(filterValue){
 
 };
 
+CoinSelector.prototype.makeListHeaders = function(){
+
+  const listHeadersContainer = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'coin-selector-list-headers'
+    }
+  });
+
+  const nameHeader = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-selector-list-name-header'
+    },
+    content: 'Coin Name'
+  })
+  listHeadersContainer.appendChild(nameHeader);
+
+  const symbolHeader = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-selector-list-symbol-header'
+    },
+    content: 'Symbol'
+  })
+  listHeadersContainer.appendChild(symbolHeader);
+
+  const priceHeader = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-selector-list-price-header'
+    },
+    content: 'Price $'
+  })
+  listHeadersContainer.appendChild(priceHeader);
+
+  this.form.insertBefore(listHeadersContainer, this.form.firstChild);
+
+
+};
+
 CoinSelector.prototype.makeFilterControls = function(){
 
   const filterControlsDiv = element.make({
     tag: 'div',
     attribs: {
-      class: 'coins-list-filter-controls-container'
+      id: 'coins-list-filter-controls-container'
     }
   });
 
@@ -248,6 +296,8 @@ CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfoli
 
     this.form.insertBefore(this.coinListDiv, this.form.firstChild);
 
+    this.makeListHeaders();
+
     this.makeFilterControls();
 
   } else {
@@ -257,7 +307,7 @@ CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfoli
   this.makeCoinItems(this.coinListDiv);
   this.getTop10();
 
-  this.form.submitBtn.disabled = false;
+  //this.form.submitBtn.disabled = false;
 
 };
 
