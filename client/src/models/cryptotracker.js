@@ -65,12 +65,33 @@ Cryptotracker.prototype.getCoinBySymbol = function(symbol){
 
 Cryptotracker.prototype.addCoin = function (data) {
 
+  const isExistingCoin = this.validateExistingCoin(data);
+  if (isExistingCoin) {
+    this.updateCoin(data);
+  }
+  else {
+    this.postCoin(data);
+  }
+};
+
+
+Cryptotracker.prototype.validateExistingCoin = function (data) {
+  return this.coins.some((coin) => {
+    return coin.symbol === data.symbol;
+  });
+
+};
+
+Cryptotracker.prototype.updateCoin = function (data) {
+
+};
+
+Cryptotracker.prototype.postCoin = function (data) {
   this.request.post(data)
   .then((coins) => {
     PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
   })
-  .catch()
-
+  .catch();
 };
 
 module.exports = Cryptotracker;
