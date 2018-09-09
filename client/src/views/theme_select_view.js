@@ -12,7 +12,8 @@ const ThemeSelectView = function(container, defaultTheme){
 ThemeSelectView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Themes:theme-list', (event) => {
-    this.themeNames = event.detail;
+    this.themeNames = event.detail[0];
+    this.selectedTheme = event.detail[1];
     this.render();
   })
 };
@@ -43,6 +44,10 @@ ThemeSelectView.prototype.render = function(){
       },
       content: name
     });
+
+    if (this.selectedTheme === name){
+      themeOption.selected = true;
+    }
 
     themeSelect.appendChild(themeOption);
   });

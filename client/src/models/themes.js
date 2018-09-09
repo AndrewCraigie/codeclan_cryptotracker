@@ -277,6 +277,8 @@ Themes.prototype.bindEvents = function(){
 
   });
 
+  this.setTheme();
+
 };
 
 Themes.prototype.getThemeNames = function(){
@@ -287,7 +289,7 @@ Themes.prototype.getThemeNames = function(){
     }
   }
 
-  PubSub.publish('Themes:theme-list', this.themeNames);
+  PubSub.publish('Themes:theme-list', [this.themeNames, this.selectedTheme]);
 
 };
 

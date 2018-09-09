@@ -10,13 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const defaultTheme = 'darkUnica';
 
+  const portfolioChartViewContainer = document.querySelector('div#performance-chart-container');
+  const portfolioChartView = new PortfolioChartView(portfolioChartViewContainer, defaultTheme);
+  portfolioChartView.bindEvents();
+
   const themeSelectContainer = document.querySelector('div#theme-select-container');
   const themeSelectView = new ThemeSelectView(themeSelectContainer, defaultTheme);
   themeSelectView.bindEvents();
 
   const themes = new Themes(defaultTheme);
   themes.bindEvents();
-
 
   const apiUrl = 'https://api.coinmarketcap.com/v2/ticker/';
   const databaseUrl = "http://localhost:3000/api/cryptotracker";
@@ -32,9 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const portfolioListView = new PortfolioiListView(portfolioContainer);
   portfolioListView.bindEvents();
 
-  const portfolioChartViewContainer = document.querySelector('div#performance-chart-container');
-  const portfolioChartView = new PortfolioChartView(portfolioChartViewContainer, defaultTheme);
-  portfolioChartView.bindEvents();
+
 
   const coinDetailContainer = document.querySelector('div#coin-detail-container');
   const coinDetailView = new CoinDetailView(coinDetailContainer);
