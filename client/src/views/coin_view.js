@@ -45,6 +45,15 @@ CoinView.prototype.render = function () {
   })
   coinDiv.appendChild(symbolPara);
 
+  const quantityPara = element.make({
+    tag: 'p',
+    attribs: {
+      class: 'coin-view-coin-quantity'
+    },
+    content: this.coin.portfolioQuantity
+  })
+  coinDiv.appendChild(quantityPara);
+
   const valuePara = element.make({
     tag: 'p',
     attribs: {

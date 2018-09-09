@@ -187,28 +187,63 @@ body {
 }
 
 #portfolio-list {
-  width: 800px;
+  width: 420px;
   min-height: 400px;
-  padding: 10px;
+  padding: 0;
   border: 1px solid darkgray;
+  overflow: scroll;
 }
 
+#portfolio-view-header {
+  width: 100%;
+  height: 30px;
+  margin:0;
+  padding: 0;
+  background-color: #686868;
+}
 
+#portfolio-view-header p {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  color: white;
+}
 
+#portfolio-view-name-header {
+  padding-left: 12px;
+  width: 9.4em;
+}
 
+#portfolio-view-symbol-header {
+  padding-left: 1px;
+  width: 5em;
+}
 
+#portfolio-view-quantity-header {
+  padding-left: 2px;
+  width: 4.5em;
+}
 
+#portfolio-view-value-header {
+  width: 6em;
+  text-align: right;
+}
 
-
-
-
-
+#porfolio-list-list {
+  width: 100%;
+}
 
 .coin {
   width: 100%;
   height: 30px;
   line-height: 30px;
   border-bottom: 1px solid darkgray;
+  cursor: pointer;
+}
+
+.coin:hover {
+  background-color: #eaffe8;
 }
 
 .coin p {
@@ -230,10 +265,17 @@ body {
 .coin p:nth-child(2){
   width: 4em;
   border-right: 1px solid lightgray;
+
 }
 
 .coin p:nth-child(3){
-  width: 4em;
+  width: 3.8em;
   text-align: right;
-  border-right: 1px solid lightgray;
+  padding-right: 2px;
+}
+
+.coin p:nth-child(4){
+  width: 5em;
+  text-align: right;
+
 }
