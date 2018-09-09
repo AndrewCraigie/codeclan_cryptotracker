@@ -74,7 +74,7 @@ Cryptotracker.prototype.addCoin = function (data) {
   else {
     this.postCoin(data);
   }
-  PubSub.publish('Cryptotracker:portfolio-data-requested', this.coins);
+  //PubSub.publish('Cryptotracker:portfolio-data-requested', this.coins);
 };
 
 //VALIDATES IF COIN EXISTS BASED ON SYMBOL
@@ -104,6 +104,7 @@ Cryptotracker.prototype.postCoin = function (data) {
   this.request.post(data)
   .then((coins) => {
     this.coins = coins;
+    this.publishPortfolioData();
   })
   .catch();
 };
@@ -113,7 +114,24 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
   this.request.put(id, payload)
   .then((coins) => {
       this.coins = coins;
+      this.publishPortfolioData();
     }).catch(console.error);
+};
+
+//DELETES COIN FROM THE DATABASE
+/*
+Cryptotracker.prototype.deleteCoin = function (id) {
+  this.request.delete(id).then((coins) => {
+    this.coins = coins;
+    this.publishPortfolioData();
+  })
+  .catch(console.error);
+  }
+};
+*/
+
+Cryptotracker.prototype.publishPortfolioData = function () {
+  PubSub.publish('Cryptotracker:portfolio-data-requested', this.coins);
 };
 
 module.exports = Cryptotracker;
