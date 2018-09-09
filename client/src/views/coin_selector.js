@@ -85,16 +85,6 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
   });
   coinItem.appendChild(symbolSpan);
 
-  // const currencySymbol = element.make({
-  //   tag: 'span',
-  //   attribs: {
-  //     class: 'coins-list-coin-currency'
-  //   },
-  //   content: '$'
-  // })
-  // coinItem.appendChild(currencySymbol);
-
-
   const priceSpan = element.make({
     tag: 'span',
     attribs: {
@@ -109,8 +99,6 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
   return coinItem;
 
 };
-
-
 
 CoinSelector.prototype.setHighlight = function(selected){
 

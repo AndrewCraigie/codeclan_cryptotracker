@@ -2,17 +2,15 @@ const PubSub = require('../helpers/pub_sub.js');
 const element = require('../helpers/element.js');
 
 const CoinView = function (container, coin) {
+
   this.container = container;
-  this.coin = coin.apiCoin;
-  this.value = coin.value;
+  this.coin = coin;
 
 };
 
-CoinView.prototype.clearElement = function(element){
+CoinView.prototype.handleCoinDivClick = function(event){
 
-  while(element.firstChild){
-    element.removeChild(element.firstChild);
-  }
+  PubSub.publish('CoinView:coin-selected', this.coin);
 
 };
 
@@ -23,6 +21,9 @@ CoinView.prototype.render = function () {
     attribs: {
       class: 'coin',
       'data-coin-symbol': `${this.coin.symbol}`,
+      'data-coin-price': `${this.coin.price}`,
+      'data-coin-quantity': `${this.coin.portfolioQuantity}`,
+      'data-portfolioId': `${this.coin.portfolioId}`
     }
   });
 
@@ -49,13 +50,11 @@ CoinView.prototype.render = function () {
     attribs: {
       class: 'coin-view-coin-price'
     },
-    content: `${this.value.toFixed(0)}`
+    content: `${this.coin.portfolioValue.toFixed(0)}`
   });
   coinDiv.appendChild(valuePara);
 
-  coinDiv.addEventListener('click', (event) => {
-    console.log(event.target.dataset['coinSymbol']);
-  });
+  coinDiv.addEventListener('click', this.handleCoinDivClick.bind(this));
 
   this.container.appendChild(coinDiv);
 };

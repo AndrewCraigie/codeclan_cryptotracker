@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const apiUrl = 'https://api.coinmarketcap.com/v2/ticker/';
   const databaseUrl = "http://localhost:3000/api/cryptotracker";
 
+
+
   const cryptotracker = new Cryptotracker(databaseUrl, apiUrl);
   cryptotracker.bindEvents();
 

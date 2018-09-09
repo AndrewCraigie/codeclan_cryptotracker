@@ -66,7 +66,6 @@ AddCoinView.prototype.bindEvents = function () {
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
 
     this.coinsList = event.detail;
-    console.log(this.coinsList);
 
     if (!this.coinSelector){
       this.coinSelector = new CoinSelector(this.form, this.coinsList);
@@ -84,7 +83,7 @@ AddCoinView.prototype.bindEvents = function () {
 
     const newCoin = {
       symbol: this.selectedCoin.value,
-      portfolioId: this.portfolioId.value
+      portfolioId: this.portfolioId.value,
       quantity: parseInt(evt.target['coin-amount'].value)
     };
 

@@ -8,10 +8,12 @@ const PortfolioiListView = function (container) {
 };
 
 PortfolioiListView.prototype.bindEvents = function () {
-  PubSub.subscribe('Cryptotracker:coin-list-ready', (event) => {
+
+  PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
     this.render();
-  })
+  });
+
 };
 
 PortfolioiListView.prototype.getPortfolioData = function () {
@@ -23,8 +25,10 @@ PortfolioiListView.prototype.render = function () {
   element.clear(this.container);
 
   this.coinsData.forEach((coin) => {
-    const coinView = new CoinView(this.container, coin);
-    coinView.render();
+    if (coin.portfolioId){
+      const coinView = new CoinView(this.container, coin);
+      coinView.render();
+    }
   });
 
 };
