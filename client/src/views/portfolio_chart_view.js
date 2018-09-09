@@ -1,17 +1,28 @@
+const PubSub = require('../helpers/pub_sub.js');
+const CoinView = require('./coin_view.js');
+const element = require('../helpers/element.js');
+
 const Highcharts = require('highcharts');
 require('highcharts/modules/exporting')(Highcharts);
 
 const PortfolioChartView = function(container){
   this.container = container
+  this.coinsData = [];
+  this.chart = null;
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
-  console.log(Highcharts);
+
+  PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
+    this.coinsData = event.detail;
+    this.render();
+  });
+
 };
 
 PortfolioChartView.prototype.render = function(){
 
-  const myChart = Highcharts.chart(this.container, {
+  this.chart = Highcharts.chart(this.container, {
          chart: {
              type: 'line'
          },
