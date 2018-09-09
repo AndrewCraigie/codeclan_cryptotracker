@@ -8,6 +8,8 @@ const CoinSelector = function(form, coinsList){
   this.coinItems = [];
   this.top10 = [];
   this.selectedCoinInput = null;
+  this.selectedCoinPortfolioInput = null;
+
   this.nameLength = this.longestNameLength();
 }
 
@@ -34,11 +36,21 @@ CoinSelector.prototype.longestNameLength = function(){
 
 }
 
+CoinSelector.prototype.handleCoinItemClick = function(event){
+
+  const coinSymbol = event.target.getAttribute('data-coin-symbol');
+  this.selectedCoinInput.value = coinSymbol;
+
+  const portfolioId = event.target.getAttribute('data-portfolioId');
+  this.selectedCoinPortfolioInput.value = portfolioId;
+
+  this.setHighlight(event.target);
+
+};
+
 CoinSelector.prototype.makeCoinItem = function(coin) {
 
   const price = coin.quotes.USD.price.toFixed(2);
-
-  console.log(coin);
 
   const coinItem =  element.make({
     tag: 'li',
@@ -49,6 +61,10 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
       'data-coin-quantity': `${coin.portfolioQuantity}`
     }
   });
+
+  if (coin.portfolioId){
+    coinItem.setAttribute('data-portfolioId', `${coin.portfolioId}`);
+  }
 
   const nameSpan = element.make({
     tag: 'span',
@@ -88,18 +104,13 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
   });
   coinItem.appendChild(priceSpan);
 
-  coinItem.addEventListener('click', (event) => {
-
-    const coinSymbol = event.target.getAttribute('data-coin-symbol');
-    this.setHighlight(event.target);
-
-    this.selectedCoinInput.value = coinSymbol;
-
-  });
+  coinItem.addEventListener('click', this.handleCoinItemClick.bind(this));
 
   return coinItem;
 
 };
+
+
 
 CoinSelector.prototype.setHighlight = function(selected){
 
@@ -212,9 +223,10 @@ CoinSelector.prototype.makeFilterControls = function(){
 
 }
 
-CoinSelector.prototype.render = function(selectedCoinInput){
+CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfolioInput){
 
   this.selectedCoinInput = selectedCoinInput;
+  this.selectedCoinPortfolioInput = selectedCoinPortfolioInput
   this.form.submitBtn.disabled = true;
 
   if (this.coinListDiv == null){
@@ -231,7 +243,6 @@ CoinSelector.prototype.render = function(selectedCoinInput){
     this.makeFilterControls();
 
   } else {
-    //this.clearItems();
     element.clear(this.coinListDiv);
   }
 

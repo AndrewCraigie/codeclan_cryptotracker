@@ -1,11 +1,18 @@
 const Request = require('../helpers/request.js');
 const PubSub = require('../helpers/pub_sub.js');
 
-const Cryptotracker = function (url) {
-  this.url = url;
-  this.request = new Request(this.url);
-  this.coins = [];
-  this.coinsList = null;
+const Cryptotracker = function (databaseUrl, apiUrl) {
+
+  this.databaseUrl = databaseUrl;
+  this.databaseRequest = new Request(this.databaseUrl );
+
+  this.apiUrl = apiUrl;
+  this.apiRequest = new Request(this.apiUrl)
+
+  this.portfolioCoins = [];
+  this.apiCoins = [];
+
+  this.coinsData = [];
 
 };
 
@@ -15,41 +22,66 @@ Cryptotracker.prototype.bindEvents = function () {
     this.addCoin(event.detail);
   });
 
-  PubSub.subscribe('Coins:coins-list-data', (event) => {
-    this.coinsList = event.detail
-    this.getCoinData();
-  });
-
 };
 
+Cryptotracker.prototype.getPortolioData = function () {
 
-
-Cryptotracker.prototype.getCoinData = function () {
-
-  this.request.get()
-  .then( (coins) => {
-    this.coins = coins;
-    this.coinItemDetail();
+  this.databaseRequest.get()
+  .then( (portFolioCoins) => {
+    this.portfolioCoins = portFolioCoins;
+    this.getApiData();
   })
   .catch(console.error);
 
 };
 
-Cryptotracker.prototype.coinItemDetail = function(){
+Cryptotracker.prototype.getApiData = function(){
 
-  const coinDetails = this.coins.map((portfolioCoin) => {
+  this.apiRequest.get()
+  .then((apiCoins) => {
 
-    const apiCoin = this.getCoinBySymbol(portfolioCoin.symbol)
-    const value = this.calculateValue(portfolioCoin.quantity, apiCoin.quotes.USD.price);
-    return {
-      apiCoin: apiCoin,
-      portfolioQuantity: portfolioCoin.quantity,
-      value: value
+    for (var coin in apiCoins.data) {
+      if (apiCoins.data.hasOwnProperty(coin)) {
+        this.apiCoins.push(apiCoins.data[coin]);
+      }
     }
+
+    this.mergeCoinData();
+
+  })
+  .catch(console.error);
+
+};
+
+Cryptotracker.prototype.mergeCoinData = function(){
+
+  this.coinsData = this.apiCoins.map((apiCoin) => {
+
+    const portfolioCoin = this.getPortfolioCoinBySymbol(apiCoin.symbol);
+    const apiCoinPrice = apiCoin.quotes.USD.price;
+
+    if (portfolioCoin) {
+      apiCoin.portfolioQuantity = portfolioCoin.quantity;
+      apiCoin.portfolioValue = this.calculateValue(portfolioCoin.quantity, apiCoinPrice);
+      apiCoin.portfolioId = portfolioCoin['_id'];
+    } else {
+      apiCoin.portfolioQuantity = 0;
+      apiCoin.portfolioValue = 0;
+    }
+
+    return apiCoin;
 
   });
 
-  PubSub.publish('Cryptotracker:coin-list-ready', coinDetails);
+  PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
+
+};
+
+Cryptotracker.prototype.getPortfolioCoinBySymbol = function(symbol){
+
+  return this.portfolioCoins.find((portfolioCoin) => {
+    return portfolioCoin.symbol.toLowerCase() === symbol.toLowerCase();
+  });
 
 };
 
@@ -65,9 +97,11 @@ Cryptotracker.prototype.getCoinBySymbol = function(symbol){
 
 Cryptotracker.prototype.addCoin = function (data) {
 
-  this.request.post(data)
+  this.databaseRequest.post(data)
   .then((coins) => {
-    PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
+    console.log(coins);
+    this.coinItemDetail();
+    //PubSub.publish('Cryptotracker:portfolio-data-requested', coins);
   })
   .catch()
 

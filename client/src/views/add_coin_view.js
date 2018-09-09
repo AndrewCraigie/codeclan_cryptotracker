@@ -12,6 +12,7 @@ const AddCoinView = function (form) {
   this.currency = 'USD';
 
   this.selectedCoin = null;
+  this.portfolioId = null;
 
   this.coinsList = [];
   this.coinSelector = null;
@@ -62,9 +63,10 @@ AddCoinView.prototype.bindEvents = function () {
 
 
   //PubSub.subscribe('Coins:coins-list-data', (event) => {
-  PubSub.subscribe('Coins:filtered-coins-list-data', (event) => {
+  PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
 
     this.coinsList = event.detail;
+    console.log(this.coinsList);
 
     if (!this.coinSelector){
       this.coinSelector = new CoinSelector(this.form, this.coinsList);
@@ -76,15 +78,13 @@ AddCoinView.prototype.bindEvents = function () {
 
   });
 
-
-
-
   this.form.addEventListener("submit", (evt) => {
 
     evt.preventDefault();
 
     const newCoin = {
       symbol: this.selectedCoin.value,
+      portfolioId: this.portfolioId.value
       quantity: parseInt(evt.target['coin-amount'].value)
     };
 
@@ -122,9 +122,18 @@ AddCoinView.prototype.render = function () {
 
   this.childElements.push(this.selectedCoin);
 
+  this.portfolioId = element.make({ tag: 'hidden',
+    attribs: {
+      id: 'portfolioId',
+      value: 'null'
+    }
+  });
+
+  this.childElements.push(this.portfolioId);
+
   this.childElements.forEach((element) => this.form.appendChild(element));
 
-  this.coinSelector.render(this.selectedCoin);
+  this.coinSelector.render(this.selectedCoin, this.portfolioId);
 
 };
 
