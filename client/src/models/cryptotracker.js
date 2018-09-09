@@ -14,6 +14,8 @@ const Cryptotracker = function (databaseUrl, apiUrl) {
 
   this.coinsData = [];
 
+  this.selectedCoin = [];
+
 };
 
 Cryptotracker.prototype.bindEvents = function () {
@@ -36,6 +38,21 @@ Cryptotracker.prototype.bindEvents = function () {
     }
 
   });
+
+  PubSub.subscribe('CoinView:coin-selected', (event) => {
+    console.log('Cryptotracker received CoinView:coin-selected');
+    this.selectedCoin = event.detail;
+    this.getCoinDetails();
+  })
+
+};
+
+Cryptotracker.prototype.getCoinDetails = function(){
+
+  // Get the historical data and any other detail
+  // Merge this with this.selectedCoin
+  // publish this.selectedCoin
+  PubSub.publish('Cryptotracker:coin-detail-ready', this.selectedCoin);
 
 };
 

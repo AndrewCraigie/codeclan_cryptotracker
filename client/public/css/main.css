@@ -1,5 +1,10 @@
 body {
   font-family: Verdana, sans-serif;
+  background-color: #313131;
+}
+
+h1 {
+  color: white;
 }
 
 #add-coin-container {
@@ -191,6 +196,7 @@ body {
   min-height: 400px;
   padding: 0;
   border: 1px solid darkgray;
+  background-color: white;
   overflow: scroll;
 }
 
@@ -300,5 +306,11 @@ body {
   min-height: 500px;
   background-color: white;
   border: 1px solid darkgray;
+  overflow: scroll;
+
+}
+
+.prop-para{
+  font-size: 12px;
 
 }
