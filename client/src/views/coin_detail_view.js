@@ -1,5 +1,7 @@
 const PubSub = require('../helpers/pub_sub.js');
 const element = require('../helpers/element.js');
+const Highcharts = require('highcharts');
+require('highcharts/modules/exporting')(Highcharts);
 
 const CoinDetailView = function(container){
 
@@ -123,26 +125,14 @@ CoinDetailView.prototype.render = function(){
   this.makeChartDiv();
   this.makeDataDiv();
 
-  console.log(this.coinData);
+  this.renderData();
 
-  // for (let prop in this.coinData){
-  //   if(this.coinData.hasOwnProperty(prop)){
-  //
-  //     const propName = prop;
-  //     const propValue = this.coinData[prop];
-  //     const propP = element.make({
-  //       tag: 'p',
-  //       attribs: {
-  //         class: 'prop-para'
-  //       },
-  //       content: `${propName}: ${propValue}`
-  //     });
-  //
-  //     this.dataDiv.appendChild(propP);
-  //
-  //   }
-  // }
 
+  this.makeControlsGroup();
+
+};
+
+CoinDetailView.prototype.renderData = function () {
   const priceElement = element.make({
     tag: 'p',
     attribs: {
@@ -169,10 +159,6 @@ CoinDetailView.prototype.render = function(){
     content: `Total Value : $ ${this.coinData.portfolioValue}`
   });
   this.dataDiv.appendChild(valueElement);
-
-
-  this.makeControlsGroup();
-
 };
 
 CoinDetailView.prototype.makeHeader = function () {
