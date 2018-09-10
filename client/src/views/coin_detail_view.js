@@ -24,7 +24,6 @@ const CoinDetailView = function(container){
 CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-detail-ready', (event) => {
-      console.log('CoinDetail received Cryptotracker:coin-detail-ready');
       this.coinData = event.detail;
       this.render();
     });
@@ -181,7 +180,7 @@ CoinDetailView.prototype.renderChart = function () {
       type: 'line'
     },
     title: {
-      text: 'Porfolio Performance'
+      text: 'Coin Performance'
     },
     xAxis: {
       categories: categories
@@ -192,7 +191,7 @@ CoinDetailView.prototype.renderChart = function () {
       }
     },
     series: [{
-      name: 'Portfolio Total Value',
+      name: 'Coin Value',
       data: chartData
     }]
   });

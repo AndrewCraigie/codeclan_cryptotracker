@@ -185,7 +185,6 @@ Cryptotracker.prototype.mergeCoinData = function(){
   });
 
   Promise.all(promises).then((results) => {
-    //console.log(results);
     PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
   });
 
