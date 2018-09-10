@@ -10,7 +10,6 @@ const CoinView = function (container, coin) {
 
 CoinView.prototype.handleCoinDivClick = function(event){
 
-  console.log('CoinView:coin-selected');
   PubSub.publish('CoinView:coin-selected', this.coin);
 
 };

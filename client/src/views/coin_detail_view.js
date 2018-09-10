@@ -21,8 +21,8 @@ const CoinDetailView = function(container){
 CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-detail-ready', (event) => {
-      console.log('CoinDetail received Cryptotracker:coin-detail-ready');
       this.coinData = event.detail;
+      //this.container.classList.remove('is-active');
       this.render();
     });
 
@@ -69,6 +69,16 @@ CoinDetailView.prototype.makeControlsGroup = function(){
     }
   });
 
+  const deleteButton = element.make({
+    tag: 'button',
+    attribs: {
+      id: 'coin-detail-delete-button'
+    },
+    content: 'Delete Coin'
+  });
+  deleteButton.addEventListener('click', this.handleDelete.bind(this));
+  this.controlsGroup.appendChild(deleteButton);
+
   const quantityLabel = element.make({
     tag: 'p',
     attribs: {
@@ -81,6 +91,7 @@ CoinDetailView.prototype.makeControlsGroup = function(){
   this.quantityControl = element.make({
     tag: 'input',
     attribs: {
+      id: 'coin-detail-quantity-input',
       type: 'number',
       min: 0,
       step: 0.01,
@@ -102,26 +113,40 @@ CoinDetailView.prototype.makeControlsGroup = function(){
   this.updateButton .addEventListener('click', this.handleUpdate.bind(this));
   this.controlsGroup.appendChild(this.updateButton);
 
-  const deleteButton = element.make({
-    tag: 'button',
-    attribs: {
-      id: 'coin-detail-delete-button'
-    },
-    content: 'Delete Coin'
-  });
-  deleteButton.addEventListener('click', this.handleDelete.bind(this));
-  this.controlsGroup.appendChild(deleteButton);
-
   this.container.appendChild(this.controlsGroup);
 
 };
 
+CoinDetailView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'coin-detail-view-chart-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
+};
+
+CoinDetailView.prototype.makeDataDiv = function () {
+  this.dataDiv = element.make({
+    tag:'div',
+    attribs: {
+      id: 'coin-detail-view-data-div'
+    }
+  });
+    this.container.appendChild(this.dataDiv);
+};
+
 CoinDetailView.prototype.render = function(){
 
+  const cointainer = this.container;
 
   element.clear(this.container);
+
   this.makeChartDiv();
+
   this.makeDataDiv();
+
   const tempElement = element.make({
     tag: 'h2',
     attribs: {
@@ -131,7 +156,6 @@ CoinDetailView.prototype.render = function(){
   });
   this.dataDiv.appendChild(tempElement);
 
-  console.log(this.coinData);
 
   for (let prop in this.coinData){
     if(this.coinData.hasOwnProperty(prop)){
@@ -153,26 +177,12 @@ CoinDetailView.prototype.render = function(){
 
   this.makeControlsGroup();
 
-};
-
-CoinDetailView.prototype.makeChartDiv = function () {
-  this.chartDiv = element.make({
-    tag: 'div',
-    attribs: {
-      id: 'coin-detail-view-chart-div'
-    }
-  });
-  this.container.appendChild(this.chartDiv);
-};
+  // setTimeout(function(){
+  //    cointainer.classList.toggle("is-active");
+  //    console.log('timeout');
+  //  }, 300);
 
 
-CoinDetailView.prototype.makeDataDiv = function () {
-  this.dataDiv = element.make({
-    tag:'div',
-    attribs: {
-      id: 'coin-detail-view-data-div'
-    }
-  });
-    this.container.appendChild(this.dataDiv);
 };
+
 module.exports = CoinDetailView;

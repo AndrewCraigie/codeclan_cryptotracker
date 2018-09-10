@@ -406,16 +406,27 @@ section {
 
 
 #coin-detail-container {
+
+  height: 100px;
+  transition: height 300ms;
+  transition-timing-function: ease;
+
+  position: relative;
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
   width: 600px;
-  min-height: 900px;
+  /* min-height: 800px; */
+  height; 0px;
   background-color: #313131;
   border: 1px solid darkgray;
   overflow: scroll;
   color: white;
+}
+
+#coin-detail-container.is-active {
+  height: 900px;
 }
 
 .prop-para{
@@ -432,4 +443,70 @@ section {
 #coin-detail-view-data-div{
   width: 100%;
   height: 400px;
+  overflow: scroll;
+}
+
+#coin-detail-control-group {
+  width: 100%;
+  height: 50px;
+  border-top: 2px solid white;
+}
+
+#coin-detail-quantity-label{
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  margin:0;
+  width: 220px;
+  display:inline-block;
+  text-align: right;
+  padding-right: 10px;
+}
+
+#coin-detail-quantity-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 3px;
+  margin-right: 5px;
+  cursor: pointer;
+  width: 60px;
+  height: 18px;
+  font-size: 16px;
+  text-align: center;
+}
+
+#coin-detail-update-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 3px;
+  margin-right: 5px;
+  cursor: pointer;
+  width: 120px;
+  height: 25px;
+  margin-left: 10px;
+  border: 2px solid forestgreen;
+  background-color: lightgreen;
+  outline: none;
+  color: black;
+}
+
+#coin-detail-update-button:disabled {
+  border: 2px solid tomato;
+  background-color: pink;
+  color: red;
+}
+
+#coin-detail-delete-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 3px;
+  margin-right: 5px;
+  cursor: pointer;
+  width: 120px;
+  height: 25px;
+  outline: none;
+  margin-left: 20px;
+  border: 2px solid tomato;
+  background-color: pink;
+  color: red;
 }
