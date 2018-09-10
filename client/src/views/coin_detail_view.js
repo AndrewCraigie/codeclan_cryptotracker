@@ -17,6 +17,8 @@ const CoinDetailView = function(container){
   this.updateButton = null;
   this.quantityControl = null;
 
+  this.theme = null;
+
 };
 
 CoinDetailView.prototype.bindEvents = function(){
@@ -29,7 +31,12 @@ CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-deleted', (event) => {
       console.log(event.detail);
-    })
+    });
+
+    PubSub.subscribe('Themes:theme-available', (event) => {
+      this.theme= event.detail;
+      this.render();
+    });
 
 };
 
@@ -161,6 +168,8 @@ CoinDetailView.prototype.renderData = function () {
 };
 
 CoinDetailView.prototype.renderChart = function () {
+  Highcharts.theme = this.theme;
+  Highcharts.setOptions(Highcharts.theme);
   const categories = this.coinData.historicalData.map((data) => {
     return data.timeStamp;
   });
