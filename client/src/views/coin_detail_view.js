@@ -40,7 +40,13 @@ CoinDetailView.prototype.handleUpdate = function(event){
 };
 
 CoinDetailView.prototype.handleDelete = function(event){
-    PubSub.publish('CoinDetailView:delete-coin', this.coinData.portfolioId);
+
+    const status = confirm(`Are you sure you want to delete ${this.coinData.portfolioQuantity} ${this.coinData.name} from your portfolio?`);
+
+    if (status){
+      PubSub.publish('CoinDetailView:delete-coin', this.coinData.portfolioId);
+    }
+
 };
 
 CoinDetailView.prototype.handleQuantityChange = function(event){
