@@ -1,13 +1,16 @@
 const Request = require('../helpers/request.js');
 const PubSub = require('../helpers/pub_sub.js');
 
-const Cryptotracker = function (databaseUrl, apiUrl) {
+const Cryptotracker = function (databaseUrl, apiUrl, historicalUrl) {
 
   this.databaseUrl = databaseUrl;
   this.databaseRequest = new Request(this.databaseUrl );
 
   this.apiUrl = apiUrl;
   this.apiRequest = new Request(this.apiUrl)
+
+  this.historicalUrl = historicalUrl;
+  // this.historicalRequest = new Request(this.historicalUrl);
 
   this.portfolioCoins = [];
   this.apiCoins = [];
@@ -19,6 +22,8 @@ const Cryptotracker = function (databaseUrl, apiUrl) {
 };
 
 Cryptotracker.prototype.bindEvents = function () {
+
+  this.getHistoricalData('BTC', 'USD');
 
   PubSub.subscribe('AddCoinView:add-coin-submitted', (event) => {
 
@@ -193,5 +198,33 @@ Cryptotracker.prototype.addCoin = function (data) {
   .catch()
 
 };
+
+//HISTORICAL FUNCTIONS
+
+Cryptotracker.prototype.getHistoricalData = function (symbol, currency) {
+  //const timeStamp = this.dateToTimestamp(time);
+  let url = `histoday?fsym=${symbol}&tsym=${currency}&limit=20`;
+  const historicalRequest = new Request(this.historicalUrl+url);
+
+  historicalRequest.get()
+  .then((data) => {
+    //histoday?fsym=LTC&tsym=USD&limit=20
+    console.log(data);
+  });
+};
+Cryptotracker.prototype.priceHistorical = function (fsym, tsyms, time) {
+
+ //const timeStamp = dateToTimestamp(time);
+ // let url = `${historicalURL}pricehistorical?fsym=${fsym}&tsyms=${tsyms}&ts=${timeStamp}`;
+ //let url = `pricehistorical?fsym=${fsym}&tsyms=${tsyms}&ts=${timeStamp}`;
+};
+
+Cryptotracker.prototype.dateToTimestamp = function (date) {
+  if (!(date instanceof Date)) throw new Error('timestamp must be an instance of Date.')
+  //math.floor round to nearest integer
+  //date.getTime / 1000 converts to unix time
+  return Math.floor(date.getTime() / 1000)
+};
+
 
 module.exports = Cryptotracker;
