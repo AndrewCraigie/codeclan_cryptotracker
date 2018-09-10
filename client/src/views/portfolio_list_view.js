@@ -7,6 +7,10 @@ const PortfolioiListView = function (container) {
 
   this.headerGroup = null;
   this.listContainer = null;
+  this.summaryGroup = null;
+  this.quantityTotalsElement = null;
+  this.totalValueElement = null;
+
   this.coinsData = [];
 };
 
@@ -16,10 +20,6 @@ PortfolioiListView.prototype.bindEvents = function () {
     this.coinsData = event.detail;
     this.render();
   });
-
-};
-
-PortfolioiListView.prototype.getPortfolioData = function () {
 
 };
 
@@ -84,6 +84,46 @@ PortfolioiListView.prototype.makeListContainer = function(){
 
 };
 
+PortfolioiListView.prototype.makeSummaryGroup = function(){
+
+  this.summaryGroup = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'portfolio-list-summary-group'
+    }
+  });
+
+  const totalsPara = element.make({
+    tag: 'p',
+    attribs: {
+      id: 'porfolio-list-totals-label'
+    },
+    content: 'Portfolio Totals'
+  });
+  this.summaryGroup.appendChild(totalsPara);
+
+  this.quantityTotalsElement = element.make({
+    tag: 'p',
+    attribs: {
+      id: 'porfolio-list-quantity-total'
+    },
+    content: '88'
+  });
+  this.summaryGroup.appendChild(this.quantityTotalsElement);
+
+  this.totalValueElement = element.make({
+    tag: 'p',
+    attribs: {
+      id: 'porfolio-list-total_value'
+    },
+    content: '20000'
+  });
+  this.summaryGroup.appendChild(this.totalValueElement);
+
+  this.container.appendChild(this.summaryGroup);
+
+};
+
 PortfolioiListView.prototype.render = function () {
 
   if (!this.headerGroup){
@@ -102,6 +142,11 @@ PortfolioiListView.prototype.render = function () {
       coinView.render();
     }
   });
+
+  if (!this.summaryGroup){
+    this.makeSummaryGroup();
+  }
+
 
 };
 
