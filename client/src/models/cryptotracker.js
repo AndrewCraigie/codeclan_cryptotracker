@@ -42,7 +42,15 @@ Cryptotracker.prototype.bindEvents = function () {
     console.log('Cryptotracker received CoinView:coin-selected');
     this.selectedCoin = event.detail;
     this.getCoinDetails();
-  })
+  });
+
+  PubSub.subscribe('CoinDetailView:coin-updated', (event) => {
+    const payload = {
+      symbol: event.detail.symbol,
+      quantity:event.detail.quantity
+    };
+    this.putCoin(event.detail.id, payload);
+  });
 
 };
 

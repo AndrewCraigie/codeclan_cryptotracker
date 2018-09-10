@@ -34,11 +34,9 @@ CoinDetailView.prototype.handleUpdate = function(event){
       symbol: this.coinData.symbol,
       id: coinId,
       quantity: quantity
-    }
+    };
 
-    console.log(coin);
-
-    PubSub.publish('CoinDetailView:coin-update', coin);
+    PubSub.publish('CoinDetailView:coin-updated', coin);
 };
 
 CoinDetailView.prototype.handleDelete = function(event){
