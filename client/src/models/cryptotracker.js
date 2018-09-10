@@ -25,7 +25,7 @@ Cryptotracker.prototype.bindEvents = function () {
     const coinData = event.detail;
 
     if(coinData.portfolioId){
-      console.log(coinData);
+      
       this.updateCoin(coinData);
 
     } else {
@@ -39,7 +39,7 @@ Cryptotracker.prototype.bindEvents = function () {
   });
 
   PubSub.subscribe('CoinView:coin-selected', (event) => {
-    console.log('Cryptotracker received CoinView:coin-selected');
+
     this.selectedCoin = event.detail;
     this.getCoinDetails();
   });
@@ -50,6 +50,7 @@ Cryptotracker.prototype.bindEvents = function () {
       quantity:event.detail.quantity
     };
     this.putCoin(event.detail.id, payload);
+
   });
 
 };
@@ -76,6 +77,10 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
  .then((portFolioCoins) => {
    this.portfolioCoins = portFolioCoins;
    this.getApiData();
+
+   this.selectedCoin.portfolioQuantity = payload.quantity;
+   this.getCoinDetails();
+
    }).catch(console.error);
 };
 

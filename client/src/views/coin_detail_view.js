@@ -21,7 +21,7 @@ CoinDetailView.prototype.bindEvents = function(){
       console.log('CoinDetail received Cryptotracker:coin-detail-ready');
       this.coinData = event.detail;
       this.render();
-    })
+    });
 
 };
 
