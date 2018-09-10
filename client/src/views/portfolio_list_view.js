@@ -12,6 +12,8 @@ const PortfolioiListView = function (container) {
   this.totalValueElement = null;
 
   this.coinsData = [];
+  this.valueTotal = 0;
+  this.coinsQuantityTotal = 0;
 };
 
 PortfolioiListView.prototype.bindEvents = function () {
@@ -64,7 +66,7 @@ PortfolioiListView.prototype.makeHeaderGroup = function(){
     attribs: {
       id: 'portfolio-view-value-header'
     },
-    content: 'Coin Total'
+    content: 'Value $'
   });
   this.headerGroup.appendChild(valueHeader);
 
@@ -107,7 +109,7 @@ PortfolioiListView.prototype.makeSummaryGroup = function(){
     attribs: {
       id: 'porfolio-list-quantity-total'
     },
-    content: '88'
+    content: this.coinsQuantityTotal
   });
   this.summaryGroup.appendChild(this.quantityTotalsElement);
 
@@ -116,7 +118,7 @@ PortfolioiListView.prototype.makeSummaryGroup = function(){
     attribs: {
       id: 'porfolio-list-total_value'
     },
-    content: '20000'
+    content: this.valueTotal.toFixed(2)
   });
   this.summaryGroup.appendChild(this.totalValueElement);
 
@@ -125,6 +127,9 @@ PortfolioiListView.prototype.makeSummaryGroup = function(){
 };
 
 PortfolioiListView.prototype.render = function () {
+
+  this.coinsQuantityTotal = 0;
+  this.valueTotal = 0;
 
   if (!this.headerGroup){
     this.makeHeaderGroup();
@@ -137,7 +142,12 @@ PortfolioiListView.prototype.render = function () {
   element.clear(this.listContainer);
 
   this.coinsData.forEach((coin) => {
+
     if (coin.portfolioId){
+
+      this.coinsQuantityTotal ++;
+      this.valueTotal += coin.portfolioValue;
+
       const coinView = new CoinView(this.listContainer, coin);
       coinView.render();
     }
