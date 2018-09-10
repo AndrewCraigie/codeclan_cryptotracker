@@ -124,7 +124,6 @@ CoinDetailView.prototype.makeControlsGroup = function(){
 };
 
 CoinDetailView.prototype.render = function(){
-
   element.clear(this.container);
   this.makeHeader();
   this.makeChartDiv();
@@ -208,6 +207,17 @@ CoinDetailView.prototype.renderChart = function () {
 };
 
 CoinDetailView.prototype.makeHeader = function () {
+
+  const imageElement = element.make({
+    tag: 'img',
+    attribs: {
+      class: 'coin-image',
+      src: `/images/${this.coinData.website_slug}.png`
+    }
+
+  });
+  this.container.appendChild(imageElement);
+
   const headerElement = element.make({
     tag: 'h2',
     attribs: {

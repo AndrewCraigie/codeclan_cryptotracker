@@ -20,8 +20,6 @@ section {
 
 
 #theme-select-container {
-
-
   top: 20px;
   left: 500px;
   width: 200px;
@@ -419,5 +417,11 @@ section {
 }
 
 .coin-header{
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.coin-image{
+  display: inline-block;
   padding-left: 10px;
 }
