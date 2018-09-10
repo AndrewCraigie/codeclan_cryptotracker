@@ -434,3 +434,8 @@ section {
 .twitter-hashtag-button{
   height: 40px;
 }
+
+#twitter-newsfeed{
+  height: 400px;
+  overflow-y: scroll;
+}
