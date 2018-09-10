@@ -94,8 +94,8 @@ Cryptotracker.prototype.deleteCoin = function (id) {
  this.databaseRequest.delete(id).then((portFolioCoins) => {
    this.portfolioCoins = portFolioCoins;
    this.getApiData();
+   PubSub.publish('Cryptotracker:coin-deleted', this.selectedCoin);
    this.selectedCoin = null;
-   this.getCoinDetails();
  })
  .catch(console.error);
 };

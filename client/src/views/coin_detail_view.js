@@ -23,6 +23,10 @@ CoinDetailView.prototype.bindEvents = function(){
       this.render();
     });
 
+    PubSub.subscribe('Cryptotracker:coin-deleted', (event) => {
+      console.log(event.detail);
+    })
+
 };
 
 CoinDetailView.prototype.handleUpdate = function(event){
