@@ -23,7 +23,7 @@ const Cryptotracker = function (databaseUrl, apiUrl, historicalUrl) {
 
 Cryptotracker.prototype.bindEvents = function () {
 
-  this.getHistoricalData('BTC', 'USD');
+  //this.getHistoricalData('BTC', 'USD', 20);
 
   PubSub.subscribe('AddCoinView:add-coin-submitted', (event) => {
 
@@ -47,6 +47,7 @@ Cryptotracker.prototype.bindEvents = function () {
 
     this.selectedCoin = event.detail;
     this.getCoinDetails();
+    //this.getHistoricalData();
   });
 
   PubSub.subscribe('CoinDetailView:coin-updated', (event) => {
@@ -157,6 +158,9 @@ Cryptotracker.prototype.mergeCoinData = function(){
       apiCoin.portfolioQuantity = portfolioCoin.quantity;
       apiCoin.portfolioValue = this.calculateValue(portfolioCoin.quantity, apiCoinPrice);
       apiCoin.portfolioId = portfolioCoin['_id'];
+      //historical data
+      this.getHistoricalData(apiCoin,portfolioCoin.symbol, 'USD', 20);
+      console.log(apiCoin);
     } else {
       apiCoin.portfolioQuantity = 0;
       apiCoin.portfolioValue = 0;
@@ -201,15 +205,16 @@ Cryptotracker.prototype.addCoin = function (data) {
 
 //HISTORICAL FUNCTIONS
 
-Cryptotracker.prototype.getHistoricalData = function (symbol, currency) {
+Cryptotracker.prototype.getHistoricalData = function (apiCoin,symbol, currency, limit) {
   //const timeStamp = this.dateToTimestamp(time);
-  let url = `histoday?fsym=${symbol}&tsym=${currency}&limit=20`;
+  let url = `histoday?fsym=${symbol}&tsym=${currency}&limit=${limit}`;
   const historicalRequest = new Request(this.historicalUrl+url);
 
   historicalRequest.get()
   .then((data) => {
     //histoday?fsym=LTC&tsym=USD&limit=20
-    console.log(data);
+    //console.log(data.Data);
+    apiCoin.historicalData = data.Data;
   });
 };
 Cryptotracker.prototype.priceHistorical = function (fsym, tsyms, time) {
