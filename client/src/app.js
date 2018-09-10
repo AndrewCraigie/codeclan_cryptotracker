@@ -23,8 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const apiUrl = 'https://api.coinmarketcap.com/v2/ticker/';
   const databaseUrl = "http://localhost:3000/api/cryptotracker";
+  const historicalUrl = 'https://min-api.cryptocompare.com/data/';
 
-  const cryptotracker = new Cryptotracker(databaseUrl, apiUrl);
+  const cryptotracker = new Cryptotracker(databaseUrl, apiUrl, historicalUrl);
   cryptotracker.bindEvents();
 
   const addCoinForm = document.querySelector('form#add-coin-form');
