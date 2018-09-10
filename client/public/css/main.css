@@ -1,3 +1,403 @@
 body {
   font-family: Verdana, sans-serif;
+  background-color: #313131;
+}
+
+h1 {
+  color: white;
+}
+
+section {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  position: relative;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+#theme-select-container {
+
+
+  top: 20px;
+  left: 500px;
+  width: 200px;
+}
+
+#theme-select {
+  width: 200px;
+}
+
+#add-coin-container {
+
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  width: 400px;
+  height: 340px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: #686868;
+}
+
+#coins-list-filter-controls-container {
+  width: 390px;
+  height: 28px;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#coins-list-filter-controls-container input[type=button]{
+  width: 61px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 2px;
+  margin-left: 1px;
+  padding-bottom: 0;
+}
+
+#coin-selector-list-headers {
+  width: 390px;
+  height: 24px;
+  display: block;
+  margin:0;
+  margin-top: 2px;
+}
+
+#coin-selector-list-headers p {
+  font-size: 14px;
+  display: inline-block;
+  pointer-events:none;
+  margin:0;
+  padding: 0;
+  height: 24px;
+  line-height: 24px;
+  padding: 2px;
+  color: white;
+}
+
+#coin-selector-list-headers p:nth-child(1){
+  width: 23.5ch;
+}
+
+#coin-selector-list-headers p:nth-child(2){
+  width: 9ch;
+}
+
+#coin-selector-list-headers p:nth-child(3){
+  width: 7ch;
+  text-align: right;
+}
+
+#coins-list-list {
+  list-style: none;
+  width: 390px;
+  height: 170px;
+  overflow: scroll;
+  border: 1px solid forestgreen;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.coins-list-coin-item {
+  display: block;
+  width: 100%;
+  height: 24px;
+  padding-left: 5px;
+  cursor: pointer
+}
+
+.coins-list-coin-item span{
+  pointer-events:none;
+  height: 24px;
+  line-height: 24px;
+}
+
+.coins-list-coin-name {
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.coins-list-coin-symbol {
+  display: inline-block;
+  width: 6ch;
+  margin-right: 1em;
+}
+
+.coins-list-coin-price {
+  display: inline-block;
+  width: 7ch;
+  margin-right: 1em;
+  text-align: right;
+}
+
+.coins-list-selected-coin {
+  background-color: forestgreen;
+  color: white;
+}
+
+.coins-list-coin-in-portfolio{
+  background-color: #eaffe8;
+}
+
+.coins-list-hidden {
+  display: none;
+}
+
+
+#add-form-add-group {
+  position: relative;
+  width: 390px;
+  height: 65px;
+}
+
+.add-group-label {
+  height: 24px;
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: white;
+}
+
+#coin-name-label {
+  position: absolute;
+  width: 280px;
+  top: 0;
+  left: 4px;
+}
+
+#coinNameInput {
+  position: absolute;
+  width: 280px;
+  height: 24px;
+  top: 24px;
+  left: 4px;
+  font-size: 16px;
+}
+
+#coin-amount-label {
+  position: absolute;
+  width: 70px;
+  top: 0;
+  right: 10px;
+}
+
+#coin-amount {
+  position: absolute;
+  width: 70px;
+  height: 24px;
+  top: 24px;
+  right: 0px;
+  font-size: 16px;
+  padding-left: 4px;
+}
+
+#submitBtn {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  width: 390px;
+  height: 30px;
+  border: 2px solid forestgreen;
+  background-color: lightgreen;
+  color: black;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+#submitBtn:disabled {
+  border: 2px solid tomato;
+  background-color: pink;
+  color: red;
+}
+
+#portfolio-list {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  width: 420px;
+  height: 440px;
+  padding: 0;
+  border: 1px solid darkgray;
+  background-color: #313131;;
+  overflow: scroll;
+}
+
+#portfolio-view-header {
+  width: 100%;
+  height: 30px;
+  margin:0;
+  padding: 0;
+  background-color: #686868;
+}
+
+#portfolio-view-header p {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  margin: 0;
+  color: white;
+}
+
+#portfolio-view-name-header {
+  padding-left: 12px;
+  width: 9.4em;
+}
+
+#portfolio-view-symbol-header {
+  padding-left: 1px;
+  width: 5em;
+}
+
+#portfolio-view-quantity-header {
+  padding-left: 2px;
+  width: 4.5em;
+}
+
+#portfolio-view-value-header {
+  width: 6em;
+  text-align: right;
+}
+
+#porfolio-list-list {
+  width: 100%;
+  height: 370px;
+  background-color: #313131;
+}
+
+.coin {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid darkgray;
+  cursor: pointer;
+  background-color: white;
+}
+
+.coin:hover {
+  background-color: #eaffe8;
+}
+
+.coin p {
+  display: inline-block;
+  pointer-events:none;
+  margin:0;
+  padding: 0;
+  font-size: 1.2em;
+  height: 30px;
+  line-height: 30px;
+  padding: 2px;
+}
+
+.coin p:nth-child(1){
+  width: 8em;
+  border-right: 1px solid lightgray;
+}
+
+.coin p:nth-child(2){
+  width: 4em;
+  border-right: 1px solid lightgray;
+
+}
+
+.coin p:nth-child(3){
+  width: 3.8em;
+  text-align: right;
+  padding-right: 2px;
+}
+
+.coin p:nth-child(4){
+  width: 5em;
+  text-align: right;
+
+}
+
+#portfolio-list-summary-group {
+  width: 100%;
+  height: 41px;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid lightgray;
+}
+
+#porfolio-list-totals-label{
+  display: inline-block;
+  height: 40px;
+  margin: 0;
+  line-height: 40px;
+  width: 14.5em;
+  font-size: 16px;
+  padding-left: 12px;
+  margin: 0;
+  color: white;
+}
+
+#porfolio-list-quantity-total {
+  display: inline-block;
+  height: 40px;
+  margin: 0;
+  line-height: 40px;
+  width: 80px;
+  font-size: 1.2em !important;
+  text-align: right;
+  padding-right: 6px;
+  color: white;
+}
+
+#porfolio-list-total_value {
+  display: inline-block;
+  height: 40px;
+  margin: 0;
+  line-height: 40px;
+  width: 86px;
+  font-size: 1.2em;
+  text-align: right;
+  padding-right: 4px;
+  color: yellow;
+}
+
+#porfolio-list-total_value:before {
+  content: '$ ';
+}
+
+#performance-chart-container {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  width: 600px;
+  min-height: 500px;
+  background-color: white;
+  border: 1px solid darkgray;
+
+}
+
+
+#coin-detail-container {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  width: 600px;
+  min-height: 500px;
+  background-color: #313131;
+  border: 1px solid darkgray;
+  overflow: scroll;
+  color: white;
+}
+
+.prop-para{
+  font-size: 12px;
+
 }
