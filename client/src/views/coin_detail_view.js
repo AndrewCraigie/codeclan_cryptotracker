@@ -118,41 +118,72 @@ CoinDetailView.prototype.makeControlsGroup = function(){
 
 CoinDetailView.prototype.render = function(){
 
-
   element.clear(this.container);
+  this.makeHeader();
   this.makeChartDiv();
   this.makeDataDiv();
-  const tempElement = element.make({
-    tag: 'h2',
-    attribs: {
-      class: 'temp-element'
-    },
-    content: this.coinData.name
-  });
-  this.dataDiv.appendChild(tempElement);
 
   console.log(this.coinData);
 
-  for (let prop in this.coinData){
-    if(this.coinData.hasOwnProperty(prop)){
+  // for (let prop in this.coinData){
+  //   if(this.coinData.hasOwnProperty(prop)){
+  //
+  //     const propName = prop;
+  //     const propValue = this.coinData[prop];
+  //     const propP = element.make({
+  //       tag: 'p',
+  //       attribs: {
+  //         class: 'prop-para'
+  //       },
+  //       content: `${propName}: ${propValue}`
+  //     });
+  //
+  //     this.dataDiv.appendChild(propP);
+  //
+  //   }
+  // }
 
-      const propName = prop;
-      const propValue = this.coinData[prop];
-      const propP = element.make({
-        tag: 'p',
-        attribs: {
-          class: 'prop-para'
-        },
-        content: `${propName}: ${propValue}`
-      });
+  const priceElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'price-para'
+    },
+    content: `Unit Price : $ ${this.coinData.quotes.USD.price}`
+  });
+  this.dataDiv.appendChild(priceElement);
 
-      this.dataDiv.appendChild(propP);
+  const rankElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'rank-para'
+    },
+    content: `Coin Rank : ${this.coinData.rank}`
+  });
+  this.dataDiv.appendChild(rankElement);
 
-    }
-  }
+  const valueElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'value-para'
+    },
+    content: `Total Value : $ ${this.coinData.portfolioValue}`
+  });
+  this.dataDiv.appendChild(valueElement);
+
 
   this.makeControlsGroup();
 
+};
+
+CoinDetailView.prototype.makeHeader = function () {
+  const headerElement = element.make({
+    tag: 'h2',
+    attribs: {
+      class: 'coin-header'
+    },
+    content: `${this.coinData.name} (${this.coinData.symbol})`
+  });
+  this.container.appendChild(headerElement);
 };
 
 CoinDetailView.prototype.makeChartDiv = function () {
