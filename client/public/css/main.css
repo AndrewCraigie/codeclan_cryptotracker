@@ -431,13 +431,6 @@ section {
   padding-left: 10px;
 }
 
-.twitter-timeline{
-  /* width:100px; */
-  max-height:400px;
-  overflow-y: scroll;
-  align-items: flex-start;
-}
-
-#twitter{
-  align-content: flex-start;
+.twitter-hashtag-button{
+  height: 40px;
 }
