@@ -10,6 +10,9 @@ const CoinDetailView = function(container){
   this.coinDetailsGroup = null;
   this.controlsGroup = null;
 
+  this.chartDiv = null;
+  this.dataDiv = null;
+
   this.updateButton = null;
   this.quantityControl = null;
 
@@ -117,7 +120,8 @@ CoinDetailView.prototype.render = function(){
 
 
   element.clear(this.container);
-
+  this.makeChartDiv();
+  this.makeDataDiv();
   const tempElement = element.make({
     tag: 'h2',
     attribs: {
@@ -125,7 +129,7 @@ CoinDetailView.prototype.render = function(){
     },
     content: this.coinData.name
   });
-  this.container.appendChild(tempElement);
+  this.dataDiv.appendChild(tempElement);
 
   console.log(this.coinData);
 
@@ -142,7 +146,7 @@ CoinDetailView.prototype.render = function(){
         content: `${propName}: ${propValue}`
       });
 
-      this.container.appendChild(propP);
+      this.dataDiv.appendChild(propP);
 
     }
   }
@@ -151,4 +155,24 @@ CoinDetailView.prototype.render = function(){
 
 };
 
+CoinDetailView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'coin-detail-view-chart-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
+};
+
+
+CoinDetailView.prototype.makeDataDiv = function () {
+  this.dataDiv = element.make({
+    tag:'div',
+    attribs: {
+      id: 'coin-detail-view-data-div'
+    }
+  });
+    this.container.appendChild(this.dataDiv);
+};
 module.exports = CoinDetailView;
