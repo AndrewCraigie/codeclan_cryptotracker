@@ -40,7 +40,7 @@ CoinDetailView.prototype.handleUpdate = function(event){
 };
 
 CoinDetailView.prototype.handleDelete = function(event){
-    console.log(event.target);
+    PubSub.publish('CoinDetailView:delete-coin', this.coinData.portfolioId);
 };
 
 CoinDetailView.prototype.handleQuantityChange = function(event){
@@ -107,9 +107,6 @@ CoinDetailView.prototype.render = function(){
 
 
   element.clear(this.container);
-
-
-
 
   const tempElement = element.make({
     tag: 'h2',

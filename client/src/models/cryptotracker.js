@@ -25,7 +25,7 @@ Cryptotracker.prototype.bindEvents = function () {
     const coinData = event.detail;
 
     if(coinData.portfolioId){
-      
+
       this.updateCoin(coinData);
 
     } else {
@@ -52,6 +52,10 @@ Cryptotracker.prototype.bindEvents = function () {
     this.putCoin(event.detail.id, payload);
 
   });
+
+  PubSub.subscribe('CoinDetailView:delete-coin', (event) => {
+    this.deleteCoin(event.detail);
+  })
 
 };
 
@@ -83,6 +87,19 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
 
    }).catch(console.error);
 };
+
+//DELETES COIN FROM THE DATABASE
+
+Cryptotracker.prototype.deleteCoin = function (id) {
+ this.databaseRequest.delete(id).then((portFolioCoins) => {
+   this.portfolioCoins = portFolioCoins;
+   this.getApiData();
+   this.selectedCoin = null;
+   this.getCoinDetails();
+ })
+ .catch(console.error);
+};
+
 
 Cryptotracker.prototype.getCoinDetails = function(){
 
