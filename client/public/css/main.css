@@ -417,7 +417,7 @@ section {
   grid-row-start: 2;
   grid-row-end: 3;
   width: 600px;
-  /* min-height: 800px; */
+  min-height: 900px;  /* remove for animation */
   height; 0px;
   background-color: #313131;
   border: 1px solid darkgray;
