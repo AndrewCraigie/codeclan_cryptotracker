@@ -31,7 +31,16 @@ PortfolioiListView.prototype.makeHeaderGroup = function(){
       id: 'portfolio-view-header'
     }
   });
-
+//image code starts
+  // const imageHeader = element.make({
+  //   tag: 'p',
+  //   attribs: {
+  //     id: 'portfolio-view-image-header'
+  //   },
+  //   content: 'Coin'
+  // });
+  // this.headerGroup.appendChild(imageHeader);
+//image code ends
   const nameHeader = element.make({
     tag: 'p',
     attribs: {
@@ -64,7 +73,7 @@ PortfolioiListView.prototype.makeHeaderGroup = function(){
     attribs: {
       id: 'portfolio-view-value-header'
     },
-    content: 'Coin Total'
+    content: 'Value'
   });
   this.headerGroup.appendChild(valueHeader);
 
