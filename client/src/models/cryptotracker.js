@@ -25,11 +25,10 @@ Cryptotracker.prototype.bindEvents = function () {
     const coinData = event.detail;
 
     if(coinData.portfolioId){
-
-      // TODO this.updateCoin();
+      console.log(coinData);
+      this.updateCoin(coinData);
 
     } else {
-
       const coinDataToAdd = {
         symbol: coinData.symbol,
         quantity: coinData.quantity
@@ -45,6 +44,31 @@ Cryptotracker.prototype.bindEvents = function () {
     this.getCoinDetails();
   })
 
+};
+//updates Coin data
+Cryptotracker.prototype.updateCoin = function (coinData) {
+ const coinFound = this.getCoin(coinData);
+ // const updatedCoinQuantity = data.quantity + coinFound.quantity;
+ // const updatedCoin = {symbol: data.symbol, quantity: updatedCoinQuantity};
+ // this.putCoin(coinFound._id, updatedCoin);
+};
+
+//FINDS COIN BY ID
+Cryptotracker.prototype.getCoin = function (coinData) {
+  this.databaseRequest.getById(coinData.portfolioId)
+  .then((coin) => {
+    const updatedCoinQuantity = coinData.quantity + coin[0].quantity;
+    const updatedCoin = {symbol: coinData.symbol, quantity: updatedCoinQuantity};
+    this.putCoin(coinData.portfolioId, updatedCoin);
+  });
+};
+
+//UPDATES COIN DATA IN THE DATABASE
+Cryptotracker.prototype.putCoin = function (id, payload) {
+ this.databaseRequest.put(id, payload)
+ .then((coins) => {
+     console.log(coins);
+   }).catch(console.error);
 };
 
 Cryptotracker.prototype.getCoinDetails = function(){

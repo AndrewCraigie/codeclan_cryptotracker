@@ -2,10 +2,19 @@ const Request = function(url){
   this.url = url;
 };
 
+Request.prototype.getById = function (id){
+  return fetch(`${this.url}/${id}`, {
+    method: 'GET'
+  })
+   .then((response) => response.json());
+};
+
 Request.prototype.get = function(){
   return fetch(this.url)
     .then((response) => response.json());
 };
+
+
 
 Request.prototype.post = function(payload) {
   return fetch(this.url, {
@@ -23,13 +32,13 @@ Request.prototype.delete = function (id){
    .then((response) => response.json());
 };
 
-Request.prototype.update = function(id, payload){
+Request.prototype.put = function(id, payload){
   return fetch(`${this.url}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
     headers: { 'Content-Type': 'application/json'}
   })
-    .then((response) => resonse.json());
+    .then((response) => response.json());
 };
 
 module.exports = Request;
