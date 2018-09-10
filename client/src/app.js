@@ -1,20 +1,31 @@
 const Cryptotracker = require('./models/cryptotracker.js');
+const Themes = require('./models/themes.js');
 const AddCoinView = require('./views/add_coin_view.js');
 const PortfolioiListView = require('./views/portfolio_list_view.js');
-const Coins = require('./models/coins.js');
+const PortfolioChartView = require('./views/portfolio_chart_view.js');
+const CoinDetailView = require('./views/coin_detail_view.js');
+const ThemeSelectView = require('./views/theme_select_view.js');
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const coinListUrl = 'https://api.coinmarketcap.com/v2/ticker/';
-  const url = "http://localhost:3000/api/cryptotracker";
+  const defaultTheme = 'darkUnica';
 
-  const cryptotracker = new Cryptotracker(url);
+  const portfolioChartViewContainer = document.querySelector('div#performance-chart-container');
+  const portfolioChartView = new PortfolioChartView(portfolioChartViewContainer, defaultTheme);
+  portfolioChartView.bindEvents();
+
+  const themeSelectContainer = document.querySelector('div#theme-select-container');
+  const themeSelectView = new ThemeSelectView(themeSelectContainer, defaultTheme);
+  themeSelectView.bindEvents();
+
+  const themes = new Themes(defaultTheme);
+  themes.bindEvents();
+
+  const apiUrl = 'https://api.coinmarketcap.com/v2/ticker/';
+  const databaseUrl = "http://localhost:3000/api/cryptotracker";
+
+  const cryptotracker = new Cryptotracker(databaseUrl, apiUrl);
   cryptotracker.bindEvents();
-
-  const coins = new Coins(coinListUrl);
-  coins.getCoinData();
-  coins.bindEvents();
-
 
   const addCoinForm = document.querySelector('form#add-coin-form');
   const addCoinView = new AddCoinView(addCoinForm);
@@ -23,5 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const portfolioContainer = document.querySelector('div#portfolio-list');
   const portfolioListView = new PortfolioiListView(portfolioContainer);
   portfolioListView.bindEvents();
+
+
+
+  const coinDetailContainer = document.querySelector('div#coin-detail-container');
+  const coinDetailView = new CoinDetailView(coinDetailContainer);
+  coinDetailView.bindEvents();
+
+  cryptotracker.getPortolioData();
 
  });
