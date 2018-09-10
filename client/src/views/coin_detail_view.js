@@ -172,6 +172,7 @@ CoinDetailView.prototype.renderData = function () {
     },
     content: `Market Cap : $ ${this.coinData.quotes.USD.market_cap}`
   });
+
   this.dataDiv.appendChild(marketCapElement);
 };
 

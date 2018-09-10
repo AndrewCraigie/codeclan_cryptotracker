@@ -378,7 +378,7 @@ section {
   grid-row-end: 2;
   width: 600px;
   min-height: 500px;
-  background-color: white;
+  /* background-color: white; */
   border: 1px solid darkgray;
 
 }
@@ -403,9 +403,13 @@ section {
 }
 
 #coin-detail-view-chart-div{
-  width: 100%;
+  width: 99%;
   height: 400px;
-  background-color: pink;
+}
+
+#portfolio-chart_view-div{
+  width: 99%;
+  height: 500px;
 }
 
 #coin-detail-view-data-div{
