@@ -45,6 +45,7 @@ Cryptotracker.prototype.bindEvents = function () {
   })
 
 };
+
 //updates Coin data
 Cryptotracker.prototype.updateCoin = function (coinData) {
   this.getCoin(coinData);

@@ -6,6 +6,13 @@ const CoinDetailView = function(container){
   this.container = container;
   this.coinData = null;
 
+
+  this.coinDetailsGroup = null;
+  this.controlsGroup = null;
+
+  this.updateButton = null;
+  this.quantityControl = null;
+
 };
 
 CoinDetailView.prototype.bindEvents = function(){
@@ -18,9 +25,93 @@ CoinDetailView.prototype.bindEvents = function(){
 
 };
 
+CoinDetailView.prototype.handleUpdate = function(event){
+
+    const quantity = this.quantityControl.value;
+    const coinId = this.coinData.portfolioId;
+
+    const coin = {
+      symbol: this.coinData.symbol,
+      id: coinId,
+      quantity: quantity
+    }
+
+    console.log(coin);
+
+    PubSub.publish('CoinDetailView:coin-update', coin);
+};
+
+CoinDetailView.prototype.handleDelete = function(event){
+    console.log(event.target);
+};
+
+CoinDetailView.prototype.handleQuantityChange = function(event){
+  this.updateButton.disabled = false;
+};
+
+CoinDetailView.prototype.makeControlsGroup = function(){
+
+  this.controlsGroup = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'coin-detail-control-group'
+    }
+  });
+
+  const quantityLabel = element.make({
+    tag: 'p',
+    attribs: {
+      id: 'coin-detail-quantity-label'
+    },
+    content: 'Quantity'
+  });
+  this.controlsGroup.appendChild(quantityLabel);
+
+  this.quantityControl = element.make({
+    tag: 'input',
+    attribs: {
+      type: 'number',
+      min: 0,
+      step: 0.01,
+      value: this.coinData.portfolioQuantity
+    }
+  });
+  this.quantityControl.required = true;
+  this.quantityControl.addEventListener('change', this.handleQuantityChange.bind(this))
+  this.controlsGroup.appendChild(this.quantityControl);
+
+  this.updateButton  = element.make({
+    tag: 'button',
+    attribs: {
+      id: 'coin-detail-update-button'
+    },
+    content: 'Update Quantity'
+  });
+  this.updateButton .disabled = true;
+  this.updateButton .addEventListener('click', this.handleUpdate.bind(this));
+  this.controlsGroup.appendChild(this.updateButton);
+
+  const deleteButton = element.make({
+    tag: 'button',
+    attribs: {
+      id: 'coin-detail-delete-button'
+    },
+    content: 'Delete Coin'
+  });
+  deleteButton.addEventListener('click', this.handleDelete.bind(this));
+  this.controlsGroup.appendChild(deleteButton);
+
+  this.container.appendChild(this.controlsGroup);
+
+};
+
 CoinDetailView.prototype.render = function(){
 
+
   element.clear(this.container);
+
+
+
 
   const tempElement = element.make({
     tag: 'h2',
@@ -50,6 +141,8 @@ CoinDetailView.prototype.render = function(){
 
     }
   }
+
+  this.makeControlsGroup();
 
 };
 
