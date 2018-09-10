@@ -145,7 +145,7 @@ section {
 }
 
 .coins-list-selected-coin {
-  background-color: forestgreen;
+  background-color: forestgreen !important;
   color: white;
 }
 
