@@ -149,11 +149,9 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
   this.myCoins = [];
   this.coinsData = this.apiCoins.map((apiCoin) => {
+
     const portfolioCoin = this.getPortfolioCoinBySymbol(apiCoin.symbol);
     const apiCoinPrice = apiCoin.quotes.USD.price;
-
-
-
 
     if (portfolioCoin) {
       apiCoin.portfolioQuantity = portfolioCoin.quantity;
@@ -184,14 +182,12 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
     });
 
-
   });
 
   Promise.all(promises).then((results) => {
     //console.log(results);
     PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
-  })
-
+  });
 
 };
 
@@ -251,20 +247,17 @@ Cryptotracker.prototype.priceHistorical = function (fsym, tsyms, time) {
 };
 
 Cryptotracker.prototype.timestampToDate = function (unixTime) {
-  // if (!(date instanceof Date)) throw new Error('timestamp must be an instance of Date.')
-  // //math.floor round to nearest integer
-  // //date.getTime / 1000 converts to unix time
-  // return Math.floor(date.getTime() / 1000)
 
   var data = new Date(unixTime * 1000);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var year = data.getFullYear();
   var month = months[data.getMonth()];
   var date = data.getDate();
-  var hour = data.getHours();
-  var min = data.getMinutes();
-  var sec = data.getSeconds();
-  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  var time = date + ' ' + month + ' ' + year;
+  // var hour = data.getHours();
+  // var min = data.getMinutes();
+  // var sec = data.getSeconds();
+  // var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
   return time;
 };
 

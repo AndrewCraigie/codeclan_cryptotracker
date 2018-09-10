@@ -8,7 +8,6 @@ const CoinDetailView = function(container){
   this.container = container;
   this.coinData = null;
 
-
   this.coinDetailsGroup = null;
   this.controlsGroup = null;
 
@@ -126,7 +125,7 @@ CoinDetailView.prototype.render = function(){
   this.makeDataDiv();
 
   this.renderData();
-
+  this.renderChart();
 
   this.makeControlsGroup();
 
@@ -159,6 +158,35 @@ CoinDetailView.prototype.renderData = function () {
     content: `Total Value : $ ${this.coinData.portfolioValue}`
   });
   this.dataDiv.appendChild(valueElement);
+};
+
+CoinDetailView.prototype.renderChart = function () {
+  const categories = this.coinData.historicalData.map((data) => {
+    return data.timeStamp;
+  });
+  const chartData = this.coinData.historicalData.map((data) => {
+    return data.close;
+  });
+  const chart = Highcharts.chart(this.chartDiv, {
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: 'Porfolio Performance'
+    },
+    xAxis: {
+      categories: categories
+    },
+    yAxis: {
+      title: {
+        text: 'Value $'
+      }
+    },
+    series: [{
+      name: 'Portfolio Total Value',
+      data: chartData
+    }]
+  });
 };
 
 CoinDetailView.prototype.makeHeader = function () {
