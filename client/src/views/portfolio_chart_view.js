@@ -17,32 +17,51 @@ const PortfolioChartView = function(container, themeName){
   this.categories = [];
   this.chartData = [];
 
+  this.ready = false;
+
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
-    console.log(this.coinsData[0].historicalData);
-  //  this.getChartData();
-    //this.render();
+    this.ready = true;
+    this.getChartData();
+    this.render();
   });
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
-    // this.getChartData();
+    if (this.ready) {
+      this.getChartData();
+    }
      this.render();
   })
 
 };
 
 PortfolioChartView.prototype.getChartData = function () {
+  this.chartData = [];
   const coin = this.coinsData.find((coin) => {
     return coin.portfolioId != undefined;
   });
-  console.log(coin);
   const historicalData = coin.historicalData;
-  console.log(historicalData);
+  this.categories = historicalData.map((data) => {
+    return data.timeStamp;
+  });
+
+
+  this.categories.forEach((category, index) => {
+    let total = 0;
+    this.coinsData.forEach((coin) => {
+      if (coin.historicalData) {
+        total += coin.historicalData[index].close
+      }
+
+    });
+    this.chartData.push(total);
+  });
+
 };
 
 
