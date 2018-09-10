@@ -14,19 +14,53 @@ const PortfolioChartView = function(container, themeName){
 
   this.theme = null;
 
+  this.categories = [];
+  this.chartData = [];
+
+  this.ready = false;
+
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
+    this.ready = true;
+    this.getChartData();
     this.render();
   });
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
-    this.render();
+    if (this.ready) {
+      this.getChartData();
+    }
+     this.render();
   })
+
+};
+
+PortfolioChartView.prototype.getChartData = function () {
+  this.chartData = [];
+  const coin = this.coinsData.find((coin) => {
+    return coin.portfolioId != undefined;
+  });
+  const historicalData = coin.historicalData;
+  this.categories = historicalData.map((data) => {
+    return data.timeStamp;
+  });
+
+
+  this.categories.forEach((category, index) => {
+    let total = 0;
+    this.coinsData.forEach((coin) => {
+      if (coin.historicalData) {
+        total += coin.historicalData[index].close
+      }
+
+    });
+    this.chartData.push(total);
+  });
 
 };
 
@@ -44,7 +78,7 @@ PortfolioChartView.prototype.render = function(){
       text: 'Porfolio Performance'
     },
     xAxis: {
-      categories: ['Monday', 'Tuesday', 'Wednesday']
+      categories: this.categories
     },
     yAxis: {
       title: {
@@ -53,7 +87,7 @@ PortfolioChartView.prototype.render = function(){
     },
     series: [{
       name: 'Portfolio Total Value',
-      data: [1, 0, 4]
+      data: this.chartData
     }]
   });
 
