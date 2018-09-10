@@ -14,20 +14,35 @@ const PortfolioChartView = function(container, themeName){
 
   this.theme = null;
 
+  this.categories = [];
+  this.chartData = [];
+
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
-    this.render();
+    console.log(this.coinsData[0].historicalData);
+  //  this.getChartData();
+    //this.render();
   });
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
-    this.render();
+    // this.getChartData();
+     this.render();
   })
 
+};
+
+PortfolioChartView.prototype.getChartData = function () {
+  const coin = this.coinsData.find((coin) => {
+    return coin.portfolioId != undefined;
+  });
+  console.log(coin);
+  const historicalData = coin.historicalData;
+  console.log(historicalData);
 };
 
 
@@ -44,7 +59,7 @@ PortfolioChartView.prototype.render = function(){
       text: 'Porfolio Performance'
     },
     xAxis: {
-      categories: ['Monday', 'Tuesday', 'Wednesday']
+      categories: this.categories
     },
     yAxis: {
       title: {
@@ -53,7 +68,7 @@ PortfolioChartView.prototype.render = function(){
     },
     series: [{
       name: 'Portfolio Total Value',
-      data: [1, 0, 4]
+      data: this.chartData
     }]
   });
 

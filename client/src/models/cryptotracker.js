@@ -17,7 +17,7 @@ const Cryptotracker = function (databaseUrl, apiUrl, historicalUrl) {
   this.coinsData = [];
 
   this.selectedCoin = null;
-
+  this.limit = 20;
 };
 
 Cryptotracker.prototype.bindEvents = function () {
@@ -147,18 +147,20 @@ Cryptotracker.prototype.getApiData = function(){
 
 Cryptotracker.prototype.mergeCoinData = function(){
 
+  this.myCoins = [];
   this.coinsData = this.apiCoins.map((apiCoin) => {
-
     const portfolioCoin = this.getPortfolioCoinBySymbol(apiCoin.symbol);
     const apiCoinPrice = apiCoin.quotes.USD.price;
+
+
+
 
     if (portfolioCoin) {
       apiCoin.portfolioQuantity = portfolioCoin.quantity;
       apiCoin.portfolioValue = this.calculateValue(portfolioCoin.quantity, apiCoinPrice);
       apiCoin.portfolioId = portfolioCoin['_id'];
-      //historical data
-      this.getHistoricalData(apiCoin, portfolioCoin.symbol, 'USD', 20);
-      console.log(apiCoin);
+      this.myCoins.push(apiCoin);
+
     } else {
       apiCoin.portfolioQuantity = 0;
       apiCoin.portfolioValue = 0;
@@ -168,7 +170,28 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
   });
 
-  PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
+
+  let promises = this.myCoins.map((coin) => {
+    let url = `histoday?fsym=${coin.symbol}&tsym=USD&limit=${this.limit}`;
+    const historicalRequest = new Request(this.historicalUrl+url);
+    return historicalRequest.get()
+    .then((data) => {
+      coin.historicalData = data.Data;
+      coin.historicalData.forEach((entry) => {
+        const time = this.timestampToDate(entry.time);
+        entry.timeStamp = time;
+      });
+
+    });
+
+
+  });
+
+  Promise.all(promises).then((results) => {
+    //console.log(results);
+    PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
+  })
+
 
 };
 
@@ -217,7 +240,7 @@ Cryptotracker.prototype.getHistoricalData = function (apiCoin, symbol, currency,
       const time = this.timestampToDate(entry.time);
       entry.timeStamp = time;
     });
-    
+
   });
 };
 Cryptotracker.prototype.priceHistorical = function (fsym, tsyms, time) {
