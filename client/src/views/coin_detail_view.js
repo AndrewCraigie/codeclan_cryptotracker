@@ -164,6 +164,15 @@ CoinDetailView.prototype.renderData = function () {
     content: `Total Value : $ ${this.coinData.portfolioValue}`
   });
   this.dataDiv.appendChild(valueElement);
+
+  const marketCapElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'value-para'
+    },
+    content: `Market Cap : $ ${this.coinData.quotes.USD.market_cap}`
+  });
+  this.dataDiv.appendChild(marketCapElement);
 };
 
 CoinDetailView.prototype.renderChart = function () {
