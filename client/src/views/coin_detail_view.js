@@ -38,7 +38,7 @@ CoinDetailView.prototype.bindEvents = function(){
 
       this.isDeleteMessage = true;
       this.renderDeleteMessage();
-    })
+
 
       console.log(event.detail);
     });
@@ -294,6 +294,5 @@ CoinDetailView.prototype.makeHeader = function () {
 
 
 
-};
 
 module.exports = CoinDetailView;
