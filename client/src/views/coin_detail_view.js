@@ -27,7 +27,7 @@ CoinDetailView.prototype.bindEvents = function(){
 
       this.isDeleteMessage = true;
       this.renderDeleteMessage();
-      console.log(event.detail);
+      //console.log(event.detail);
     });
 
     PubSub.subscribe('Themes:theme-available', (event) => {
@@ -39,8 +39,6 @@ CoinDetailView.prototype.bindEvents = function(){
 
 
 CoinDetailView.prototype.renderDeleteMessage = function(){
-
-  console.log('CoinDetailView: renderDeleteMessage', this.isDeleteMessage);
 
   const container = this.container;
   element.clear(container);
@@ -54,7 +52,14 @@ CoinDetailView.prototype.renderDeleteMessage = function(){
   });
   container.appendChild(tempElement)
 
-  container.classList.toggle("is-active");
+  setTimeout(function(){
+     tempElement.classList.remove('temp-element');
+     tempElement.classList.add('temp-element-fade');
+   }, 600);
+
+   setTimeout(function(){
+      container.removeChild(tempElement);
+    }, 2000);
 
 };
 
