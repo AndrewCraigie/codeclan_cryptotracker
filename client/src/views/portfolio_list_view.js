@@ -160,6 +160,8 @@ PortfolioiListView.prototype.render = function () {
 };
 */
 
+//GENERATES A TABLE WITH DATA- STARTS
+
 PortfolioiListView.prototype.render = function () {
   this.container.innerHTML = '';
   const tableElement = element.make({
@@ -195,7 +197,7 @@ PortfolioiListView.prototype.render = function () {
     attribs: {
       class: 'portfolio-view-table-header'
     },
-    content: "quantity"
+    content: "Quantity"
   });
   tableRowHeaderElement.appendChild(tableQuantityHeader);
   const tableValueHeader = element.make({
@@ -257,7 +259,7 @@ PortfolioiListView.prototype.render = function () {
         attribs: {
           class: 'portfolio-view-list'
         },
-        content: `${coin.portfolioValue.toFixed(2)}`
+        content: `$ ${coin.portfolioValue.toFixed(2)}`
       });
 
       coinRowElement.appendChild(tdValueElement);
@@ -270,9 +272,8 @@ PortfolioiListView.prototype.render = function () {
     }
   });
 
-
   this.container.appendChild(tableElement);
-
-
 };
+
+//ENDS
 module.exports = PortfolioiListView;

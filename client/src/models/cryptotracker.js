@@ -46,15 +46,18 @@ Cryptotracker.prototype.bindEvents = function () {
   //   this.selectedCoin = event.detail;
   //   console.log(this.selectedCoin);
   //   this.getCoinDetails();
-  //   //this.getHistoricalData();
+  //
   // });
+
+  //CALLED WHEN A COIN IS SELECTED IN PORTFOLIO LIST - STARTS
   PubSub.subscribe('PortfolioiListView:coin-selected', (event) => {
 
     this.selectedCoin = event.detail;
     console.log(this.selectedCoin);
     this.getCoinDetails();
-    //this.getHistoricalData();
+
   });
+//ENDS
 
   PubSub.subscribe('CoinDetailView:coin-updated', (event) => {
     const payload = {
@@ -71,7 +74,7 @@ Cryptotracker.prototype.bindEvents = function () {
 
 };
 
-//updates Coin data
+//UPDATES COIN DATA
 Cryptotracker.prototype.updateCoin = function (coinData) {
   this.getCoin(coinData);
 
@@ -101,7 +104,6 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
 };
 
 //DELETES COIN FROM THE DATABASE
-
 Cryptotracker.prototype.deleteCoin = function (id) {
  this.databaseRequest.delete(id).then((portFolioCoins) => {
    this.portfolioCoins = portFolioCoins;
@@ -115,13 +117,11 @@ Cryptotracker.prototype.deleteCoin = function (id) {
 
 Cryptotracker.prototype.getCoinDetails = function(){
 
-  // Get the historical data and any other detail
-  // Merge this with this.selectedCoin
-  // publish this.selectedCoin
   PubSub.publish('Cryptotracker:coin-detail-ready', this.selectedCoin);
 
 };
 
+//GETS PORTFOLIO COINS DATA
 Cryptotracker.prototype.getPortolioData = function () {
 
   this.databaseRequest.get()
@@ -133,6 +133,7 @@ Cryptotracker.prototype.getPortolioData = function () {
 
 };
 
+//GETS API COIN DATA
 Cryptotracker.prototype.getApiData = function(){
 
   this.apiCoins = [];
@@ -153,6 +154,7 @@ Cryptotracker.prototype.getApiData = function(){
 
 };
 
+//MERGES API COIN AND PORTFOLIO COIN DATA
 Cryptotracker.prototype.mergeCoinData = function(){
 
   this.myCoins = [];
@@ -198,6 +200,7 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
 };
 
+//GETS PORTFOLIO COIN BY SYMBOL
 Cryptotracker.prototype.getPortfolioCoinBySymbol = function(symbol){
 
   return this.portfolioCoins.find((portfolioCoin) => {
@@ -206,16 +209,19 @@ Cryptotracker.prototype.getPortfolioCoinBySymbol = function(symbol){
 
 };
 
+//CALCULATES VALUE OF COINS
 Cryptotracker.prototype.calculateValue = function(quantity, price){
   return quantity * price;
 };
 
+//GETS THE API COIN BY SYMBOL
 Cryptotracker.prototype.getCoinBySymbol = function(symbol){
   return this.coinsList.find((coin) => {
     return coin.symbol === symbol;
   })
 };
 
+//ADDS COIN TO DATABASE
 Cryptotracker.prototype.addCoin = function (data) {
 
   this.databaseRequest.post(data)
@@ -227,8 +233,7 @@ Cryptotracker.prototype.addCoin = function (data) {
 
 };
 
-//HISTORICAL FUNCTION
-
+//GETS HISTORICAL DATA FOR EACH COIN
 Cryptotracker.prototype.getHistoricalData = function (apiCoin, symbol, currency, limit) {
   //const timeStamp = this.dateToTimestamp(time);
   let url = `histoday?fsym=${symbol}&tsym=${currency}&limit=${limit}`;
@@ -246,13 +251,9 @@ Cryptotracker.prototype.getHistoricalData = function (apiCoin, symbol, currency,
 
   });
 };
-Cryptotracker.prototype.priceHistorical = function (fsym, tsyms, time) {
 
- //const timeStamp = dateToTimestamp(time);
- // let url = `${historicalURL}pricehistorical?fsym=${fsym}&tsyms=${tsyms}&ts=${timeStamp}`;
- //let url = `pricehistorical?fsym=${fsym}&tsyms=${tsyms}&ts=${timeStamp}`;
-};
 
+//CONVERTS UNIX TIMESTAMP TO DATE
 Cryptotracker.prototype.timestampToDate = function (unixTime) {
 
   var data = new Date(unixTime * 1000);
