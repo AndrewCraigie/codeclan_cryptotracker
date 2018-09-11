@@ -38,13 +38,13 @@ section {
   /* grid-template-columns: 40px 50px auto 50px 40px;
   grid-template-rows: 25% 100px auto; */
 
-  grid-template-columns: 470px auto 200px;
+  grid-template-columns: 470px auto 250px;
   grid-auto-rows: minmax(40px, auto);
   grid-template-areas:
   "hd hd hd "
   "lsbt ct rsb"
-  "lsbb cb rsb"
-  "ft ft rsb";
+  "lsbb cb cb"
+  "ft ft ft";
 
   grid-column-gap: 20px;
   grid-row-gap: 15px;
@@ -56,7 +56,7 @@ section {
 
 .rightSidebar {
   width: 150px;
-  height: 600px;
+  height: 430px;
   background-color: yellow;
 }
 
