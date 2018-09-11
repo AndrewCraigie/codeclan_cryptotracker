@@ -10,7 +10,6 @@ const CoinView = function (container, coin) {
 
 CoinView.prototype.handleCoinDivClick = function(event){
 
-  console.log('CoinView:coin-selected');
   PubSub.publish('CoinView:coin-selected', this.coin);
 
 };
@@ -27,7 +26,17 @@ CoinView.prototype.render = function () {
       'data-portfolioId': `${this.coin.portfolioId}`
     }
   });
-
+//image code starts
+  // const imageElement = element.make({
+  //   tag: 'img',
+  //   attribs: {
+  //     class: 'coin-image',
+  //     src: `/images/${this.coin.website_slug}.png`
+  //   }
+  //
+  // });
+  // coinDiv.appendChild(imageElement);
+//image code ends
   const namePara = element.make({
     tag: 'p',
     attribs: {

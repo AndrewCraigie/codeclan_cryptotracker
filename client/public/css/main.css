@@ -20,8 +20,6 @@ section {
 
 
 #theme-select-container {
-
-
   top: 20px;
   left: 500px;
   width: 200px;
@@ -220,25 +218,19 @@ section {
   color: red;
 }
 
-#portfolio-list {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  width: 420px;
-  height: 440px;
-  padding: 0;
-  border: 1px solid darkgray;
-  background-color: #313131;;
-  overflow: scroll;
-}
 
-#portfolio-view-header {
+
+/* #portfolio-view-header {
   width: 100%;
   height: 30px;
   margin:0;
   padding: 0;
   background-color: #686868;
+}
+
+#portfolio-view-image-header{
+  padding-left: 1px;
+  width: 5em;
 }
 
 #portfolio-view-header p {
@@ -274,7 +266,7 @@ section {
   width: 100%;
   height: 370px;
   background-color: #313131;
-}
+} */
 
 .coin {
   width: 100%;
@@ -289,7 +281,7 @@ section {
   background-color: #eaffe8;
 }
 
-.coin p {
+.coin p{
   display: inline-block;
   pointer-events:none;
   margin:0;
@@ -323,7 +315,7 @@ section {
 
 }
 
-#portfolio-list-summary-group {
+/* #portfolio-list-summary-group {
   width: 100%;
   height: 41px;
   padding: 0;
@@ -369,7 +361,7 @@ section {
 
 #porfolio-list-total_value:before {
   content: '$ ';
-}
+} */
 
 #performance-chart-container {
   grid-column-start: 2;
@@ -378,7 +370,7 @@ section {
   grid-row-end: 2;
   width: 600px;
   min-height: 500px;
-  background-color: white;
+  /* background-color: white; */
   border: 1px solid darkgray;
 
 }
@@ -390,7 +382,7 @@ section {
   grid-row-start: 2;
   grid-row-end: 3;
   width: 600px;
-  min-height: 900px;
+  min-height: 700px;
   background-color: #313131;
   border: 1px solid darkgray;
   overflow: scroll;
@@ -403,12 +395,168 @@ section {
 }
 
 #coin-detail-view-chart-div{
-  width: 100%;
+  width: 99%;
   height: 400px;
-  background-color: pink;
+}
+
+#portfolio-chart_view-div{
+  width: 99%;
+  height: 500px;
 }
 
 #coin-detail-view-data-div{
   width: 100%;
+  height: 130px;
+  padding-left: 10px;
+}
+
+.coin-header{
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.coin-image{
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.twitter-hashtag-button{
+  height: 40px;
+}
+
+#twitter-newsfeed{
   height: 400px;
+  overflow-y: scroll;
+}
+/*
+#portfolio-view-table-tbody{
+  background-color: white;
+  width: 420px;
+  border: 1px solid darkgray;
+  height: 440px;
+  overflow: scroll;
+  border: 1px solid black
+  padding:0;
+}
+
+#portfolio-view-table{
+   position: relative;
+  width: 100%;
+  height: 500px;
+} */
+
+/* .portfolio-view-list{
+  border: 1px solid darkgray;
+  padding: 0;
+} */
+/*
+#portfolio-view-table-thead{
+  background-color: darkgray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 30px;
+  width: 100%;
+}
+
+#portfolio-view-table-tfoot{
+  background-color: darkgray;
+  position: absolute;
+  bottom: :0 ;
+  left: 0;
+  height: 30px;
+  width: 100%;
+}
+*/
+table {
+	width:100%;
+	table-layout:fixed;
+	margin: auto;
+  border: collapse;
+}
+th, td {
+	/* padding:5px 10px; */
+	/* border:0.1px solid #000; */
+
+}
+thead, tfoot {
+	background-color: #686868;
+	display:table;
+	width:100%;
+  height:40px;
+  color: white;
+}
+tfoot{
+  font-weight: bold;
+  background-color: #313131;
+}
+tbody {
+	height:350px;
+	overflow:auto;
+	overflow-x:hidden;
+	display:block;
+	width:100%;
+  background-color: white;
+}
+tbody tr {
+	display:table;
+	width:100%;
+	table-layout:fixed;
+}
+
+tr{
+  border-bottom: 1px solid darkgray;
+  cursor: pointer;
+}
+
+tbody tr:hover{
+  background-color: #eaffe8;
+}
+
+thead tr th:nth-child(1), tbody tr td:nth-child(1){
+  width: 50px;
+}
+
+thead tr th:nth-child(2), tbody tr td:nth-child(2){
+  width: 90px;
+  text-align: left;
+}
+
+thead tr th:nth-child(3), tbody tr td:nth-child(3){
+  width: 50px;
+}
+
+thead tr th:nth-child(4), tbody tr td:nth-child(4){
+  width: 40px;
+  text-align: right;
+
+}
+
+thead tr th:nth-child(5), tbody tr td:nth-child(5){
+  width: 100px;
+  text-align: right;
+  padding-right: 3px;
+}
+
+
+#portfolio-list {
+  width: 450px;
+  height: 420px;
+  padding: 0;
+  position: relative;
+  border: 1px solid darkgray;
+  background-color: #313131;
+}
+
+.portfolio-view-table-td-total{
+  width: 180px;
+  border-collapse: collapse;
+  border: 0;
+}
+
+.portfolio-view-table-td-tfoot{
+  text-align: right;
+  color: yellow;
+  border-collapse: collapse;
+  border: 0;
 }

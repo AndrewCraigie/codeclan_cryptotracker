@@ -19,6 +19,8 @@ const PortfolioChartView = function(container, themeName){
 
   this.ready = false;
 
+  this.chartDiv = null;
+
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
@@ -32,6 +34,7 @@ PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
+    console.log(this.theme);
     if (this.ready) {
       this.getChartData();
     }
@@ -66,11 +69,12 @@ PortfolioChartView.prototype.getChartData = function () {
 
 
 PortfolioChartView.prototype.render = function(){
-
+  element.clear(this.container);
+  this.makeChartDiv();
   Highcharts.theme = this.theme;
   Highcharts.setOptions(Highcharts.theme);
 
-  this.chart = Highcharts.chart(this.container, {
+  this.chart = Highcharts.chart(this.chartDiv, {
     chart: {
       type: 'line'
     },
@@ -93,5 +97,14 @@ PortfolioChartView.prototype.render = function(){
 
 };
 
+PortfolioChartView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'portfolio-chart_view-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
+};
 
 module.exports = PortfolioChartView;
