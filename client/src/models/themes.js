@@ -1,5 +1,9 @@
 const PubSub = require('../helpers/pub_sub.js');
 
+
+const Highcharts = require('highcharts');
+require('highcharts/modules/exporting')(Highcharts);
+
 const Themes = function(defaultTheme){
 
   this.selectedTheme = defaultTheme;
@@ -76,25 +80,55 @@ const Themes = function(defaultTheme){
           color: '#F0F0F0'
         }
       },
+      // Plot Options
+      // plotOptions: {
+      //   series: {
+      //     dataLabels: {
+      //       color: '#B0B0B3'
+      //     },
+      //     marker: {
+      //       lineColor: '#333'
+      //     }
+      //   },
+      //   boxplot: {
+      //     fillColor: '#505053'
+      //   },
+      //   candlestick: {
+      //     lineColor: 'white'
+      //   },
+      //   errorbar: {
+      //     color: 'white'
+      //   }
+      // },
+
+
       plotOptions: {
-        series: {
-          dataLabels: {
-            color: '#B0B0B3'
+        area: {
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            },
+            stops: [
+              [0, Highcharts.getOptions().colors[0]],
+              [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+            ]
           },
           marker: {
-            lineColor: '#333'
-          }
-        },
-        boxplot: {
-          fillColor: '#505053'
-        },
-        candlestick: {
-          lineColor: 'white'
-        },
-        errorbar: {
-          color: 'white'
+            radius: 2
+          },
+          lineWidth: 1,
+          states: {
+            hover: {
+              lineWidth: 1
+            }
+          },
+          threshold: null
         }
       },
+      // -- end of Plot options
       legend: {
         itemStyle: {
           color: '#E0E0E3'
@@ -253,11 +287,40 @@ const Themes = function(defaultTheme){
           }
         }
       },
+      // plotOptions: {
+      //   candlestick: {
+      //     lineColor: '#404048'
+      //   }
+      // },
+
       plotOptions: {
-        candlestick: {
-          lineColor: '#404048'
+        area: {
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            },
+            stops: [
+              [0, Highcharts.getOptions().colors[0]],
+              [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+            ]
+          },
+          marker: {
+            radius: 2
+          },
+          lineWidth: 1,
+          states: {
+            hover: {
+              lineWidth: 1
+            }
+          },
+          threshold: null
         }
       },
+
+
       // General
       background2: '#F0F0EA'
 
