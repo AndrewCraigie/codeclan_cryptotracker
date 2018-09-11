@@ -19,9 +19,9 @@ PortfolioiListView.prototype.bindEvents = function () {
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
     this.totalQuantity = 0;
+    this.totalValue = 0;
     this.render();
   });
-
 };
 
 //GENERATES A TABLE WITH DATA- STARTS
