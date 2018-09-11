@@ -34,6 +34,7 @@ PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
+    console.log(this.theme);
     if (this.ready) {
       this.getChartData();
     }

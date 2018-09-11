@@ -53,7 +53,6 @@ Cryptotracker.prototype.bindEvents = function () {
   PubSub.subscribe('PortfolioiListView:coin-selected', (event) => {
 
     this.selectedCoin = event.detail;
-    console.log(this.selectedCoin);
     this.getCoinDetails();
 
   });

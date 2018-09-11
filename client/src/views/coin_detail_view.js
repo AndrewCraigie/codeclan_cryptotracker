@@ -125,15 +125,17 @@ CoinDetailView.prototype.makeControlsGroup = function(){
 
 CoinDetailView.prototype.render = function(){
   element.clear(this.container);
-  console.log(this.coinData);
-  this.makeHeader();
-  this.makeChartDiv();
-  this.makeDataDiv();
+  if (this.coinData) {
+    this.makeHeader();
+    this.makeChartDiv();
+    this.makeDataDiv();
 
-  this.renderData();
-  this.renderChart();
+    this.renderData();
+    this.renderChart();
 
-  this.makeControlsGroup();
+    this.makeControlsGroup();
+  }
+
 
 };
 
