@@ -46,7 +46,7 @@ AddCoinView.prototype.bindEvents = function () {
     const newCoin = {
       symbol: this.selectedCoin.value,
       portfolioId: this.portfolioId.value,
-      quantity: parseInt(evt.target['coin-amount'].value),
+      quantity: parseFloat(evt.target['coin-amount'].value),
 
     };
 

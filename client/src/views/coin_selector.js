@@ -164,12 +164,20 @@ CoinSelector.prototype.getTop10 = function(){
 CoinSelector.prototype.filterList = function(filterValue){
 
   const filtervalue = filterValue.toLowerCase();
+  const regex = [filterValue];
 
   this.coinItems.forEach((element) => {
 
-    const itemDataValue = element.getAttribute('data-coin-symbol').toLowerCase()
-    const containsFilterValue = (itemDataValue === filterValue);
+    const coin = element.textContent.toLowerCase();
+    const containsFilterValue = coin.includes(regex);
     element.classList.toggle('coins-list-hidden', !containsFilterValue);
+
+    // const itemDataValue = element.getAttribute('data-coin-symbol').toLowerCase()
+    // const containsFilterValue = (itemDataValue === filterValue);
+    // console.log(element.classList);
+    // element.classList.toggle('coins-list-hidden', !containsFilterValue);
+    // console.log(element.classList);
+
 
   });
 
@@ -272,6 +280,7 @@ CoinSelector.prototype.makeFilterControls = function(){
       value: 'Find'
     }
   })
+  findBtn.addEventListener('click', this.handleFind.bind(this));
   filterControlsDiv.appendChild(findBtn);
 
   this.form.insertBefore(filterControlsDiv, this.form.firstChild);
