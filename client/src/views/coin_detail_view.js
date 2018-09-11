@@ -1,11 +1,12 @@
 const PubSub = require('../helpers/pub_sub.js');
 const element = require('../helpers/element.js');
+const Highcharts = require('highcharts');
+require('highcharts/modules/exporting')(Highcharts);
 
 const CoinDetailView = function(container){
 
   this.container = container;
   this.coinData = null;
-
 
   this.coinDetailsGroup = null;
   this.controlsGroup = null;
@@ -16,7 +17,11 @@ const CoinDetailView = function(container){
   this.updateButton = null;
   this.quantityControl = null;
 
+
   this.isDeleteMessage = false;
+
+  this.theme = null;
+
 
 };
 
@@ -30,9 +35,19 @@ CoinDetailView.prototype.bindEvents = function(){
     });
 
     PubSub.subscribe('Cryptotracker:coin-deleted', (event) => {
+
       this.isDeleteMessage = true;
       this.renderDeleteMessage();
     })
+
+      console.log(event.detail);
+    });
+
+    PubSub.subscribe('Themes:theme-available', (event) => {
+      this.theme= event.detail;
+      this.render();
+    });
+
 
 };
 
@@ -162,49 +177,121 @@ CoinDetailView.prototype.renderDeleteMessage = function(){
 };
 
 CoinDetailView.prototype.render = function(){
-
-  const container = this.container;
-
   element.clear(this.container);
+  if (this.coinData) {
+    this.makeHeader();
+    this.makeChartDiv();
+    this.makeDataDiv();
 
-  this.makeChartDiv();
+    this.renderData();
+    this.renderChart();
 
-  this.makeDataDiv();
-
-  const tempElement = element.make({
-    tag: 'h2',
-    attribs: {
-      class: 'temp-element'
-    },
-    content: this.coinData.name
-  });
-  this.dataDiv.appendChild(tempElement);
-
-
-  for (let prop in this.coinData){
-    if(this.coinData.hasOwnProperty(prop)){
-
-      const propName = prop;
-      const propValue = this.coinData[prop];
-      const propP = element.make({
-        tag: 'p',
-        attribs: {
-          class: 'prop-para'
-        },
-        content: `${propName}: ${propValue}`
-      });
-
-      this.dataDiv.appendChild(propP);
-
-    }
+    this.makeControlsGroup();
   }
 
-  this.makeControlsGroup();
+
+};
+
+CoinDetailView.prototype.renderData = function () {
+  const priceElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'price-para'
+    },
+    content: `Unit Price : $ ${this.coinData.quotes.USD.price}`
+  });
+  this.dataDiv.appendChild(priceElement);
+
+
+  const rankElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'rank-para'
+    },
+    content: `Coin Rank : ${this.coinData.rank}`
+  });
+  this.dataDiv.appendChild(rankElement);
+
+
+  const valueElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'value-para'
+    },
+    content: `Total Value : $ ${this.coinData.portfolioValue}`
+  });
+  this.dataDiv.appendChild(valueElement);
+
+  const marketCapElement = element.make({
+    tag: 'p',
+    attribs: {
+      class:'value-para'
+    },
+    content: `Market Cap : $ ${this.coinData.quotes.USD.market_cap}`
+  });
+
+  this.dataDiv.appendChild(marketCapElement);
+};
+
+CoinDetailView.prototype.renderChart = function () {
+  Highcharts.theme = this.theme;
+  Highcharts.setOptions(Highcharts.theme);
+  const categories = this.coinData.historicalData.map((data) => {
+    return data.timeStamp;
+  });
+  const chartData = this.coinData.historicalData.map((data) => {
+    return data.close;
+  });
+  const chart = Highcharts.chart(this.chartDiv, {
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: 'Coin Performance'
+    },
+    xAxis: {
+      categories: categories
+    },
+    yAxis: {
+      title: {
+        text: 'Value $'
+      }
+    },
+    series: [{
+      name: 'Coin Value',
+      data: chartData
+    }]
+  });
+};
+
+CoinDetailView.prototype.makeHeader = function () {
+
+  const imageElement = element.make({
+    tag: 'img',
+    attribs: {
+      class: 'coin-image',
+      src: `/images/${this.coinData.website_slug}.png`
+    }
+
+  });
+  this.container.appendChild(imageElement);
+
 
   setTimeout(function(){
      container.classList.toggle("is-active");
      console.log('timeout');
    }, 300);
+
+  const headerElement = element.make({
+    tag: 'h2',
+    attribs: {
+      class: 'coin-header'
+    },
+    content: `${this.coinData.name} (${this.coinData.symbol})`
+  });
+  this.container.appendChild(headerElement);
+};
+
 
 
 };
