@@ -17,7 +17,11 @@ const CoinDetailView = function(container){
   this.updateButton = null;
   this.quantityControl = null;
 
+
+  this.isDeleteMessage = false;
+
   this.theme = null;
+
 
 };
 
@@ -25,10 +29,17 @@ CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-detail-ready', (event) => {
       this.coinData = event.detail;
+      this.container.classList.remove('is-active');
+      this.isDeleteMessage = false;
       this.render();
     });
 
     PubSub.subscribe('Cryptotracker:coin-deleted', (event) => {
+
+      this.isDeleteMessage = true;
+      this.renderDeleteMessage();
+
+
       console.log(event.detail);
     });
 
@@ -36,6 +47,7 @@ CoinDetailView.prototype.bindEvents = function(){
       this.theme= event.detail;
       this.render();
     });
+
 
 };
 
@@ -76,6 +88,16 @@ CoinDetailView.prototype.makeControlsGroup = function(){
     }
   });
 
+  const deleteButton = element.make({
+    tag: 'button',
+    attribs: {
+      id: 'coin-detail-delete-button'
+    },
+    content: 'Delete Coin'
+  });
+  deleteButton.addEventListener('click', this.handleDelete.bind(this));
+  this.controlsGroup.appendChild(deleteButton);
+
   const quantityLabel = element.make({
     tag: 'p',
     attribs: {
@@ -88,6 +110,7 @@ CoinDetailView.prototype.makeControlsGroup = function(){
   this.quantityControl = element.make({
     tag: 'input',
     attribs: {
+      id: 'coin-detail-quantity-input',
       type: 'number',
       min: 0,
       step: 0.01,
@@ -109,17 +132,47 @@ CoinDetailView.prototype.makeControlsGroup = function(){
   this.updateButton .addEventListener('click', this.handleUpdate.bind(this));
   this.controlsGroup.appendChild(this.updateButton);
 
-  const deleteButton = element.make({
-    tag: 'button',
-    attribs: {
-      id: 'coin-detail-delete-button'
-    },
-    content: 'Delete Coin'
-  });
-  deleteButton.addEventListener('click', this.handleDelete.bind(this));
-  this.controlsGroup.appendChild(deleteButton);
-
   this.container.appendChild(this.controlsGroup);
+
+};
+
+CoinDetailView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'coin-detail-view-chart-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
+};
+
+CoinDetailView.prototype.makeDataDiv = function () {
+  this.dataDiv = element.make({
+    tag:'div',
+    attribs: {
+      id: 'coin-detail-view-data-div'
+    }
+  });
+    this.container.appendChild(this.dataDiv);
+};
+
+CoinDetailView.prototype.renderDeleteMessage = function(){
+
+  console.log('CoinDetailView: renderDeleteMessage', this.isDeleteMessage);
+
+  const container = this.container;
+  element.clear(container);
+
+  const tempElement = element.make({
+    tag: 'h2',
+    attribs: {
+      class: 'temp-element'
+    },
+    content: this.coinData.name + ' deleted'
+  });
+  container.appendChild(tempElement)
+
+  container.classList.toggle("is-active");
 
 };
 
@@ -149,6 +202,7 @@ CoinDetailView.prototype.renderData = function () {
   });
   this.dataDiv.appendChild(priceElement);
 
+
   const rankElement = element.make({
     tag: 'p',
     attribs: {
@@ -157,6 +211,7 @@ CoinDetailView.prototype.renderData = function () {
     content: `Coin Rank : ${this.coinData.rank}`
   });
   this.dataDiv.appendChild(rankElement);
+
 
   const valueElement = element.make({
     tag: 'p',
@@ -221,6 +276,12 @@ CoinDetailView.prototype.makeHeader = function () {
   });
   this.container.appendChild(imageElement);
 
+
+  setTimeout(function(){
+     container.classList.toggle("is-active");
+     console.log('timeout');
+   }, 300);
+
   const headerElement = element.make({
     tag: 'h2',
     attribs: {
@@ -231,24 +292,7 @@ CoinDetailView.prototype.makeHeader = function () {
   this.container.appendChild(headerElement);
 };
 
-CoinDetailView.prototype.makeChartDiv = function () {
-  this.chartDiv = element.make({
-    tag: 'div',
-    attribs: {
-      id: 'coin-detail-view-chart-div'
-    }
-  });
-  this.container.appendChild(this.chartDiv);
-};
 
 
-CoinDetailView.prototype.makeDataDiv = function () {
-  this.dataDiv = element.make({
-    tag:'div',
-    attribs: {
-      id: 'coin-detail-view-data-div'
-    }
-  });
-    this.container.appendChild(this.dataDiv);
-};
+
 module.exports = CoinDetailView;
