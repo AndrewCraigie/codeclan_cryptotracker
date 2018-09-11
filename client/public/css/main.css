@@ -439,3 +439,22 @@ section {
   height: 400px;
   overflow-y: scroll;
 }
+
+#portfolio-view-table{
+  background-color: white;
+  width: 420px;
+  border: 1px solid darkgray;
+  height: 440px;
+  overflow: scroll;
+  border: 1px solid black
+  padding:0;
+}
+
+.portfolio-view-list{
+  border: 1px solid darkgray;
+  padding: 0;
+}
+
+.portfolio-view-table-header{
+  background-color: darkgray;
+}

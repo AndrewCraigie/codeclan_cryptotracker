@@ -22,7 +22,7 @@ PortfolioiListView.prototype.bindEvents = function () {
   });
 
 };
-
+/*
 PortfolioiListView.prototype.makeHeaderGroup = function(){
 
   this.headerGroup = element.make({
@@ -158,5 +158,121 @@ PortfolioiListView.prototype.render = function () {
 
 
 };
+*/
 
+PortfolioiListView.prototype.render = function () {
+  this.container.innerHTML = '';
+  const tableElement = element.make({
+    tag: 'table',
+    attribs: {
+      id: 'portfolio-view-table'
+    },
+  });
+  const tableRowHeaderElement = element.make({
+    tag: 'tr',
+    attribs: {
+      class: 'portfolio-view-table-header'
+    },
+  });
+  const tableCoinHeader = element.make({
+    tag: 'th',
+    attribs: {
+      class: 'portfolio-view-table-header'
+    },
+    content: "Coin"
+  });
+  tableRowHeaderElement.appendChild(tableCoinHeader);
+  const tableNameHeader = element.make({
+    tag: 'th',
+    attribs: {
+      class: 'portfolio-view-table-header'
+    },
+    content: "Coin Name"
+  });
+  tableRowHeaderElement.appendChild(tableNameHeader);
+  const tableQuantityHeader = element.make({
+    tag: 'th',
+    attribs: {
+      class: 'portfolio-view-table-header'
+    },
+    content: "quantity"
+  });
+  tableRowHeaderElement.appendChild(tableQuantityHeader);
+  const tableValueHeader = element.make({
+    tag: 'th',
+    attribs: {
+      class: 'portfolio-view-table-header'
+    },
+    content: "Total Value"
+  });
+  tableRowHeaderElement.appendChild(tableValueHeader);
+  tableElement.appendChild(tableRowHeaderElement);
+  console.log(this.coinsData);
+  this.coinsData.forEach((coin) => {
+    if (coin.portfolioId){
+      const coinRowElement = element.make({
+        tag: 'tr',
+        attribs: {
+          class: 'portfolio-view-list',
+        }
+      });
+      const tdImageElement  = element.make({
+        tag: 'td',
+        attribs: {
+          class: 'portfolio-view-list'
+        }
+      });
+      const imageElement = element.make({
+        tag: 'img',
+        attribs: {
+          class: 'coin-image',
+          src: `/images/${coin.website_slug}.png`
+        }
+      });
+      tdImageElement.appendChild(imageElement);
+      coinRowElement.appendChild(tdImageElement);
+
+      const tdNameElement  = element.make({
+        tag: 'td',
+        attribs: {
+          class: 'portfolio-view-list'
+        },
+        content: `${coin.name} (${coin.symbol})`
+      });
+
+      coinRowElement.appendChild(tdNameElement);
+
+      const tdQuantityElement  = element.make({
+        tag: 'td',
+        attribs: {
+          class: 'portfolio-view-list'
+        },
+        content: `${coin.portfolioQuantity}`
+      });
+
+      coinRowElement.appendChild(tdQuantityElement);
+
+      const tdValueElement  = element.make({
+        tag: 'td',
+        attribs: {
+          class: 'portfolio-view-list'
+        },
+        content: `${coin.portfolioValue.toFixed(2)}`
+      });
+
+      coinRowElement.appendChild(tdValueElement);
+
+      coinRowElement.addEventListener('click', (event) => {
+        PubSub.publish('PortfolioiListView:coin-selected', coin);
+      })
+
+      tableElement.appendChild(coinRowElement);
+    }
+  });
+
+
+  this.container.appendChild(tableElement);
+
+
+};
 module.exports = PortfolioiListView;

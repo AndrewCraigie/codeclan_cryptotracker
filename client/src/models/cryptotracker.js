@@ -41,9 +41,17 @@ Cryptotracker.prototype.bindEvents = function () {
 
   });
 
-  PubSub.subscribe('CoinView:coin-selected', (event) => {
+  // PubSub.subscribe('CoinView:coin-selected', (event) => {
+  //
+  //   this.selectedCoin = event.detail;
+  //   console.log(this.selectedCoin);
+  //   this.getCoinDetails();
+  //   //this.getHistoricalData();
+  // });
+  PubSub.subscribe('PortfolioiListView:coin-selected', (event) => {
 
     this.selectedCoin = event.detail;
+    console.log(this.selectedCoin);
     this.getCoinDetails();
     //this.getHistoricalData();
   });
@@ -85,7 +93,7 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
  .then((portFolioCoins) => {
    this.portfolioCoins = portFolioCoins;
    this.getApiData();
-
+   console.log(this.selectedCoin);
    this.selectedCoin.portfolioQuantity = payload.quantity;
    this.getCoinDetails();
 
