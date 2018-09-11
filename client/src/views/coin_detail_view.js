@@ -88,6 +88,28 @@ CoinDetailView.prototype.makeControlsGroup = function(){
     }
   });
 
+
+
+  const imageElement = element.make({
+    tag: 'img',
+    attribs: {
+      class: 'coin-image',
+      src: `/images/${this.coinData.website_slug}.png`
+    }
+
+  });
+  this.controlsGroup.appendChild(imageElement);
+
+  const headerElement = element.make({
+    tag: 'h2',
+    attribs: {
+      class: 'coin-header'
+    },
+    content: `${this.coinData.name} (${this.coinData.symbol})`
+  });
+  this.controlsGroup.appendChild(headerElement);
+
+
   const deleteButton = element.make({
     tag: 'button',
     attribs: {
@@ -247,7 +269,7 @@ CoinDetailView.prototype.renderChart = function () {
       type: 'line'
     },
     title: {
-      text: 'Coin Performance'
+      text: `${this.coinData.name} Performance'`
     },
     xAxis: {
       categories: categories
@@ -258,6 +280,7 @@ CoinDetailView.prototype.renderChart = function () {
       }
     },
     series: [{
+      type: 'area',
       name: 'Coin Value',
       data: chartData
     }]
@@ -266,15 +289,6 @@ CoinDetailView.prototype.renderChart = function () {
 
 CoinDetailView.prototype.makeHeader = function () {
 
-  const imageElement = element.make({
-    tag: 'img',
-    attribs: {
-      class: 'coin-image',
-      src: `/images/${this.coinData.website_slug}.png`
-    }
-
-  });
-  this.container.appendChild(imageElement);
 
 
   setTimeout(function(){
@@ -282,14 +296,7 @@ CoinDetailView.prototype.makeHeader = function () {
      console.log('timeout');
    }, 300);
 
-  const headerElement = element.make({
-    tag: 'h2',
-    attribs: {
-      class: 'coin-header'
-    },
-    content: `${this.coinData.name} (${this.coinData.symbol})`
-  });
-  this.container.appendChild(headerElement);
+
 };
 
 

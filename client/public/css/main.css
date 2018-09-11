@@ -28,22 +28,23 @@ body {
   grid-area: lsbb;
 }
 
-.rightSidebar {
-  grid-area: rsb;
+.rightSidebarT {
+  grid-area: rsbt;
+}
+
+.rightSidebarB {
+  grid-area: rsbb;
 }
 
 section {
   display: grid;
 
-  /* grid-template-columns: 40px 50px auto 50px 40px;
-  grid-template-rows: 25% 100px auto; */
-
-  grid-template-columns: 470px auto 250px;
-  grid-auto-rows: minmax(40px, auto);
+  grid-template-columns: 470px auto 280px;
+  grid-auto-rows: minmax(30px, auto);
   grid-template-areas:
   "hd hd hd "
-  "lsbt ct rsb"
-  "lsbb cb cb"
+  "lsbt ct rsbt"
+  "lsbb cb rsbb"
   "ft ft ft";
 
   grid-column-gap: 20px;
@@ -54,15 +55,20 @@ section {
   margin-right: auto;
 }
 
-.rightSidebar {
-  width: 150px;
-  height: 430px;
-  background-color: yellow;
+.rightSidebarT {
+  width: 250px;
+  height: 450px;
+}
+
+#twitter-newsfeed{
+  height: 450px;
+  width: 280px;
+  overflow: scroll;
 }
 
 header {
   position: relative;
-  height: 40px;
+  height: 30px;
 }
 
 
@@ -70,6 +76,7 @@ header h1 {
   margin:0;
   display:inline-block;
   width: 500px;
+  padding: 0;
   color: white;
 }
 
@@ -81,7 +88,6 @@ header h1 {
 #theme-select {
   width: 200px;
 }
-
 
 #add-coin-container {
   width: 450px;
@@ -288,14 +294,6 @@ header h1 {
 }
 
 
-#portfolio-list {
-  width: 470px;
-  height: 440px;
-  padding: 0;
-  border: 1px solid darkgray;
-  background-color: #313131;;
-
-}
 
 
 
@@ -449,27 +447,21 @@ header h1 {
 /*  Performance chart */
 
 #performance-chart-container {
-
   width: 100%;
   height: 450px;
-
-
   border: 1px solid darkgray;
-
 }
 
 
 /*  Coin Detail */
 
 #coin-detail-container {
-
-
   height: 100px;
   transition: height 300ms;
   transition-timing-function: ease;
   position: relative;
   width: 100%;
-  /* min-height: 900px;  /* remove for animation */ */
+  min-height: 450px;  /* remove for animation */ */
   height; 0px;
 
   background-color: #313131;
@@ -479,7 +471,7 @@ header h1 {
 }
 
 #coin-detail-container.is-active {
-  height: 900px;
+  height: 450px;
 }
 
 .prop-para{
@@ -487,13 +479,18 @@ header h1 {
 
 }
 
+/* Coin Detail div    */
+
 #coin-detail-view-chart-div{
-  width: 99%;
+  /* width: 600px; */
+  grid-column: 2 / 3;
   height: 400px;
 }
 
-#portfolio-chart_view-div{
-  width: 99%;
+
+
+#portfolio-chart-view-div{
+  width: 100%;
   height: 500px;
 }
 
@@ -503,7 +500,10 @@ header h1 {
   padding-left: 10px;
 }
 
+
+
 .coin-header{
+  margin-top: 5px;
   padding-left: 10px;
   display: inline-block;
 }
@@ -517,11 +517,7 @@ header h1 {
   height: 40px;
 }
 
-#twitter-newsfeed{
-  height: 400px;
 
-  overflow: scroll;
-}
 
 #coin-detail-control-group {
   width: 100%;
@@ -588,57 +584,19 @@ header h1 {
   color: red;
   overflow-y: scroll;
 }
-/*
-#portfolio-view-table-tbody{
-  background-color: white;
-  width: 420px;
-  border: 1px solid darkgray;
-  height: 440px;
-  overflow: scroll;
-  border: 1px solid black
-  padding:0;
-}
 
-#portfolio-view-table{
-   position: relative;
-  width: 100%;
-  height: 500px;
-} */
-
-/* .portfolio-view-list{
-  border: 1px solid darkgray;
-  padding: 0;
-} */
-/*
-#portfolio-view-table-thead{
-  background-color: darkgray;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 30px;
-  width: 100%;
-}
-
-#portfolio-view-table-tfoot{
-  background-color: darkgray;
-  position: absolute;
-  bottom: :0 ;
-  left: 0;
-  height: 30px;
-  width: 100%;
-}
-*/
 table {
 	width:100%;
 	table-layout:fixed;
 	margin: auto;
   border: collapse;
 }
+
 th, td {
 	/* padding:5px 10px; */
 	/* border:0.1px solid #000; */
-
 }
+
 thead, tfoot {
 	background-color: #686868;
 	display:table;
@@ -646,18 +604,23 @@ thead, tfoot {
   height:40px;
   color: white;
 }
+
 tfoot{
   font-weight: bold;
   background-color: #313131;
 }
+
 tbody {
 	height:350px;
 	overflow:auto;
 	overflow-x:hidden;
 	display:block;
+  margin:0;
+  padding:0;
 	width:100%;
   background-color: white;
 }
+
 tbody tr {
 	display:table;
 	width:100%;
@@ -698,12 +661,10 @@ thead tr th:nth-child(5), tbody tr td:nth-child(5){
   padding-right: 3px;
 }
 
-
 #portfolio-list {
-  width: 450px;
-  height: 420px;
+  width: 470px;
+  height: 450px;
   padding: 0;
-  position: relative;
   border: 1px solid darkgray;
   background-color: #313131;
 }
@@ -720,4 +681,22 @@ thead tr th:nth-child(5), tbody tr td:nth-child(5){
   border-collapse: collapse;
   border: 0;
 
+}
+
+
+.coin-header {
+  font-size: 18px;
+}
+
+.rightSidebarB {
+  width: 250px;
+  height: 450px;
+  background-color: lightgreen;
+}
+
+#coin-detail-side {
+  width: 280px;
+  height: 450px;
+
+  border: 1px solid lightgray;
 }
