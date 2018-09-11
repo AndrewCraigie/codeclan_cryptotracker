@@ -3,27 +3,77 @@ body {
   background-color: #313131;
 }
 
-h1 {
-  color: white;
+/*  Grid  */
+.header {
+  grid-area: hd;
+}
+
+.footer {
+  grid-area: ft;
+}
+
+.contentT {
+  grid-area: ct;
+}
+
+.contentB {
+  grid-area: cb;
+}
+
+.leftSidebarT{
+  grid-area: lsbt;
+}
+
+.leftSidebarB{
+  grid-area: lsbb;
+}
+
+.rightSidebar {
+  grid-area: rsb;
 }
 
 section {
   display: grid;
+
+  /* grid-template-columns: 40px 50px auto 50px 40px;
+  grid-template-rows: 25% 100px auto; */
+
+  grid-template-columns: 470px auto 200px;
+  grid-auto-rows: minmax(40px, auto);
+  grid-template-areas:
+  "hd hd hd "
+  "lsbt ct rsb"
+  "lsbb cb rsb"
+  "ft ft rsb";
+
   grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-row-gap: 15px;
   position: relative;
-  width: 90%;
+  width: 98%;
   margin-left: auto;
   margin-right: auto;
 }
 
+.rightSidebar {
+  width: 150px;
+  height: 600px;
+  background-color: yellow;
+}
 
+header {
+  position: relative;
+  height: 40px;
+}
+
+header h1 {
+  margin:0;
+  display:inline-block;
+  width: 500px;
+  color: white;
+}
 
 #theme-select-container {
-
-
-  top: 20px;
-  left: 500px;
+  display: inline-block;
   width: 200px;
 }
 
@@ -31,14 +81,10 @@ section {
   width: 200px;
 }
 
-#add-coin-container {
 
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
+#add-coin-container {
   width: 450px;
-  height: 340px;
+  height: 430px;
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid black;
@@ -118,7 +164,7 @@ section {
 #coins-list-list {
   list-style: none;
   width: 440px;
-  height: 170px;
+  height: 260px;
   overflow: scroll;
   border: 1px solid forestgreen;
   margin: 0;
@@ -241,10 +287,6 @@ section {
 }
 
 #portfolio-list {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2;
-  grid-row-end: 3;
   width: 470px;
   height: 440px;
   padding: 0;
@@ -392,32 +434,26 @@ section {
   content: '$ ';
 }
 
+/*  Performance chart */
+
 #performance-chart-container {
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  width: 600px;
-  min-height: 500px;
-  background-color: white;
+  width: 100%;
+  height: 450px;
   border: 1px solid darkgray;
 
 }
 
+
+/*  Coin Detail */
 
 #coin-detail-container {
 
   height: 100px;
   transition: height 300ms;
   transition-timing-function: ease;
-
   position: relative;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  width: 600px;
-  min-height: 900px;  /* remove for animation */
+  width: 100%;
+  /* min-height: 900px;  /* remove for animation */ */
   height; 0px;
   background-color: #313131;
   border: 1px solid darkgray;

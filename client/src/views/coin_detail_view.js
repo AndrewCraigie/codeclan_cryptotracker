@@ -16,18 +16,22 @@ const CoinDetailView = function(container){
   this.updateButton = null;
   this.quantityControl = null;
 
+  this.isDeleteMessage = false;
+
 };
 
 CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-detail-ready', (event) => {
       this.coinData = event.detail;
-      //this.container.classList.remove('is-active');
+      this.container.classList.remove('is-active');
+      this.isDeleteMessage = false;
       this.render();
     });
 
     PubSub.subscribe('Cryptotracker:coin-deleted', (event) => {
-      console.log(event.detail);
+      this.isDeleteMessage = true;
+      this.renderDeleteMessage();
     })
 
 };
@@ -137,9 +141,29 @@ CoinDetailView.prototype.makeDataDiv = function () {
     this.container.appendChild(this.dataDiv);
 };
 
+CoinDetailView.prototype.renderDeleteMessage = function(){
+
+  console.log('CoinDetailView: renderDeleteMessage', this.isDeleteMessage);
+
+  const container = this.container;
+  element.clear(container);
+
+  const tempElement = element.make({
+    tag: 'h2',
+    attribs: {
+      class: 'temp-element'
+    },
+    content: this.coinData.name + ' deleted'
+  });
+  container.appendChild(tempElement)
+
+  container.classList.toggle("is-active");
+
+};
+
 CoinDetailView.prototype.render = function(){
 
-  const cointainer = this.container;
+  const container = this.container;
 
   element.clear(this.container);
 
@@ -177,10 +201,10 @@ CoinDetailView.prototype.render = function(){
 
   this.makeControlsGroup();
 
-  // setTimeout(function(){
-  //    cointainer.classList.toggle("is-active");
-  //    console.log('timeout');
-  //  }, 300);
+  setTimeout(function(){
+     container.classList.toggle("is-active");
+     console.log('timeout');
+   }, 300);
 
 
 };
