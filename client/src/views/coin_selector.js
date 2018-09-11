@@ -280,6 +280,7 @@ CoinSelector.prototype.makeFilterControls = function(){
       value: 'Find'
     }
   })
+  findBtn.addEventListener('click', this.handleFind.bind(this));
   filterControlsDiv.appendChild(findBtn);
 
   this.form.insertBefore(filterControlsDiv, this.form.firstChild);

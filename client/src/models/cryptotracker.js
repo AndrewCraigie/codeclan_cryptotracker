@@ -26,7 +26,7 @@ Cryptotracker.prototype.bindEvents = function () {
   PubSub.subscribe('AddCoinView:add-coin-submitted', (event) => {
 
     const coinData = event.detail;
-
+    console.log(coinData);
     if(coinData.portfolioId){
 
       this.updateCoin(coinData);
