@@ -74,9 +74,15 @@ PortfolioChartView.prototype.render = function(){
   Highcharts.theme = this.theme;
   Highcharts.setOptions(Highcharts.theme);
 
-  this.chart = Highcharts.chart(this.chartDiv, {
+
+  const chartWidth = this.container.clientWidth;
+  console.log(chartWidth);
+
+  this.chart = Highcharts.chart(this.container, {
+
     chart: {
-      type: 'line'
+      type: 'line',
+      //width: chartWidth
     },
     title: {
       text: 'Porfolio Performance'
@@ -90,10 +96,12 @@ PortfolioChartView.prototype.render = function(){
       }
     },
     series: [{
+      type: 'area',
       name: 'Portfolio Total Value',
       data: this.chartData
     }]
   });
+
 
 };
 

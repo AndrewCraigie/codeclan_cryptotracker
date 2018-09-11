@@ -17,7 +17,7 @@ const Cryptotracker = function (databaseUrl, apiUrl, historicalUrl) {
   this.coinsData = [];
 
   this.selectedCoin = null;
-  this.limit = 20;
+  this.limit = 30;
 };
 
 Cryptotracker.prototype.bindEvents = function () {
@@ -255,16 +255,18 @@ Cryptotracker.prototype.getHistoricalData = function (apiCoin, symbol, currency,
 //CONVERTS UNIX TIMESTAMP TO DATE
 Cryptotracker.prototype.timestampToDate = function (unixTime) {
 
-  var data = new Date(unixTime * 1000);
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var year = data.getFullYear();
-  var month = months[data.getMonth()];
-  var date = data.getDate();
-  var time = date + ' ' + month + ' ' + year;
-  // var hour = data.getHours();
-  // var min = data.getMinutes();
-  // var sec = data.getSeconds();
-  // var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+
+  const data = new Date(unixTime * 1000);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const year = data.getFullYear();
+  const month = months[data.getMonth()];
+  const date = data.getDate();
+  const hour = data.getHours();
+  const min = data.getMinutes();
+  const sec = data.getSeconds();
+  //const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  const time = month + ' ' + date;
+
   return time;
 };
 
