@@ -24,42 +24,8 @@ PortfolioiListView.prototype.bindEvents = function () {
   });
 };
 
-//GENERATES A TABLE WITH DATA- STARTS
-
-PortfolioiListView.prototype.render = function () {
-  this.container.innerHTML = '';
-  this.valueTotal = 0;
-  this.tableElement = element.make({
-    tag: 'table',
-    attribs: {
-      id: 'portfolio-view-table'
-    },
-  });
-
-  this.renderTableHeader();
-
-  this.tableBodyElement = element.make({
-    tag: 'tbody',
-    attribs: {
-      id: 'portfolio-view-table-tbody'
-    },
-  });
-
-
-  this.coinsData.forEach((coin) => {
-    if (coin.portfolioId){
-      this.totalValue += coin.portfolioValue;
-      this.totalQuantity += parseFloat(coin.portfolioQuantity);
-      this.renderCoinRow(coin);
-      }
-  });
-
-  this.renderTableFooter();
-
-  this.container.appendChild(this.tableElement);
-};
-
 PortfolioiListView.prototype.renderTableHeader = function () {
+
   const tableHeadElement = element.make({
     tag: 'thead',
     attribs: {
@@ -73,6 +39,7 @@ PortfolioiListView.prototype.renderTableHeader = function () {
       class: 'portfolio-view-table-tr'
     }
   });
+
   const tableCoinHeader = element.make({
     tag: 'th',
     attribs: {
@@ -81,6 +48,7 @@ PortfolioiListView.prototype.renderTableHeader = function () {
     },
     content: "Coin"
   });
+
   tableRowHeaderElement.appendChild(tableCoinHeader);
   const tableNameHeader = element.make({
     tag: 'th',
@@ -90,6 +58,7 @@ PortfolioiListView.prototype.renderTableHeader = function () {
     },
     content: "Name"
   });
+
   tableRowHeaderElement.appendChild(tableNameHeader);
   const tableSymbolHeader = element.make({
     tag: 'th',
@@ -99,6 +68,7 @@ PortfolioiListView.prototype.renderTableHeader = function () {
     },
     content: "Symbol"
   });
+
   tableRowHeaderElement.appendChild(tableSymbolHeader);
   const tableQuantityHeader = element.make({
     tag: 'th',
@@ -108,6 +78,7 @@ PortfolioiListView.prototype.renderTableHeader = function () {
     },
     content: "Qty"
   });
+
   tableRowHeaderElement.appendChild(tableQuantityHeader);
   const tableValueHeader = element.make({
     tag: 'th',
@@ -119,22 +90,27 @@ PortfolioiListView.prototype.renderTableHeader = function () {
   });
   tableRowHeaderElement.appendChild(tableValueHeader);
   tableHeadElement.appendChild(tableRowHeaderElement)
+
   this.tableElement.appendChild(tableHeadElement);
+
 };
 
 PortfolioiListView.prototype.renderCoinRow = function (coin) {
+
   const coinRowElement = element.make({
     tag: 'tr',
     attribs: {
       class: 'portfolio-view-table-tr',
     }
   });
+
   const tdImageElement  = element.make({
     tag: 'td',
     attribs: {
       class: 'portfolio-view-table-td'
     }
   });
+
   const imageElement = element.make({
     tag: 'img',
     attribs: {
@@ -191,11 +167,10 @@ PortfolioiListView.prototype.renderCoinRow = function (coin) {
 
   this.tableBodyElement.appendChild(coinRowElement);
 
-  this.tableElement.appendChild(this.tableBodyElement);
-
 };
 
 PortfolioiListView.prototype.renderTableFooter = function () {
+
   const tableFootElement = element.make({
     tag: 'tfoot',
     attribs: {
@@ -209,6 +184,7 @@ PortfolioiListView.prototype.renderTableFooter = function () {
       class: 'portfolio-view-table-tr'
     }
   });
+
   const tableSumElement = element.make({
     tag: 'td',
     attribs: {
@@ -237,8 +213,45 @@ PortfolioiListView.prototype.renderTableFooter = function () {
   });
   tableRowFooterElement.appendChild(tableSumData);
   tableFootElement.appendChild(tableRowFooterElement);
+
   this.tableElement.appendChild(tableFootElement);
+
 };
 
-//ENDS
+PortfolioiListView.prototype.render = function () {
+
+  this.container.innerHTML = '';
+  this.valueTotal = 0;
+
+  this.tableElement = element.make({
+    tag: 'table',
+    attribs: {
+      id: 'portfolio-view-table'
+    },
+  });
+
+  this.renderTableHeader();
+
+  this.tableBodyElement = element.make({
+    tag: 'tbody',
+    attribs: {
+      id: 'portfolio-view-table-tbody'
+    },
+  });
+  this.tableElement.appendChild(this.tableBodyElement);
+
+
+  this.coinsData.forEach((coin) => {
+    if (coin.portfolioId){
+      this.totalValue += coin.portfolioValue;
+      this.totalQuantity += parseFloat(coin.portfolioQuantity);
+      this.renderCoinRow(coin);
+      }
+  });
+
+  this.renderTableFooter();
+
+  this.container.appendChild(this.tableElement);
+};
+
 module.exports = PortfolioiListView;
