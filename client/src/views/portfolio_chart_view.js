@@ -14,37 +14,92 @@ const PortfolioChartView = function(container, themeName){
 
   this.theme = null;
 
+  this.categories = [];
+  this.chartData = [];
+
+  this.ready = false;
+
+  this.chartDiv = null;
+
 };
 
 PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
+    // console.log(this.coinsData);
+    this.ready = true;
+    this.getChartData();
     this.render();
   });
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
-    this.render();
+    if (this.ready) {
+      this.getChartData();
+    }
+     this.render();
   })
 
+};
+
+PortfolioChartView.prototype.getChartData = function () {
+  this.chartData = [];
+  const coin = this.coinsData.find((coin) => {
+    return coin.portfolioId != undefined;
+  });
+  const historicalData = coin.historicalData;
+  this.categories = historicalData.map((data) => {
+    return data.timeStamp;
+  });
+
+
+  this.categories.forEach((category, index) => {
+    let total = 0;
+    this.coinsData.forEach((coin) => {
+      if (coin.historicalData) {
+        total += coin.historicalData[index].close
+      }
+
+    });
+    this.chartData.push(total);
+  });
+
+};
+
+PortfolioChartView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'portfolio-chart-view-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
 };
 
 
 PortfolioChartView.prototype.render = function(){
 
+  element.clear(this.container);
+
+  this.makeChartDiv();
+
   Highcharts.theme = this.theme;
   Highcharts.setOptions(Highcharts.theme);
 
+  const chartWidth = this.container.clientWidth;
+
   this.chart = Highcharts.chart(this.container, {
+
     chart: {
-      type: 'line'
+      type: 'line',
+      //width: chartWidth
     },
     title: {
-      text: 'Porfolio Performance'
+      text: 'Portfolio Performance'
     },
     xAxis: {
-      categories: ['Monday', 'Tuesday', 'Wednesday']
+      categories: this.categories
     },
     yAxis: {
       title: {
@@ -52,8 +107,9 @@ PortfolioChartView.prototype.render = function(){
       }
     },
     series: [{
+      type: 'area',
       name: 'Portfolio Total Value',
-      data: [1, 0, 4]
+      data: this.chartData
     }]
   });
 

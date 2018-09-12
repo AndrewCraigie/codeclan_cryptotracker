@@ -21,6 +21,7 @@ const AddCoinView = function (form) {
   this.coinSelector = null;
   this.childElements = [];
 
+  this.addContainer = null;
 };
 
 AddCoinView.prototype.bindEvents = function () {
@@ -28,31 +29,25 @@ AddCoinView.prototype.bindEvents = function () {
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
 
     this.coinsList = event.detail;
-
     if (!this.coinSelector){
       this.coinSelector = new CoinSelector(this.form, this.coinsList);
-      this.render();
     } else {
       this.coinSelector.coinsList = this.coinsList;
       this.reset();
     }
-
+    this.render();
   });
 
   this.form.addEventListener("submit", (evt) => {
 
     evt.preventDefault();
-
     const newCoin = {
       symbol: this.selectedCoin.value,
       portfolioId: this.portfolioId.value,
-      quantity: parseInt(evt.target['coin-amount'].value),
-
+      quantity: parseFloat(evt.target['coin-amount'].value),
     };
 
     PubSub.publish("AddCoinView:add-coin-submitted", newCoin);
-
-    this.reset();
 
   });
 
@@ -120,7 +115,7 @@ AddCoinView.prototype.makeAddGroup = function(){
   this.submitBtn.disabled = true;
 
   this.childElements.push(this.submitBtn);
-
+  // console.log(this.childElements);
 };
 
 AddCoinView.prototype.makeHiddenFields = function(){
@@ -164,16 +159,25 @@ AddCoinView.prototype.reset = function(){
   this.coinNameInput.textContent = '';
   this.coinSelector.setHighlight();
   this.form.submitBtn.disabled = true;
+  this.childElements = [];
+  this.addContainer.innerHTML = '';
+  this.submitBtn = '';
   this.form.reset();
 
 };
 
 AddCoinView.prototype.render = function () {
 
+  this.addContainer = element.make({ tag: 'div',
+      attribs: {
+        class:'add-container'
+      }
+  });
+  this.form.appendChild(this.addContainer);
   this.makeAddGroup();
   this.makeHiddenFields();
 
-  this.childElements.forEach((element) => this.form.appendChild(element));
+  this.childElements.forEach((element) => this.addContainer.appendChild(element));
 
   this.coinSelector.render(this.selectedCoin, this.portfolioId);
 

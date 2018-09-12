@@ -44,13 +44,11 @@ CoinSelector.prototype.handleCoinItemClick = function(event){
   const coinSymbol = event.target.getAttribute('data-coin-symbol');
   this.selectedCoinInput.value = coinSymbol;
 
-  const portfolioId = event.target.getAttribute('data-portfolioId');
+  const portfolioId = event.target.getAttribute('data-portfolio-id');
   this.selectedCoinPortfolioInput.value = portfolioId;
 
   this.form.coinNameInput.value = coinName;
-
   this.form.submitBtn.disabled = false;
-
   this.setHighlight(event.target);
 
 };
@@ -70,7 +68,7 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
   });
 
   if (coin.portfolioId){
-    coinItem.setAttribute('data-portfolioId', `${coin.portfolioId}`);
+    coinItem.setAttribute('data-portfolio-id', `${coin.portfolioId}`);
     coinItem.classList.add('coins-list-coin-in-portfolio');
   }
 
@@ -164,12 +162,20 @@ CoinSelector.prototype.getTop10 = function(){
 CoinSelector.prototype.filterList = function(filterValue){
 
   const filtervalue = filterValue.toLowerCase();
+  const regex = [filterValue];
 
   this.coinItems.forEach((element) => {
 
-    const itemDataValue = element.getAttribute('data-coin-symbol').toLowerCase()
-    const containsFilterValue = (itemDataValue === filterValue);
+    const coin = element.textContent.toLowerCase();
+    const containsFilterValue = coin.includes(regex);
     element.classList.toggle('coins-list-hidden', !containsFilterValue);
+
+    // const itemDataValue = element.getAttribute('data-coin-symbol').toLowerCase()
+    // const containsFilterValue = (itemDataValue === filterValue);
+    // console.log(element.classList);
+    // element.classList.toggle('coins-list-hidden', !containsFilterValue);
+    // console.log(element.classList);
+
 
   });
 
@@ -265,14 +271,15 @@ CoinSelector.prototype.makeFilterControls = function(){
   filterControlsDiv.appendChild(findInput);
 
 
-  const findBtn = element.make({
-    tag: 'input',
-    attribs: {
-      type: 'button',
-      value: 'Find'
-    }
-  })
-  filterControlsDiv.appendChild(findBtn);
+  // const findBtn = element.make({
+  //   tag: 'input',
+  //   attribs: {
+  //     type: 'button',
+  //     value: 'Find'
+  //   }
+  // })
+  // findBtn.addEventListener('click', this.handleFind.bind(this));
+  // filterControlsDiv.appendChild(findBtn);
 
   this.form.insertBefore(filterControlsDiv, this.form.firstChild);
 
@@ -280,7 +287,6 @@ CoinSelector.prototype.makeFilterControls = function(){
 }
 
 CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfolioInput){
-
   this.selectedCoinInput = selectedCoinInput;
   this.selectedCoinPortfolioInput = selectedCoinPortfolioInput
   this.form.submitBtn.disabled = true;
@@ -307,7 +313,7 @@ CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfoli
   this.makeCoinItems(this.coinListDiv);
   this.getTop10();
 
-  //this.form.submitBtn.disabled = false;
+  this.form.submitBtn.disabled = false;
 
 };
 
