@@ -67,7 +67,7 @@ Cryptotracker.prototype.bindEvents = function () {
 
   });
 
-  PubSub.subscribe('CoinDetailView:delete-coin', (event) => {
+  PubSub.subscribe('CoinDetailSide:delete-coin', (event) => {
     this.deleteCoin(event.detail);
   })
 

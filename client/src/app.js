@@ -4,6 +4,7 @@ const AddCoinView = require('./views/add_coin_view.js');
 const PortfolioiListView = require('./views/portfolio_list_view.js');
 const PortfolioChartView = require('./views/portfolio_chart_view.js');
 const CoinDetailView = require('./views/coin_detail_view.js');
+const CoinDetailSide = require('./views/coin_detail_side.js');
 const ThemeSelectView = require('./views/theme_select_view.js');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,11 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const portfolioListView = new PortfolioiListView(portfolioContainer);
   portfolioListView.bindEvents();
 
-
-
   const coinDetailContainer = document.querySelector('div#coin-detail-container');
   const coinDetailView = new CoinDetailView(coinDetailContainer);
   coinDetailView.bindEvents();
+
+  const coinDetailSideContainer = document.querySelector('div#coin-detail-side');
+  const coinDetailSide = new CoinDetailSide(coinDetailSideContainer);
+  coinDetailSide.bindEvents();
 
   cryptotracker.getPortolioData();
 

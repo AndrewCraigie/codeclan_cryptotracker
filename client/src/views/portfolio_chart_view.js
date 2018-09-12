@@ -67,13 +67,25 @@ PortfolioChartView.prototype.getChartData = function () {
 
 };
 
+PortfolioChartView.prototype.makeChartDiv = function () {
+  this.chartDiv = element.make({
+    tag: 'div',
+    attribs: {
+      id: 'portfolio-chart-view-div'
+    }
+  });
+  this.container.appendChild(this.chartDiv);
+};
+
 
 PortfolioChartView.prototype.render = function(){
+
   element.clear(this.container);
+
   this.makeChartDiv();
+
   Highcharts.theme = this.theme;
   Highcharts.setOptions(Highcharts.theme);
-
 
   const chartWidth = this.container.clientWidth;
   console.log(chartWidth);
@@ -85,7 +97,7 @@ PortfolioChartView.prototype.render = function(){
       //width: chartWidth
     },
     title: {
-      text: 'Porfolio Performance'
+      text: 'Portfolio Performance'
     },
     xAxis: {
       categories: this.categories
@@ -102,17 +114,7 @@ PortfolioChartView.prototype.render = function(){
     }]
   });
 
-
 };
 
-PortfolioChartView.prototype.makeChartDiv = function () {
-  this.chartDiv = element.make({
-    tag: 'div',
-    attribs: {
-      id: 'portfolio-chart_view-div'
-    }
-  });
-  this.container.appendChild(this.chartDiv);
-};
 
 module.exports = PortfolioChartView;
