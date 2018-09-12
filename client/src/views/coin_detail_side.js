@@ -57,6 +57,7 @@ CoinDetailSide.prototype.handleUpdate = function(event){
     };
 
     PubSub.publish('CoinDetailSide:coin-updated', coin);
+
 };
 
 CoinDetailSide.prototype.handleDelete = function(event){
@@ -69,21 +70,18 @@ CoinDetailSide.prototype.handleDelete = function(event){
 };
 
 CoinDetailSide.prototype.handleQuantityChange = function(event){
-  if(parseFloat(event.detail) >= 0.01){
+  if(parseFloat(event.target.value) >= 0.01){
     this.updateButton.disabled = false;
   } else {
     this.updateButton.disabled = true;
   }
 };
 
-
-//`${this.coinData.name} (${this.coinData.symbol})`
 CoinDetailSide.prototype.renderData = function () {
 
   this.quantityControl.value = this.coinData.portfolioQuantity;
   this.coinNameElement.innerHTML = this.coinData.name;
   this.imageElement.src = `/images/${this.coinData.website_slug}.png`;
-
 
   const priceElement = element.make({
     tag: 'p',
@@ -120,9 +118,6 @@ CoinDetailSide.prototype.renderData = function () {
     content: `Market Cap : $ ${this.coinData.quotes.USD.market_cap}`
   });
   this.dataDiv.appendChild(marketCapElement);
-
-
-
 
 };
 
@@ -210,13 +205,12 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
       id: 'coin-detail-quantity-input',
       type: 'number',
       min: 0.01,
-      step: 0.01,
-
+      step: 0.01
     }
   });
   this.inputs.push(this.quantityControl);
   this.quantityControl.required = true;
-  this.quantityControl.addEventListener('change', this.handleQuantityChange.bind(this))
+
   this.controlsGroup.appendChild(this.quantityControl);
 
   this.updateButton  = element.make({
@@ -228,6 +222,7 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
   });
   this.inputs.push(this.updateButton);
   this.updateButton.disabled = true;
+  this.quantityControl.addEventListener('change', this.handleQuantityChange.bind(this));
   this.updateButton.addEventListener('click', this.handleUpdate.bind(this));
   this.controlsGroup.appendChild(this.updateButton);
 
@@ -242,7 +237,6 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
   this.deleteToggleBtn.addEventListener('click', this.toggleDelete.bind(this));
   this.controlsGroup.appendChild(this.deleteToggleBtn);
 
-
   this.deletePanel = element.make({
     tag: 'div',
     attribs: {
@@ -251,7 +245,6 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
     }
   });
   this.deletePanel.style.display = 'none';
-
 
   this.deleteButton = element.make({
     tag: 'button',

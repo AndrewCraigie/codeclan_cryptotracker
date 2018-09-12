@@ -69,8 +69,8 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
   // let  updatedCoin = null;
   // let newQuantity = null;
   // const id = coinData.portfolioId;
-  // console.log("selected coin:", this.selectedCoin);
-  // console.log("this.isAdd", this.isAdd);
+  console.log("selected coin:", this.selectedCoin);
+  console.log("this.isAdd", this.isAdd);
   // if (!this.selectedCoin) {
   //   const dbCoin = this.getPortfolioCoinBySymbol(coinData.symbol);
   //   newQuantity = parseFloat(dbCoin.quantity) + coinData.quantity;
@@ -100,7 +100,7 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
       if (this.selectedCoin.symbol === coinData.symbol) {
         this.selectedCoin.portfolioQuantity = newQuantity;
         this.selectedCoin.portfolioValue = this.calculateValue(newQuantity, this.selectedCoin.quotes.USD.price);
-        this.getCoinDetails();
+
       }
     }
 
@@ -108,10 +108,12 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
   }
   else{
     newQuantity = coinData.quantity;
-    //console.log(newQuantity);
+    console.log(newQuantity);
+    this.selectedCoin.portfolioQuantity = newQuantity;
+    this.selectedCoin.portfolioValue = this.calculateValue(newQuantity, this.selectedCoin.quotes.USD.price);
   }
-
   updatedCoin = {symbol: coinData.symbol, quantity: newQuantity};
+  this.getCoinDetails();
   this.putCoin(id, updatedCoin);
 };
 
@@ -203,23 +205,25 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
 
   let promises = this.myCoins.map((coin) => {
+
     let url = `histoday?fsym=${coin.symbol}&tsym=USD&limit=${this.limit}`;
     const historicalRequest = new Request(this.historicalUrl+url);
+
     return historicalRequest.get()
     .then((data) => {
+
       coin.historicalData = data.Data;
       coin.historicalData.forEach((entry) => {
         const time = this.timestampToDate(entry.time);
         entry.timeStamp = time;
+
       });
-
     });
-
+    
   });
 
   Promise.all(promises).then((results) => {
     PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
-
   });
 
 };

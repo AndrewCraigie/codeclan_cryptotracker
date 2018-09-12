@@ -5,6 +5,7 @@ const Highcharts = require('highcharts');
 require('highcharts/modules/exporting')(Highcharts);
 
 const PortfolioChartView = function(container, themeName){
+
   this.container = container
   this.coinsData = [];
   this.chart = null;
@@ -118,6 +119,5 @@ PortfolioChartView.prototype.render = function(){
   });
 
 };
-
 
 module.exports = PortfolioChartView;
