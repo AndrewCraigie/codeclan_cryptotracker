@@ -26,7 +26,7 @@ Cryptotracker.prototype.bindEvents = function () {
   PubSub.subscribe('AddCoinView:add-coin-submitted', (event) => {
 
     const coinData = event.detail;
-
+    console.log(coinData);
     if(coinData.portfolioId){
 
       this.updateCoin(coinData);
@@ -95,8 +95,9 @@ Cryptotracker.prototype.putCoin = function (id, payload) {
  .then((portFolioCoins) => {
    this.portfolioCoins = portFolioCoins;
    this.getApiData();
-   console.log(this.selectedCoin);
+   // console.log(this.selectedCoin);
    this.selectedCoin.portfolioQuantity = payload.quantity;
+   this.selectedCoin.portfolioValue = this.calculateValue(payload.quantity, this.selectedCoin.quotes.USD.price);
    this.getCoinDetails();
 
    }).catch(console.error);
@@ -163,9 +164,12 @@ Cryptotracker.prototype.mergeCoinData = function(){
     const apiCoinPrice = apiCoin.quotes.USD.price;
 
     if (portfolioCoin) {
+
       apiCoin.portfolioQuantity = portfolioCoin.quantity;
       apiCoin.portfolioValue = this.calculateValue(portfolioCoin.quantity, apiCoinPrice);
+
       apiCoin.portfolioId = portfolioCoin['_id'];
+
       this.myCoins.push(apiCoin);
 
     } else {
