@@ -1,7 +1,7 @@
 # CryptoTracker Application
 
 
-![CryptoTracker Screenshot](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "CryptoTracker")
+![CryptoTracker Screenshot](https://github.com/AndrewCraigie/codeclan_cryptotracker/blob/master/images/cryptotracker.png "CryptoTracker")
 
 Screenshot of completed app
 
