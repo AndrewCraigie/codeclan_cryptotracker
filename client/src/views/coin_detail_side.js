@@ -55,7 +55,7 @@ CoinDetailSide.prototype.handleUpdate = function(event){
       portfolioId: coinId,
       quantity: quantity
     };
-    console.log("published", coin);
+
     PubSub.publish('CoinDetailSide:coin-updated', coin);
 
 };
@@ -77,14 +77,11 @@ CoinDetailSide.prototype.handleQuantityChange = function(event){
   }
 };
 
-
-//`${this.coinData.name} (${this.coinData.symbol})`
 CoinDetailSide.prototype.renderData = function () {
-  console.log(this.coinData);
+
   this.quantityControl.value = this.coinData.portfolioQuantity;
   this.coinNameElement.innerHTML = this.coinData.name;
   this.imageElement.src = `/images/${this.coinData.website_slug}.png`;
-
 
   const priceElement = element.make({
     tag: 'p',
@@ -121,9 +118,6 @@ CoinDetailSide.prototype.renderData = function () {
     content: `Market Cap : $ ${this.coinData.quotes.USD.market_cap}`
   });
   this.dataDiv.appendChild(marketCapElement);
-
-
-
 
 };
 
@@ -243,7 +237,6 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
   this.deleteToggleBtn.addEventListener('click', this.toggleDelete.bind(this));
   this.controlsGroup.appendChild(this.deleteToggleBtn);
 
-
   this.deletePanel = element.make({
     tag: 'div',
     attribs: {
@@ -252,7 +245,6 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
     }
   });
   this.deletePanel.style.display = 'none';
-
 
   this.deleteButton = element.make({
     tag: 'button',

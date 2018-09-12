@@ -38,22 +38,6 @@ CoinDetailView.prototype.bindEvents = function(){
 
 };
 
-// CoinDetailView.prototype.handleUpdate = function(event){
-//
-//     const quantity = this.quantityControl.value;
-//     const coinId = this.coinData.portfolioId;
-//
-//     const coin = {
-//       symbol: this.coinData.symbol,
-//       portfolioId: coinId,
-//       quantity: quantity
-//     };
-//
-//     PubSub.publish('CoinDetailView:coin-updated', coin);
-//
-// };
-
-
 CoinDetailView.prototype.renderDeleteMessage = function(){
 
  const container = this.container;
@@ -118,11 +102,9 @@ CoinDetailView.prototype.render = function(){
 
  element.clear(this.container);
 
-
  if (this.coinData) {
    this.renderChart();
  }
-
 
 };
 

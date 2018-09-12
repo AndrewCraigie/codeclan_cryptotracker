@@ -145,14 +145,6 @@ AddCoinView.prototype.makeHiddenFields = function(){
   });
   this.childElements.push(this.portfolioId);
 
-  // this.portfolioQuantity = element.make({ tag: 'hidden',
-  //   attribs: {
-  //     id: 'portfolioQuantity',
-  //     value: 'null'
-  //   }
-  // });
-  // this.childElements.push(this.portfolioQuantity);
-
 };
 
 AddCoinView.prototype.reset = function(){
@@ -183,7 +175,5 @@ AddCoinView.prototype.render = function () {
   this.coinSelector.render(this.selectedCoin, this.portfolioId);
 
 };
-
-
 
 module.exports = AddCoinView;
