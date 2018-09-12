@@ -1,5 +1,18 @@
 # CryptoTracker Application
 
+
+![CryptoTracker Screenshot](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "CryptoTracker")
+
+Screenshot of completed app
+
+## Contributers
+
+Sitahara, Rameez, Andrew
+https://github.com/SitharaS  https://github.com/coder-r  https://github.com/AndrewCraigie
+
+
+## Requirements
+
 A local trader has come to you with a portfolio of cryptocurrencies. She wants to be able to analyse it more effectively. She has a small sample portfolio of coins t and would like to build a Minimum Viable Product that uses the data to display her portfolio so that she can make better decisions.
 
 ## MVP
