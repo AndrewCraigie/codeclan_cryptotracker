@@ -36,6 +36,7 @@ AddCoinView.prototype.bindEvents = function () {
       this.reset();
     }
     this.render();
+
   });
 
   this.form.addEventListener("submit", (evt) => {
@@ -115,7 +116,7 @@ AddCoinView.prototype.makeAddGroup = function(){
   this.submitBtn.disabled = true;
 
   this.childElements.push(this.submitBtn);
-  // console.log(this.childElements);
+
 };
 
 AddCoinView.prototype.makeHiddenFields = function(){

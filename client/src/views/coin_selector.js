@@ -170,13 +170,6 @@ CoinSelector.prototype.filterList = function(filterValue){
     const containsFilterValue = coin.includes(regex);
     element.classList.toggle('coins-list-hidden', !containsFilterValue);
 
-    // const itemDataValue = element.getAttribute('data-coin-symbol').toLowerCase()
-    // const containsFilterValue = (itemDataValue === filterValue);
-    // console.log(element.classList);
-    // element.classList.toggle('coins-list-hidden', !containsFilterValue);
-    // console.log(element.classList);
-
-
   });
 
 };
@@ -287,8 +280,10 @@ CoinSelector.prototype.makeFilterControls = function(){
 }
 
 CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfolioInput){
+
   this.selectedCoinInput = selectedCoinInput;
   this.selectedCoinPortfolioInput = selectedCoinPortfolioInput
+
   this.form.submitBtn.disabled = true;
 
   if (this.coinListDiv == null){
@@ -312,8 +307,6 @@ CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfoli
 
   this.makeCoinItems(this.coinListDiv);
   this.getTop10();
-
-  this.form.submitBtn.disabled = false;
 
 };
 
