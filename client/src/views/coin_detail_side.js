@@ -52,7 +52,7 @@ CoinDetailSide.prototype.handleUpdate = function(event){
 
     const coin = {
       symbol: this.coinData.symbol,
-      id: coinId,
+      portfolioId: coinId,
       quantity: quantity
     };
 
@@ -76,6 +76,7 @@ CoinDetailSide.prototype.handleQuantityChange = function(event){
 //`${this.coinData.name} (${this.coinData.symbol})`
 CoinDetailSide.prototype.renderData = function () {
 
+  this.quantityControl.value = this.coinData.portfolioQuantity;
   this.coinNameElement.innerHTML = this.coinData.name;
   this.imageElement.src = `/images/${this.coinData.website_slug}.png`;
 
@@ -85,7 +86,7 @@ CoinDetailSide.prototype.renderData = function () {
     attribs: {
       class:'price-para'
     },
-    content: `Unit Price : $ ${this.coinData.quotes.USD.price.toFixed(2)}`
+    content: `Unit Price : $ ${this.coinData.quotes.USD.price.toFixed(4)}`
   });
   this.dataDiv.appendChild(priceElement);
 
@@ -103,7 +104,7 @@ CoinDetailSide.prototype.renderData = function () {
     attribs: {
       class:'value-para'
     },
-    content: `Total Value : $ ${this.coinData.portfolioValue.toFixed(2)}`
+    content: `Total Value : $ ${this.coinData.portfolioValue.toFixed(4)}`
   });
   this.dataDiv.appendChild(valueElement);
 
@@ -204,7 +205,7 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
     attribs: {
       id: 'coin-detail-quantity-input',
       type: 'number',
-      min: 0,
+      min: 0.01,
       step: 0.01,
       value: 0
     }

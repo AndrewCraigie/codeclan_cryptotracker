@@ -49,7 +49,7 @@ Cryptotracker.prototype.bindEvents = function () {
   });
   //ENDS
 
-  PubSub.subscribe('CoinDetailView:coin-updated', (event) => {
+  PubSub.subscribe('CoinDetailSide:coin-updated', (event) => {
     this.isAdd = false;
     this.updateCoin(event.detail);
 
@@ -67,13 +67,16 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
   let  updatedCoin = null;
   let newQuantity = null;
   const id = coinData.portfolioId;
+  console.log("selected coin:", this.selectedCoin);
+  console.log("this.isAdd", this.isAdd);
   if (!this.selectedCoin) {
     const dbCoin = this.getPortfolioCoinBySymbol(coinData.symbol);
     newQuantity = parseFloat(dbCoin.quantity) + coinData.quantity;
+    this.selectedCoin = null;
   }
   else{
     if (!this.isAdd) {
-      newQuantity = parseFloat(coinData.quantity);
+      newQuantity = parseFloat (coinData.quantity);
     }
     else{
        newQuantity = parseFloat(this.selectedCoin.portfolioQuantity) + coinData.quantity;
@@ -193,13 +196,14 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
   Promise.all(promises).then((results) => {
     PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
+
   });
 
 };
 
 //GETS PORTFOLIO COIN BY SYMBOL
 Cryptotracker.prototype.getPortfolioCoinBySymbol = function(symbol){
-
+  // console.log(this.portfolioCoins);
   return this.portfolioCoins.find((portfolioCoin) => {
     return portfolioCoin.symbol.toLowerCase() === symbol.toLowerCase();
   });
@@ -225,6 +229,7 @@ Cryptotracker.prototype.addCoin = function (data) {
   .then((portFolioCoins) => {
     this.portfolioCoins = portFolioCoins;
     this.getApiData();
+    this.selectedCoin = this.portfolioCoins[-1];
   })
   .catch()
 
