@@ -69,7 +69,11 @@ CoinDetailSide.prototype.handleDelete = function(event){
 };
 
 CoinDetailSide.prototype.handleQuantityChange = function(event){
-  this.updateButton.disabled = false;
+  if(parseFloat(event.detail) >= 0.01){
+    this.updateButton.disabled = false;
+  } else {
+    this.updateButton.disabled = true;
+  }
 };
 
 
@@ -207,7 +211,7 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
       type: 'number',
       min: 0.01,
       step: 0.01,
-      value: 0
+
     }
   });
   this.inputs.push(this.quantityControl);
