@@ -203,23 +203,25 @@ Cryptotracker.prototype.mergeCoinData = function(){
 
 
   let promises = this.myCoins.map((coin) => {
+
     let url = `histoday?fsym=${coin.symbol}&tsym=USD&limit=${this.limit}`;
     const historicalRequest = new Request(this.historicalUrl+url);
+
     return historicalRequest.get()
     .then((data) => {
+
       coin.historicalData = data.Data;
       coin.historicalData.forEach((entry) => {
         const time = this.timestampToDate(entry.time);
         entry.timeStamp = time;
+
       });
-
     });
-
+    
   });
 
   Promise.all(promises).then((results) => {
     PubSub.publish('Cryptotracker:coin-data-ready', this.coinsData);
-
   });
 
 };
