@@ -27,7 +27,6 @@ PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
-    // console.log(this.coinsData);
     this.ready = true;
     this.getChartData();
     this.render();
@@ -44,15 +43,21 @@ PortfolioChartView.prototype.bindEvents = function(){
 };
 
 PortfolioChartView.prototype.getChartData = function () {
+
   this.chartData = [];
+
   const coin = this.coinsData.find((coin) => {
     return coin.portfolioId != undefined;
   });
+
+  if (!coin){
+    return;
+  }
+
   const historicalData = coin.historicalData;
   this.categories = historicalData.map((data) => {
     return data.timeStamp;
   });
-
 
   this.categories.forEach((category, index) => {
     let total = 0;
@@ -60,7 +65,6 @@ PortfolioChartView.prototype.getChartData = function () {
       if (coin.historicalData) {
         total += coin.historicalData[index].close
       }
-
     });
     this.chartData.push(total);
   });
