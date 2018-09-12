@@ -69,8 +69,8 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
   // let  updatedCoin = null;
   // let newQuantity = null;
   // const id = coinData.portfolioId;
-  // console.log("selected coin:", this.selectedCoin);
-  // console.log("this.isAdd", this.isAdd);
+  console.log("selected coin:", this.selectedCoin);
+  console.log("this.isAdd", this.isAdd);
   // if (!this.selectedCoin) {
   //   const dbCoin = this.getPortfolioCoinBySymbol(coinData.symbol);
   //   newQuantity = parseFloat(dbCoin.quantity) + coinData.quantity;
@@ -100,7 +100,7 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
       if (this.selectedCoin.symbol === coinData.symbol) {
         this.selectedCoin.portfolioQuantity = newQuantity;
         this.selectedCoin.portfolioValue = this.calculateValue(newQuantity, this.selectedCoin.quotes.USD.price);
-        this.getCoinDetails();
+
       }
     }
 
@@ -108,10 +108,12 @@ Cryptotracker.prototype.updateCoin = function (coinData) {
   }
   else{
     newQuantity = coinData.quantity;
-    //console.log(newQuantity);
+    console.log(newQuantity);
+    this.selectedCoin.portfolioQuantity = newQuantity;
+    this.selectedCoin.portfolioValue = this.calculateValue(newQuantity, this.selectedCoin.quotes.USD.price);
   }
-
   updatedCoin = {symbol: coinData.symbol, quantity: newQuantity};
+  this.getCoinDetails();
   this.putCoin(id, updatedCoin);
 };
 

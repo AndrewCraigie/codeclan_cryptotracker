@@ -55,8 +55,9 @@ CoinDetailSide.prototype.handleUpdate = function(event){
       portfolioId: coinId,
       quantity: quantity
     };
-
+    console.log("published", coin);
     PubSub.publish('CoinDetailSide:coin-updated', coin);
+
 };
 
 CoinDetailSide.prototype.handleDelete = function(event){
@@ -69,7 +70,7 @@ CoinDetailSide.prototype.handleDelete = function(event){
 };
 
 CoinDetailSide.prototype.handleQuantityChange = function(event){
-  if(parseFloat(event.detail) >= 0.01){
+  if(parseFloat(event.target.value) >= 0.01){
     this.updateButton.disabled = false;
   } else {
     this.updateButton.disabled = true;
@@ -79,7 +80,7 @@ CoinDetailSide.prototype.handleQuantityChange = function(event){
 
 //`${this.coinData.name} (${this.coinData.symbol})`
 CoinDetailSide.prototype.renderData = function () {
-
+  console.log(this.coinData);
   this.quantityControl.value = this.coinData.portfolioQuantity;
   this.coinNameElement.innerHTML = this.coinData.name;
   this.imageElement.src = `/images/${this.coinData.website_slug}.png`;
@@ -210,13 +211,12 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
       id: 'coin-detail-quantity-input',
       type: 'number',
       min: 0.01,
-      step: 0.01,
-
+      step: 0.01
     }
   });
   this.inputs.push(this.quantityControl);
   this.quantityControl.required = true;
-  this.quantityControl.addEventListener('change', this.handleQuantityChange.bind(this))
+
   this.controlsGroup.appendChild(this.quantityControl);
 
   this.updateButton  = element.make({
@@ -228,6 +228,7 @@ CoinDetailSide.prototype.makeControlsGroup = function(){
   });
   this.inputs.push(this.updateButton);
   this.updateButton.disabled = true;
+  this.quantityControl.addEventListener('change', this.handleQuantityChange.bind(this));
   this.updateButton.addEventListener('click', this.handleUpdate.bind(this));
   this.controlsGroup.appendChild(this.updateButton);
 
