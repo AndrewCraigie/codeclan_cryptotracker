@@ -271,15 +271,15 @@ CoinSelector.prototype.makeFilterControls = function(){
   filterControlsDiv.appendChild(findInput);
 
 
-  const findBtn = element.make({
-    tag: 'input',
-    attribs: {
-      type: 'button',
-      value: 'Find'
-    }
-  })
-  findBtn.addEventListener('click', this.handleFind.bind(this));
-  filterControlsDiv.appendChild(findBtn);
+  // const findBtn = element.make({
+  //   tag: 'input',
+  //   attribs: {
+  //     type: 'button',
+  //     value: 'Find'
+  //   }
+  // })
+  // findBtn.addEventListener('click', this.handleFind.bind(this));
+  // filterControlsDiv.appendChild(findBtn);
 
   this.form.insertBefore(filterControlsDiv, this.form.firstChild);
 
