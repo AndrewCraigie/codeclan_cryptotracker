@@ -7,8 +7,8 @@ Screenshot of completed app
 
 ## Contributers
 
-Sitahara, Rameez, Andrew
-https://github.com/SitharaS  https://github.com/coder-r  https://github.com/AndrewCraigie
+
+[Sithara](https://github.com/SitharaS)  -  [Rameez](https://github.com/coder-r)   -  [Andrew](https://github.com/AndrewCraigie)
 
 
 ## Requirements
