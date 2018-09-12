@@ -44,13 +44,11 @@ CoinSelector.prototype.handleCoinItemClick = function(event){
   const coinSymbol = event.target.getAttribute('data-coin-symbol');
   this.selectedCoinInput.value = coinSymbol;
 
-  const portfolioId = event.target.getAttribute('data-portfolioId');
+  const portfolioId = event.target.getAttribute('data-portfolio-id');
   this.selectedCoinPortfolioInput.value = portfolioId;
 
   this.form.coinNameInput.value = coinName;
-
   this.form.submitBtn.disabled = false;
-
   this.setHighlight(event.target);
 
 };
@@ -70,7 +68,7 @@ CoinSelector.prototype.makeCoinItem = function(coin) {
   });
 
   if (coin.portfolioId){
-    coinItem.setAttribute('data-portfolioId', `${coin.portfolioId}`);
+    coinItem.setAttribute('data-portfolio-id', `${coin.portfolioId}`);
     coinItem.classList.add('coins-list-coin-in-portfolio');
   }
 
@@ -289,7 +287,6 @@ CoinSelector.prototype.makeFilterControls = function(){
 }
 
 CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfolioInput){
-
   this.selectedCoinInput = selectedCoinInput;
   this.selectedCoinPortfolioInput = selectedCoinPortfolioInput
   this.form.submitBtn.disabled = true;
@@ -316,7 +313,7 @@ CoinSelector.prototype.render = function(selectedCoinInput, selectedCoinPortfoli
   this.makeCoinItems(this.coinListDiv);
   this.getTop10();
 
-  //this.form.submitBtn.disabled = false;
+  this.form.submitBtn.disabled = false;
 
 };
 

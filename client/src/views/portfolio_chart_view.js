@@ -27,6 +27,7 @@ PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Cryptotracker:coin-data-ready', (event) => {
     this.coinsData = event.detail;
+    // console.log(this.coinsData);
     this.ready = true;
     this.getChartData();
     this.render();
@@ -34,7 +35,6 @@ PortfolioChartView.prototype.bindEvents = function(){
 
   PubSub.subscribe('Themes:theme-available', (event) => {
     this.theme= event.detail;
-    console.log(this.theme);
     if (this.ready) {
       this.getChartData();
     }
@@ -76,7 +76,6 @@ PortfolioChartView.prototype.render = function(){
 
 
   const chartWidth = this.container.clientWidth;
-  console.log(chartWidth);
 
   this.chart = Highcharts.chart(this.container, {
 

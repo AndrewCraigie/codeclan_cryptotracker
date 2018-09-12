@@ -462,9 +462,6 @@ header h1 {
 /*  Coin Detail */
 
 #coin-detail-container {
-
-
-  height: 100px;
   transition: height 300ms;
   transition-timing-function: ease;
   position: relative;

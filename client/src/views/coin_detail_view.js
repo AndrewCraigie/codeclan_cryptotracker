@@ -29,6 +29,7 @@ CoinDetailView.prototype.bindEvents = function(){
 
     PubSub.subscribe('Cryptotracker:coin-detail-ready', (event) => {
       this.coinData = event.detail;
+      // console.log(this.coinData.portfolioValue, this.coinData.portfolioQuantity);
       this.container.classList.remove('is-active');
       this.isDeleteMessage = false;
       this.render();
@@ -39,8 +40,6 @@ CoinDetailView.prototype.bindEvents = function(){
       this.isDeleteMessage = true;
       this.renderDeleteMessage();
 
-
-      console.log(event.detail);
     });
 
     PubSub.subscribe('Themes:theme-available', (event) => {
@@ -58,7 +57,7 @@ CoinDetailView.prototype.handleUpdate = function(event){
 
     const coin = {
       symbol: this.coinData.symbol,
-      id: coinId,
+      portfolioId: coinId,
       quantity: quantity
     };
 
@@ -277,10 +276,10 @@ CoinDetailView.prototype.makeHeader = function () {
   this.container.appendChild(imageElement);
 
 
-  setTimeout(function(){
-     container.classList.toggle("is-active");
-     console.log('timeout');
-   }, 300);
+  // setTimeout(function(){
+  //    this.container.classList.toggle("is-active");
+  //    console.log('timeout');
+  //  }, 300);
 
   const headerElement = element.make({
     tag: 'h2',
