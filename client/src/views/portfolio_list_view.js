@@ -3,6 +3,7 @@ const CoinView = require('./coin_view.js');
 const element = require('../helpers/element.js');
 
 const PortfolioiListView = function (container) {
+
   this.container = container;
 
   this.tableElement = null;
@@ -22,6 +23,7 @@ PortfolioiListView.prototype.bindEvents = function () {
     this.totalValue = 0;
     this.render();
   });
+  
 };
 
 PortfolioiListView.prototype.renderTableHeader = function () {
